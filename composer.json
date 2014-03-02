@@ -1,0 +1,6 @@
+{
+    "name"  :   "EventMail",
+    "require": {
+        "silex/silex": "~1.1"
+    }
+}

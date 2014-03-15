@@ -6,6 +6,8 @@
         "symfony/twig-bridge": "~2.1",
         "symfony/config": "~2.1",
         "symfony/yaml": "~2.1",
-        "symfony/translation": "~2.1"	
+        "symfony/translation": "~2.1",
+        "symfony/validator": "~2.3",
+        "ivoba/redbean-service-provider":   "dev-master"
     }
 }

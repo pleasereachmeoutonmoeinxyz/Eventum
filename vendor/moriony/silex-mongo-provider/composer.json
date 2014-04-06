@@ -1,0 +1,27 @@
+{
+    "name": "moriony/silex-mongo-provider",
+    "type": "library",
+    "description":  "Mongo service provider for the Silex framwork.",
+    "keywords": ["mongodb", "database", "mongo", "silex"],
+    "homepage": "https://github.com/moriony/silex-mongo-provider",
+    "license":  "MIT",
+    "authors": [
+        {
+            "name": "Vitaliy Chesnokov",
+            "email": "demateus@gmail.com"
+        }
+    ],
+    "require": {
+        "pimple/pimple": "*",
+        "silex/silex": "1.*"
+    },
+    "require-dev": {
+        "satooshi/php-coveralls": "*",
+        "phpunit/phpunit": "3.7.*"
+    },
+    "autoload": {
+        "psr-0": {
+            "Mongo\\Silex": "src"
+        }
+    }
+}

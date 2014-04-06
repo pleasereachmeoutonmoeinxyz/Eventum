@@ -25,5 +25,6 @@ return array(
     'RedBean_' => array($vendorDir . '/gabordemooij/redbean'),
     'Psr\\Log\\' => array($vendorDir . '/psr/log'),
     'Pimple' => array($vendorDir . '/pimple/pimple/lib'),
+    'Mongo\\Silex' => array($vendorDir . '/moriony/silex-mongo-provider/src'),
     'Ivoba\\Silex' => array($vendorDir . '/ivoba/redbean-service-provider/src'),
 );

@@ -9,7 +9,6 @@
         "symfony/translation": "~2.1",
         "symfony/validator": "~2.3",
         "ivoba/redbean-service-provider":   "dev-master",
-        "neutron/mongo-odm-silex-provider": "*"
-
+        "moriony/silex-mongo-provider": "*"
     }
 }

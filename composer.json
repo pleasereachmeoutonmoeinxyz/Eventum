@@ -10,6 +10,7 @@
         "symfony/validator": "~2.3",
         "symfony/security": "~2.3",
         "symfony/form": "~2.3",
+        "monolog/monolog": ">=1.0.0",
         "ivoba/redbean-service-provider":   "dev-master",
         "moriony/silex-mongo-provider": "*"
     }

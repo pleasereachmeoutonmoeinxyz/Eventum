@@ -10,7 +10,7 @@ define( 'PATH_LOG',             PATH_RUNTIME    . '/log' );
 define( 'PATH_PUBLIC',          PATH_ROOT       . '/public_html' );
 define( 'PATH_VENDOR',          PATH_ROOT       . '/vendor' );
 
-define( 'PATH_LOCALES',         PATH_PROTECTED    . '/locales' );
+define( 'PATH_LOCALES',         PATH_PROTECTED    . '/locals' );
 define( 'PATH_VIEWS',           PATH_PROTECTED    . '/views' );
 
 

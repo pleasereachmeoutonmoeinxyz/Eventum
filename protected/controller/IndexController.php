@@ -12,7 +12,13 @@ namespace Controller{
         }        
         
         function index(Application $app){
-            return $app['twig']->render('index.html');
+            $form   =   $app['form.factory']->createBuilder('form')
+                        ->add('email','email',array('label'=>false),array('dir'=>'ltr'))
+                        ->getForm();
+            
+            return $app['twig']->render('index.html',array(
+                'form'  =>  $form->createView()
+            ));
         }
     }
 }

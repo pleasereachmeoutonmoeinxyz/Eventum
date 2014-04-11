@@ -6,9 +6,11 @@
                 <p class="splash-head">
                     اطلاع از آخرین رویدادهای تخصصی
                 </p>
+                
                 <form class="pure-form splash-subhead" id="subscribe">
                     <fieldset>
-                        <input type="email" name="email" dir="ltr" placeholder="Email" oninvalid="setCustomValidity('Plz enter on Alphabets ')" required>
+                        {{ form_widget(form.email,{'attr':    {'dir':'ltr','placeholder':'Email','oninvalid':'setCustomValidity("Plz enter on Alphabets ")'}}) }}
+                        {{form_widget(form._token)}}
                         <button type="button" class="pure-button pure-button-primary">Subscribe</button>
                     </fieldset>
                 </form>

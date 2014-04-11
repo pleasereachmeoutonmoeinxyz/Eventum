@@ -12,3 +12,8 @@ $app['http_cache.cache_dir']    = $app['cache.path'] . '/http';
 $app['twig.options.cache']      = $app['cache.path'] . '/twig';
 
 $app['debug'] = true;
+
+$app['db']                      =   array();   
+$app['db']['server']            =   "mongodb://localhost:27017";
+$app['db']['options']           =   array("connect" => true);
+$app['db']['collection']        =   'eventmail';

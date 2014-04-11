@@ -22,7 +22,11 @@ $app->register(new UrlGeneratorServiceProvider());
 $app->register(new TranslationServiceProvider());
 $app['translator'] = $app->share($app->extend('translator', function($translator, $app) {
 	$translator->addLoader( 'yaml', new YamlFileLoader() );
-	$translator->addResource( 'yaml', PATH_LOCALES . '/en.yml', 'en' );
+        
+        foreach ($app['translator.messages'] as $key=>$value){
+            $translator->addResource( 'yaml', $value, $key );
+        }
+        
 	return $translator;
 }));
 

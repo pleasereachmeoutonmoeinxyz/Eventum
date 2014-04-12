@@ -12,6 +12,7 @@
         "symfony/form": "~2.3",
         "monolog/monolog": ">=1.0.0",
         "ivoba/redbean-service-provider":   "dev-master",
-        "moriony/silex-mongo-provider": "*"
+        "moriony/silex-mongo-provider": "*",
+        "symfony/locale": "~2.3"
     }
 }

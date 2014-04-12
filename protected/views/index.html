@@ -11,7 +11,7 @@
                     <fieldset>
                         {{ form_widget(form.email,{'attr':    {'dir':'ltr','placeholder':'Email','oninvalid':'setCustomValidity("Plz enter on Alphabets ")'}}) }}
                         {{form_widget(form._token)}}
-                        <button type="button" class="pure-button pure-button-primary">Subscribe</button>
+                        <button type="button" class="pure-button pure-button-primary">{{'subscribe'|trans}}</button>
                     </fieldset>
                 </form>
             </div>

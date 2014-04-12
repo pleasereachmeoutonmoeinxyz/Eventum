@@ -26,8 +26,6 @@
         <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
         <link rel="stylesheet" href="http://ifont.ir/apicode/38">
         <link rel="stylesheet" href="{{ app.request.basepath }}/assets/css/custom.css">
-        <script type="text/javascript" src="{{ app.request.basepath }}/assets/js/libs/jquery-1.9.1.min.js"></script>
-        <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.16/angular.min.js"></script>
     </head>
     <body>
         <div class="header">
@@ -43,8 +41,9 @@
         
         {% endblock %}
         
-
-
+    <script type="text/javascript" src="{{ app.request.basepath }}/assets/js/libs/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.16/angular.min.js"></script>
+    <script type="text/javascript" src="{{ app.request.basepath }}/assets/js/subscribe.js"></script>
     <script src="http://yui.yahooapis.com/3.14.1/build/yui/yui.js"></script>
     <script>
     YUI().use('node-base', 'node-event-delegate', function (Y) {

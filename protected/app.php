@@ -11,12 +11,14 @@ use Silex\Provider\UrlGeneratorServiceProvider;
 use Silex\Provider\ValidatorServiceProvider;
 use Symfony\Component\Translation\Loader\YamlFileLoader;
 use Mongo\Silex\Provider\MongoServiceProvider;
-//
+use Symfony\Component\Validator\Validator;
+
 $app->register(new HttpCacheServiceProvider());
 $app->register(new SessionServiceProvider());
 $app->register(new ValidatorServiceProvider());
 $app->register(new FormServiceProvider());
 $app->register(new UrlGeneratorServiceProvider());
+$app->register(new ValidatorServiceProvider());
 
 // Translation definition.
 $app->register(new TranslationServiceProvider());

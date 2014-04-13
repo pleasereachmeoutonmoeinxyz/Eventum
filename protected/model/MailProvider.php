@@ -13,6 +13,9 @@ namespace Model{
         
         static public function loadValidatorMetaData(ClassMetadata $metadata){
             $metadata->addPropertyConstraint('email', new Assert\Email());
+            $metadata->addPropertyConstraint('email', new Assert\NotBlank());
+            $metadata->addPropertyConstraint('email', new Assert\Length(5,255));
+            
         }
     }
 }

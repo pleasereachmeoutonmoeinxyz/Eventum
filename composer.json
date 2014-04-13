@@ -13,6 +13,7 @@
         "monolog/monolog": ">=1.0.0",
         "ivoba/redbean-service-provider":   "dev-master",
         "moriony/silex-mongo-provider": "*",
+        "doctrine/mongodb-odm": "1.0.0-BETA9",
         "symfony/locale": "~2.3"
     }
 }

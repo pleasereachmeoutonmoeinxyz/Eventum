@@ -7,7 +7,7 @@ use Doctrine\ODM\MongoDB\Mapping\Driver\AnnotationDriver;
 
 $loader->add('Models',PATH_PROTECTED . '/model');
 
-$connection = new Connection($app['db']['server'],$app['db']['options']);
+$connection = new Connection();
 
 $config = new Configuration();
 $config->setProxyDir(PATH_PROTECTED . '/model/Proxies');

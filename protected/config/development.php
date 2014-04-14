@@ -13,7 +13,7 @@ $app['twig.options.cache']      = $app['cache.path'] . '/twig';
 
 $app['debug'] = true;
 
-$app['db']                      =   array();   
-$app['db']['server']            =   "mongodb://localhost:27017";
-$app['db']['options']           =   array("connect" => true);
-$app['db']['collection']        =   'eventmail';
+$app['db']                      =   array(
+                                        'server'        =>  "mongodb://localhost:27017",
+                                        'collection'    =>  "eventmail"
+);   

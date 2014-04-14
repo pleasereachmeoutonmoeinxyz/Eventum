@@ -6,12 +6,16 @@ namespace Model{
     /** @ODM\Document */
     class Mail{
         
-        /** @ODM\Ud */
+        /** @ODM\Id */
         private $id;
 
         /** @ODM\String */
         private $email;
-        
+
+        public function setEmail($email){
+            $this->email    =   $email;
+        }
+
         static public function loadValidatorMetaData(ClassMetadata $metadata){
             $metadata->addPropertyConstraint('email', new Assert\Email());
             $metadata->addPropertyConstraint('email', new Assert\NotBlank());

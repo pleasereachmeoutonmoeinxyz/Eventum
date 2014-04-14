@@ -15,5 +15,4 @@ $app['debug'] = true;
 
 $app['db']                      =   array();   
 $app['db']['server']            =   "mongodb://localhost:27017";
-$app['db']['options']           =   array("connect" => true);
 $app['db']['collection']        =   'eventmail';

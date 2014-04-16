@@ -14,7 +14,7 @@ namespace Model {
             return $app['dm']->getRepository(get_called_class())
                     ->findBy($params);
         }
-    
+        
     }
     
 }

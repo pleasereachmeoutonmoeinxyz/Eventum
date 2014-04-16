@@ -43,7 +43,7 @@ namespace Model{
         private $cTimetamp;
         
         /** @ODM\timestamp */
-        private $sTimestamp;
+        private $rTimestamp;
         
         public function __set($name, $value) {
             if (property_exists(__CLASS__, $name)){
@@ -66,8 +66,32 @@ namespace Model{
             $metadata->addPropertyConstraint('email', new Assert\NotBlank());
         }        
         
-        public static function subscribe($email){
-            
+        public static function getUrl($email){
+            $mail   =   self::findOne(array('email' =>  $email));
+            if ($mail   === null){
+                return self::subscribe($email);
+            } else {
+                return $mail->link;
+            }
+        }
+        
+        private static function subscribe($email){
+            $mail   =   new self();
+            $mail->email        =   $email;
+            $mail->link         =   $mail->generateRndUrl();
+            $mail->rTimestamp   =   new \MongoTimestamp();
+            $mail->cTimestamp   =   new \MongoTimestamp();
+            if (($errors = $mail->getErrors()) === null){
+                $app['dm']-->persist($mail);
+                $app['dm']->flush();
+                return $mail->link;
+            } else {
+                throw new Exception(json_encode($errors),  \EventMail::VALIDATOR_ERROR);
+            }
+        }
+
+        private function generateRndUrl(){
+            return md5(sha1($this->email . rand(-1 * PHP_INT_MAX, PHP_INT_MAX))).md5(microtime()).md5(rand(-1 * PHP_INT_MAX, PHP_INT_MAX));
         }
     }
 }

@@ -3,14 +3,18 @@ namespace Model {
     
     class Base{
         
-        private $scope;
-
-        public function __construct() {
-            ;
+        public static function findOne($params = array()) {
+            $app    = \EventMail::app();
+            return $app['dm']->getRepository(get_called_class())
+                    ->findOneBy($params);
         }
-
-        
-        
+    
+        public static function find($params){
+            $app    = \EventMail::app();
+            return $app['dm']->getRepository(get_called_class())
+                    ->findBy($params);
+        }
+    
     }
     
 }

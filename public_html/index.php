@@ -11,8 +11,9 @@ define( 'PATH_LOCALES',         PATH_PROTECTED    . '/locals' );
 define( 'PATH_VIEWS',           PATH_PROTECTED    . '/views' );
 
 $loader =   require_once PATH_VENDOR . '/autoload.php';
+            require_once PATH_PROTECTED .'/EventMail.php';
 
-$app    =   new Silex\Application();
+$app    =   EventMail::app();
 
 require PATH_PROTECTED . '/config/development.php';
 require PATH_PROTECTED . '/bootstrap.php';

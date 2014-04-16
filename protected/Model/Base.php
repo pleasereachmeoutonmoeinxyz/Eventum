@@ -15,6 +15,17 @@ namespace Model {
                     ->findBy($params);
         }
         
+        public function getErrors(){
+            $app    =   \EventMail::app();
+            $errors =   $app['validator']->validate($this);
+            if (count($errors) === 0)
+                return NULL;
+            $messages   =   array();
+            foreach ($errors as $error){
+                $messages[] =   $error->getMessage();
+            }
+            return $messages;
+        }
     }
     
 }

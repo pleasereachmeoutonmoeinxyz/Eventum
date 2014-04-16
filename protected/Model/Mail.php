@@ -10,7 +10,7 @@ namespace Model{
      * @property String $types
      * @property String $categories
      * @ODM\Document*/
-    class Mail{
+    class Mail extends \Base{
         
         /** @ODM\Id */
         private $id;
@@ -49,6 +49,6 @@ namespace Model{
             $metadata->addPropertyConstraint('email', new Assert\Length(5,255));
         }        
         
-    
+        
     }
 }

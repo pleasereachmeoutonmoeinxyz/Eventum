@@ -82,7 +82,7 @@ namespace Model{
             $mail->rTimestamp   =   new \MongoTimestamp();
             $mail->cTimestamp   =   new \MongoTimestamp();
             if (($errors = $mail->getErrors()) === null){
-                $app['dm']-->persist($mail);
+                $app['dm']->persist($mail);
                 $app['dm']->flush();
                 return $mail->link;
             } else {

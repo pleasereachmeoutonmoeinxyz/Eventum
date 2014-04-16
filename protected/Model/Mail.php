@@ -4,13 +4,19 @@ namespace Model{
     use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
     use Symfony\Component\Validator\Constraints as Assert;
     /** 
-     * @property Integer $id
-     * @property String $email
-     * @property String $locations
-     * @property String $types
-     * @property String $categories
+     * @property int $id
+     * @property string $email
+     * @property mixed $locations
+     * @property mixed $types
+     * @property mixed $categories
+     * @property string $status;
+     * @property string $link;
+     * @property string $cTimestamp critical timestamp;
+     * @property string $sTimestamp subscribe timestamp;
+     * 
+     * @properity 
      * @ODM\Document*/
-    class Mail extends \Base{
+    class Mail extends Base{
         
         /** @ODM\Id */
         private $id;
@@ -26,7 +32,19 @@ namespace Model{
 
         /** @ODM\Collection @ODM\Index */
         private $categories =   array();
+        
+        /** @ODM\String @ODM\Index*/
+        private $status;
 
+        /** @ODM\String */
+        private $link;
+        
+        /** @ODM\timestamp */
+        private $cTimetamp;
+        
+        /** @ODM\timestamp */
+        private $sTimestamp;
+        
         public function __set($name, $value) {
             if (property_exists(__CLASS__, $name)){
                 $this->{$name}  =   $value;
@@ -46,9 +64,10 @@ namespace Model{
         static public function loadValidatorMetaData(ClassMetadata $metadata){
             $metadata->addPropertyConstraint('email', new Assert\Email());
             $metadata->addPropertyConstraint('email', new Assert\NotBlank());
-            $metadata->addPropertyConstraint('email', new Assert\Length(5,255));
         }        
         
-        
+        public static function subscribe($email){
+            
+        }
     }
 }

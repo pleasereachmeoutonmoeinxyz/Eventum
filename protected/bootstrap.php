@@ -19,4 +19,4 @@ $config->setMetadataDriverImpl(AnnotationDriver::create(PATH_PROTECTED . '/Model
 AnnotationDriver::registerAnnotationClasses();
 
 $app['dm']  =   DocumentManager::create($connection, $config);
-$app['dm']->getSchemaManager()->ensureIndexes();
+//$app['dm']->getSchemaManager()->ensureIndexes();

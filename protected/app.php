@@ -55,13 +55,7 @@ $app->register(new MongoServiceProvider, array(
 
 // Error Handler
 $app->error(function (Exception $e,$code){
-    return debug_backtrace();
-    if ($code   === EventMail::VALIDATOR_ERROR){
-        return json_encode(array(
-            'error'     =>  TRUE,
-            'messages'  =>  json_decode($e)
-        ));
-    }
+    
 });
 
 require PATH_PROTECTED . '/routes.php';

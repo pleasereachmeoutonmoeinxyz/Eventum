@@ -12,11 +12,12 @@ namespace Model{
      * @property string $status;
      * @property string $link;
      * @property string $cTimestamp critical timestamp;
-     * @property string $sTimestamp subscribe timestamp;
-     * 
-     * @properity 
+     * @property string $sTimestamp subscribe timestamp; 
      * @ODM\Document*/
     class Mail extends Base{
+        
+        const STATUS_ACTIVE     =   'ACTIVE';
+        const STATUS_DEACTIVE   =   'DEACTIVE';
         
         /** @ODM\Id */
         private $id;
@@ -40,7 +41,7 @@ namespace Model{
         private $link;
         
         /** @ODM\timestamp */
-        private $cTimetamp;
+        private $cTimestamp;
         
         /** @ODM\timestamp */
         private $rTimestamp;
@@ -66,6 +67,10 @@ namespace Model{
             $metadata->addPropertyConstraint('email', new Assert\NotBlank());
         }        
         
+        public static function sendUrlMail($email){
+            
+        }
+
         public static function getUrl($email){
             $mail   =   self::findOne(array('email' =>  $email));
             if ($mail   === null){
@@ -78,10 +83,11 @@ namespace Model{
         private static function subscribe($email){
             $mail   =   new self();
             $mail->email        =   $email;
+            $mail->status       =   self::STATUS_DEACTIVE;
             $mail->link         =   $mail->generateRndUrl();
             $mail->rTimestamp   =   new \MongoTimestamp();
             $mail->cTimestamp   =   new \MongoTimestamp();
-            if (($errors = $mail->getErrors()) === null){
+            if (($errors = $mail->getErrors()) === NULL){
                 $app['dm']->persist($mail);
                 $app['dm']->flush();
                 return $mail->link;

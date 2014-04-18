@@ -62,7 +62,7 @@ namespace Model{
          * Validate attribute by Silex validator
          * @param \Model\ClassMetadata $metadata
          */
-        static public function loadValidatorMetaData(ClassMetadata $metadata){
+        public static function loadValidatorMetaData(ClassMetadata $metadata){
             $metadata->addPropertyConstraint('email', new Assert\Email());
             $metadata->addPropertyConstraint('email', new Assert\NotBlank());
         }        

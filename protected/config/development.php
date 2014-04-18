@@ -17,3 +17,5 @@ $app['db']                      =   array(
                                         'server'        =>  "mongodb://localhost:27017",
                                         'collection'    =>  "eventmail"
 );   
+
+$app['activation.time_limit']   =   300; // 5 mins

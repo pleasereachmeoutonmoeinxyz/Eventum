@@ -15,7 +15,6 @@ $app->register(new SessionServiceProvider());
 $app->register(new ValidatorServiceProvider());
 $app->register(new FormServiceProvider());
 $app->register(new UrlGeneratorServiceProvider());
-$app->register(new ValidatorServiceProvider());
 
 // Translation definition.
 $app->register(new TranslationServiceProvider());
@@ -54,7 +53,9 @@ $app->register(new MongoServiceProvider, array(
     ),
 ));
 
+// Error Handler
 $app->error(function (Exception $e,$code){
+    return debug_backtrace();
     if ($code   === EventMail::VALIDATOR_ERROR){
         return json_encode(array(
             'error'     =>  TRUE,

@@ -3,6 +3,8 @@ namespace Model{
     
     use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
     use Symfony\Component\Validator\Constraints as Assert;
+    use Symfony\Component\Validator\Mapping\ClassMetadata;    
+    
     /** 
      * @property int $id
      * @property string $email
@@ -34,7 +36,7 @@ namespace Model{
         /** @ODM\Collection @ODM\Index */
         private $categories =   array();
         
-        /** @ODM\String @ODM\Index*/
+        /** @ODM\String*/
         private $status;
 
         /** @ODM\String */
@@ -45,7 +47,7 @@ namespace Model{
         
         /** @ODM\timestamp */
         private $rTimestamp;
-        
+
         public function __set($name, $value) {
             if (property_exists(__CLASS__, $name)){
                 $this->{$name}  =   $value;
@@ -62,35 +64,51 @@ namespace Model{
          * Validate attribute by Silex validator
          * @param \Model\ClassMetadata $metadata
          */
-        public static function loadValidatorMetaData(ClassMetadata $metadata){
+        static public function loadValidatorMetadata(ClassMetadata $metadata){
             $metadata->addPropertyConstraint('email', new Assert\Email());
             $metadata->addPropertyConstraint('email', new Assert\NotBlank());
         }        
         
-        public static function sendUrlMail($email){
+        
+        /**
+         * 
+         * @param type $email
+         * @return type
+         * @throws Exception
+         */
+        public static function getLinkParams($email){
+            $app                =   \EventMail::app();
             
-        }
-
-        public static function getUrl($email){
             $mail   =   self::findOne(array('email' =>  $email));
             if ($mail   === null){
                 return self::subscribe($email);
             } else {
-                return $mail->link;
+                if ((time() - $mail->cTimestamp) < $app['activation.time_limit'])
+                    throw new Exception("Limitation Error",  \EventMail::LIMITATION_ERROR);
+                return array($mail->id,$mail->link);
             }
         }
         
+        /**
+         * 
+         * @param type $email
+         * @return type
+         * @throws Exception
+         */
         private static function subscribe($email){
-            $mail   =   new self();
+            $app                =   \EventMail::app();
+            
+            $mail               =   new self();
             $mail->email        =   $email;
             $mail->status       =   self::STATUS_DEACTIVE;
             $mail->link         =   $mail->generateRndUrl();
             $mail->rTimestamp   =   new \MongoTimestamp();
             $mail->cTimestamp   =   new \MongoTimestamp();
+            
             if (($errors = $mail->getErrors()) === NULL){
                 $app['dm']->persist($mail);
                 $app['dm']->flush();
-                return $mail->link;
+                return array($mail->id,$mail->link);
             } else {
                 throw new Exception(json_encode($errors),  \EventMail::VALIDATOR_ERROR);
             }

@@ -6,6 +6,7 @@ namespace Controller{
     use Symfony\Component\HttpFoundation\Request;
     class MailController implements ControllerProviderInterface{
         public function connect(Application $app) {
+            
             $controller =   $app['controllers_factory'];
             
             $controller->post('/subscribe',  function (Request $request) use ($app){
@@ -13,14 +14,9 @@ namespace Controller{
                     $app->abort(400);
                 }
                 
-                $mail   =   new \Model\MailProvider($app['']);
-                $mail->setEmail($data['email']);
+                $params    = \Model\Mail::getLinkParams($data['email']);
                 
-                if (count($app['validator']->validate($mail)) > 0){
-                    
-                }
-                
-                
+                return "X";
             })->bind('subscribe');
             return $controller;
         }

@@ -13,8 +13,8 @@ namespace Model{
      * @property mixed $categories
      * @property string $status;
      * @property string $link;
-     * @property string $cTimestamp critical timestamp;
-     * @property string $sTimestamp subscribe timestamp; 
+     * @property \MongoTimestamp $cTimestamp critical timestamp;
+     * @property \MongoTimestamp $sTimestamp subscribe timestamp; 
      * @ODM\Document*/
     class Mail extends Base{
         
@@ -46,7 +46,7 @@ namespace Model{
         private $cTimestamp;
         
         /** @ODM\timestamp */
-        private $rTimestamp;
+        private $sTimestamp;
 
         public function __set($name, $value) {
             if (property_exists(__CLASS__, $name)){
@@ -83,9 +83,7 @@ namespace Model{
             if ($mail   === null){
                 return self::subscribe($email);
             } else {
-                if ((time() - $mail->cTimestamp) < $app['activation.time_limit'])
-                    throw new Exception("Limitation Error",  \EventMail::LIMITATION_ERROR);
-                return array($mail->id,$mail->link);
+                return $mail;
             }
         }
         
@@ -102,19 +100,19 @@ namespace Model{
             $mail->email        =   $email;
             $mail->status       =   self::STATUS_DEACTIVE;
             $mail->link         =   $mail->generateRndUrl();
-            $mail->rTimestamp   =   new \MongoTimestamp();
+            $mail->sTimestamp   =   new \MongoTimestamp();
             $mail->cTimestamp   =   new \MongoTimestamp();
             
             if (($errors = $mail->getErrors()) === NULL){
                 $app['dm']->persist($mail);
                 $app['dm']->flush();
-                return array($mail->id,$mail->link);
+                return $mail;
             } else {
-                throw new Exception(json_encode($errors),  \EventMail::VALIDATOR_ERROR);
+                return $errors;
             }
         }
 
-        private function generateRndUrl(){
+        public function generateRndUrl(){
             return md5(sha1($this->email . rand(-1 * PHP_INT_MAX, PHP_INT_MAX))).md5(microtime()).md5(rand(-1 * PHP_INT_MAX, PHP_INT_MAX));
         }
     }

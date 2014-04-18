@@ -16,13 +16,14 @@ namespace Model {
         public function getErrors(){
             $app    =   \EventMail::app();
             $errors = $app['validator']->validate($this);
-            if (count($errors) == 0)
-                return NULL;
-            $messages   =   array();
+            if (count($errors) == 0)    return NULL;
+            
+            $errObj =   new Errors();
+            
             foreach ($errors as $error){
-                $messages[] =   $error->getMessage();
+                $errObj->addError($error->getMessage());
             }
-            return $messages;
+            return $errObj;
         }           
     }
     

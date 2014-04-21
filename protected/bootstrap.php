@@ -6,6 +6,7 @@ use Doctrine\ODM\MongoDB\DocumentManager;
 use Doctrine\ODM\MongoDB\Mapping\Driver\AnnotationDriver;
 
 $loader->add('Model',PATH_PROTECTED);
+$loader->add('Helper',PATH_PROTECTED);
 
 $connection = new Connection($app['db']['server']);
 $config = new Configuration();

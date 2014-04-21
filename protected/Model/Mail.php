@@ -72,9 +72,8 @@ namespace Model{
         
         /**
          * 
-         * @param type $email
-         * @return type
-         * @throws Exception
+         * @param string $email
+         * @return Model\Mail
          */
         public static function getLinkParams($email){
             $app                =   \EventMail::app();
@@ -89,9 +88,9 @@ namespace Model{
         
         /**
          * 
-         * @param type $email
-         * @return type
-         * @throws Exception
+         * @param string $email
+         * @return \self
+         * @return Errors
          */
         private static function subscribe($email){
             $app                =   \EventMail::app();
@@ -112,6 +111,10 @@ namespace Model{
             }
         }
 
+        /**
+         * 
+         * @return string
+         */
         public function generateRndUrl(){
             return md5(sha1($this->email . rand(-1 * PHP_INT_MAX, PHP_INT_MAX))).md5(microtime()).md5(rand(-1 * PHP_INT_MAX, PHP_INT_MAX));
         }

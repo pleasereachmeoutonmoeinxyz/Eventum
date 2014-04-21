@@ -1,18 +1,26 @@
 <?php
 
-class Ajax extends stdClass{
-    private $error;
+class Ajax{
+    const ERROR_FIELD       =   'error';
+    const MESSAGE_FIELD     =   'message';
+    const CODE_FIELD        =   'code';
+    const DATA_FIELD        =   'data';
     
-        public function __set($name, $value) {
-            if ($name   === 'error'){
-                if ($value === TRUE || $value === FALSE)
-                    $this->error    =   $value;
-            } else {
-                $this->{$name}  =   $value;                    
-            }
-        }
-
-        public function __get($name) {
-            return $this->{$name};
-        }
+    public static function error($code,$message,$data){
+        return json_encode(array(
+            self::ERROR_FIELD   =>  TRUE,
+            self::MESSAGE_FIELD =>  $message,
+            self::CODE_FIELD    =>  $code,
+            self::DATA_FIELD    =>  $data
+        ));
+    }
+    
+    public static function message($code,$message,$data){
+        return json_encode(array(
+            self::ERROR_FIELD   =>  FALSE,
+            self::MESSAGE_FIELD =>  $message,
+            self::CODE_FIELD    =>  $code,
+            self::DATA_FIELD    =>  $data
+        ));        
+    }
 }

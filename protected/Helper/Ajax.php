@@ -1,5 +1,5 @@
 <?php
-
+namespace Helper;
 class Ajax{
     const ERROR_FIELD       =   'error';
     const MESSAGE_FIELD     =   'message';

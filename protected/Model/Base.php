@@ -8,11 +8,19 @@ namespace Model {
             return $app['dm']->getRepository(get_called_class())->findOneBy($params);
         }
     
-        public static function find($params){
+        public static function findAll($params){
             $app    = \EventMail::app();
             return $app['dm']->getRepository(get_called_class())->findBy($params);
         }
         
+        public static function findById($id){
+            if (!$id instanceof \MongoId){
+                $id =   new \MongoId($id);
+            }
+            $app    = \EventMail::app();
+            return $app['dm']->getRepository(get_called_class())->find($id);
+        }
+
         public function getErrors(){
             $app    =   \EventMail::app();
             $errors = $app['validator']->validate($this);

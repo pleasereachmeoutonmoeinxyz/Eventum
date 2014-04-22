@@ -32,15 +32,15 @@
             <div class="home-menu pure-menu pure-menu-open pure-menu-horizontal pure-menu-fixed">
 
                 <ul>
-                    <li><a href="#">خانه</a></li>
-                    <li><a href="#">ارسال رویداد</a></li>
+                    <li><a href="{{ url('homepage') }}">{{'homepage'|trans}}</a></li>
+                    <li><a href="{{ url('homepage') }}">{{'subscribe'|trans}}</a></li>
+                    <li><a href="{{ url('homepage') }}">{{'new_event'|trans}}</a></li>
                 </ul>
             </div>
         </div>
         {% block content %}
         
         {% endblock %}
-        
     <script type="text/javascript" src="{{ app.request.basepath }}/assets/js/libs/jquery-1.9.1.min.js"></script>
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.16/angular.min.js"></script>
     <script type="text/javascript" src="{{ app.request.basepath }}/assets/js/subscribe.js"></script>

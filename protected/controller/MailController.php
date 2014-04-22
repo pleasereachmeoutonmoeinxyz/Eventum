@@ -46,6 +46,10 @@ namespace Controller{
                 }                
             });
             
+            $controller->get('/test',function() use ($app){
+                return $app['twig']->render('mail/setting.html');
+            });
+            
             return $controller;
         }
         

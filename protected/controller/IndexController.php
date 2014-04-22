@@ -6,7 +6,7 @@ namespace Controller{
     class IndexController implements ControllerProviderInterface{
         public function connect(Application $app) {
             $controller =   $app['controllers_factory'];
-            $controller->get("/",array($this,"index"))->bind('index');
+            $controller->get("/",array($this,"index"))->bind('homepage');
             return $controller;
         }        
         

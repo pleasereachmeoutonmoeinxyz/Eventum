@@ -33,7 +33,17 @@ namespace Controller{
             });
             
             $controller->get('/setting/{id}/{code}',    function($id,$code) use ($app){
+                try{
+                    $mail   = \Model\Mail::findById($id);    
+                } catch (\MongoException $ex) {
+                    $app->abort(404);
+                }
                 
+                if ($mail   !=  NULL && $mail->code === $code){
+                    
+                } else {
+                    $app->abort(404);
+                }                
             });
             
             return $controller;

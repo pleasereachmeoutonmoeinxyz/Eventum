@@ -28,7 +28,7 @@ namespace Controller{
          */
         private function subscribeResonse(Application $app,$mail){
             if ($mail instanceof \Model\Mail){
-                if ((time() - $mail->cTimestamp) < $app['activation.time_limit']){
+                if ((time() - $mail->critical_imestamp->sec) < $app['activation.time_limit'] && $mail->critical_imestamp->sec != $mail->subscribtion_timestamp->sec){
                     return \Helper\Ajax::error(NULL, $app['translator']->trans('ctrl.mail.subscribe.time_limit'), NULL);
                 } else {
                     return $this->sendSettingMail($app,$mail);
@@ -45,6 +45,7 @@ namespace Controller{
          */
         private function sendSettingMail(Application $app,$mail){
             if (\Helper\Mailer::settingMailUrl($mail->email, $mail->id, $mail->link)){
+                $mail->updateTimestamp();
                 return \Helper\Ajax::message(NULL, $app['translator']->trans('ctrl.mail.subscribe.sent_successfully'), NULL);
             } else {
                 return \Helper\Ajax::error(NULL, $app['translator']->trans('ctrl.mail.subscribe.sent_error'), NULL);

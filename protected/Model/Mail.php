@@ -40,7 +40,7 @@ namespace Model{
         private $status;
 
         /** @ODM\String */
-        private $link;
+        private $code;
         
         /** @ODM\timestamp */
         private $critical_imestamp;
@@ -98,7 +98,7 @@ namespace Model{
             $mail                           =   new self();
             $mail->email                    =   $email;
             $mail->status                   =   self::STATUS_DEACTIVE;
-            $mail->link                     =   $mail->generateRndUrl();
+            $mail->code                     =   $mail->generateRndUrl();
             $mail->subscribtion_timestamp   =   new \MongoTimestamp($timestamp);
             $mail->critical_imestamp        =   new \MongoTimestamp($timestamp);
             
@@ -122,6 +122,12 @@ namespace Model{
         public function updateTimestamp(){
             $app                        =   \EventMail::app();
             $this->critical_imestamp    =   new \MongoTimestamp();
+            $app['dm']->flush();
+        }
+        
+        public function unsubscribe(){
+            $app                        =   \EventMail::app();
+            $this->status               =   self::STATUS_DEACTIVE;
             $app['dm']->flush();
         }
     }

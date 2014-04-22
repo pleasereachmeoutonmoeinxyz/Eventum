@@ -188,6 +188,17 @@ button.pure-button-primary {
 
 }
 
+.content-wrapper-internal {
+    /* These styles are required for the "scroll-over" effect */
+    position: absolute;
+    top: 3%;
+    width: 100%;
+    min-height: 12%;
+    z-index: 2;
+    background: white;
+
+}
+
 /* This is the class used for the main content headers (<h2>) */
 .content-head {
     font-weight: 400;
@@ -218,6 +229,11 @@ button.pure-button-primary {
 /* This is the class used for the footer */
 .footer {
     background: #111;
+    clear: both;
+    position: relative;
+    z-index: 10;
+    height: 3em;
+    margin-top: -3em;
 }
 
 /*

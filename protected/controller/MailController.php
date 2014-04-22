@@ -11,12 +11,31 @@ namespace Controller{
             
             $controller->post('/subscribe',  function (Request $request) use ($app){
                 if (!$data   =   $request->get('form'))
-                    $app->abort(400);
+                    $app->abort(404);
                 
                 $mail    = \Model\Mail::getLinkParams($data['email']);
                 return $this->subscribeResonse($app,$mail);
-
-            })->bind('subscribe');
+            });
+            
+            $controller->get('/unsubscribe/{id}/{code}',  function ($id,$code) use ($app){
+                try{
+                    $mail   = \Model\Mail::findById($id);    
+                } catch (\MongoException $ex) {
+                    $app->abort(404);
+                }
+                
+                if ($mail   !=  NULL && $mail->code === $code){
+                    $mail->unsubscribe();
+                    return $app['twig']->render('mail/unsubscribe.html');
+                } else {
+                    $app->abort(404);
+                }
+            });
+            
+            $controller->get('/setting/{id}/{code}',    function($id,$code) use ($app){
+                
+            });
+            
             return $controller;
         }
         
@@ -44,7 +63,7 @@ namespace Controller{
          * @return string
          */
         private function sendSettingMail(Application $app,$mail){
-            if (\Helper\Mailer::settingMailUrl($mail->email, $mail->id, $mail->link)){
+            if (\Helper\Mailer::settingMailUrl($mail->email, $mail->id, $mail->mail)){
                 $mail->updateTimestamp();
                 return \Helper\Ajax::message(NULL, $app['translator']->trans('ctrl.mail.subscribe.sent_successfully'), NULL);
             } else {

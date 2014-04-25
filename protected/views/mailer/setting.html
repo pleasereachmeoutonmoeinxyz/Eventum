@@ -1,0 +1,12 @@
+{% extends "mail_layout.html" %}
+
+{% block content %}
+    {{'mailer.say_hello'|trans}}
+    {{'mailer.say_thanks'|trans}}
+    {{'mailer.say_please_share'|trans}}
+    {{'mailer.introduce_setting_url'|trans}}
+    <a href='{{setting_url}}'>{{setting_url}}</a>
+    {{'mailer.introduce_unsubscribe_url'|trans}}
+    <a href='{{unsubscribe_url}}'>{{unsubscribe_url}}</a>
+    {{'mailer.need_help'|trans}}
+{% endblock content %}

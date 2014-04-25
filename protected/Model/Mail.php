@@ -125,7 +125,19 @@ namespace Model{
             $app['dm']->flush();
         }
         
-        public function unsubscribe(){
+        /**
+         * active mail
+         */
+        public function setAsActive(){
+            $app                        =   \EventMail::app();
+            $this->status               =   self::STATUS_ACTIVE;
+            $app['dm']->flush();            
+        }
+        
+        /**
+         * deactive mail
+         */
+        public function setAsDeactive(){
             $app                        =   \EventMail::app();
             $this->status               =   self::STATUS_DEACTIVE;
             $app['dm']->flush();

@@ -1,0 +1,19 @@
+<div style="margin:0;padding:0">
+    <center>
+        <div style="margin:10px;width:90%;border:1px solid;direction:rtl;text-align:right">
+            <div style="padding:8px 10px;margin-bottom:5px;background:#44B4BE;color:#fff;font-size:larger;font-weight:bold">
+                {{header}}
+            </div>
+            <div style="padding:10px">
+            <div>
+                {% block content %}
+
+                {% endblock %}
+            </div>
+            </div>
+            <div style="padding:10px;color:#444;border-top:1px dashed;">
+                {{'mailer.help'|trans}}
+            </div>
+        </div>
+     </center>
+ </div>

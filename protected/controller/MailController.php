@@ -9,6 +9,7 @@ namespace Controller{
             
             $controller =   $app['controllers_factory'];
             
+            // subscribe action
             $controller->post('/subscribe',  function (Request $request) use ($app){
                 if (!$data   =   $request->get('form'))
                     $app->abort(404);
@@ -17,6 +18,7 @@ namespace Controller{
                 return $this->subscribeResonse($app,$mail);
             });
             
+            // unsubscribe action
             $controller->get('/unsubscribe/{id}/{code}',  function ($id,$code) use ($app){
                 try{
                     $mail   = \Model\Mail::findById($id);    
@@ -25,13 +27,14 @@ namespace Controller{
                 }
                 
                 if ($mail   !=  NULL && $mail->code === $code){
-                    $mail->unsubscribe();
+                    $mail->setAsDeactive();
                     return $app['twig']->render('mail/unsubscribe.html');
                 } else {
                     $app->abort(404);
                 }
             })->bind('unsubscribe');
             
+            // setting get action
             $controller->get('/setting/{id}/{code}',    function($id,$code) use ($app){
                 try{
                     $mail   = \Model\Mail::findById($id);    
@@ -41,10 +44,36 @@ namespace Controller{
                 
                 if ($mail   !=  NULL && $mail->code === $code){
                     
+                    $default_types      =   $app['event.types'];
+                    $default_categories =   $app['event.categories'];
+                    $default_locations  =   $app['event.locations'];
+                    
+                    // load user setting
+                    $user_types         =   $mail->types;
+                    $user_categories    =   $mail->categories;
+                    $user_locations     =   $mail->locations;
+                    $subscribtion_status=   $mail->status;
+                    
+                    // active it if not
+                    $mail->setAsActive();
+                    
+                    // render view
+                    return $app['twig']->render('mail/setting',array(
+                        'default_types'             =>  $default_types,
+                        'default_categories'        =>  $default_categories,
+                        'default_locations'         =>  $default_locations,
+                        'user_types'                =>  $user_types,
+                        'user_categories'           =>  $user_categories,
+                        'user_locations'            =>  $user_locations,
+                        'subscribtion_status'       =>  $subscribtion_status
+                    ));
+                    
                 } else {
                     $app->abort(404);
                 }                
             })->bind('setting');
+            
+            
             
             return $controller;
         }

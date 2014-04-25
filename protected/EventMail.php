@@ -34,4 +34,24 @@ class EventMail {
     public static function url($router,$params){
         return self::app()->url($router,$params);
     }
+    
+    /**
+     * get html text of view
+     * @param string $file
+     * @param mixed $params
+     * @return string
+     */
+    public static function render($file,$params){
+        return self::app()->render($file,$params);
+    }
+    
+    /**
+     * return config setting
+     * @param string $conf
+     * @return string
+     */
+    public static function config($conf){
+        $app    =   self::app();
+        return $app[$conf];
+    }
 }

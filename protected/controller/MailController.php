@@ -30,7 +30,7 @@ namespace Controller{
                 } else {
                     $app->abort(404);
                 }
-            });
+            })->bind('unsubscribe');
             
             $controller->get('/setting/{id}/{code}',    function($id,$code) use ($app){
                 try{
@@ -44,11 +44,7 @@ namespace Controller{
                 } else {
                     $app->abort(404);
                 }                
-            });
-            
-            $controller->get('/test',function() use ($app){
-                return $app['twig']->render('mail/setting.html');
-            });
+            })->bind('setting');
             
             return $controller;
         }

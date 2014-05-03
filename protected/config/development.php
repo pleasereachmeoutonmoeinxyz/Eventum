@@ -28,7 +28,7 @@ $app['event.types']             =   array(
 );
 
 $app['event.locations']         =   array(
-    'Alborz','Isfehan','Tehran','Azarbayejan','online'
+    'Alborz'=>'Alborz'
 );
 
 $app['event.categories']        =   array(

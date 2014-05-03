@@ -4,6 +4,7 @@ namespace Controller{
     use Silex\Application;
     use Silex\ControllerProviderInterface;
     use Symfony\Component\HttpFoundation\Request;
+    use Symfony\Component\Validator\Constraints\NotBlank;
     class MailController implements ControllerProviderInterface{
         public function connect(Application $app) {
             
@@ -35,7 +36,7 @@ namespace Controller{
             })->bind('unsubscribe');
             
             // setting get action
-            $controller->get('/setting/{id}/{code}',    function($id,$code) use ($app){
+            $controller->match('/setting/{id}/{code}',    function(Request $request,$id,$code) use ($app){
                 try{
                     $mail   = \Model\Mail::findById($id);    
                 } catch (\MongoException $ex) {
@@ -44,39 +45,37 @@ namespace Controller{
                 
                 if ($mail   !=  NULL && $mail->code === $code){
                     
-                    $default_types      =   $app['event.types'];
-                    $default_categories =   $app['event.categories'];
-                    $default_locations  =   $app['event.locations'];
+                    $types      =   $app['event.types'];
+                    $categories =   $app['event.categories'];
+                    $locations  =   $app['event.locations'];
                     
                     // load user setting
-                    $user_types         =   $mail->types;
-                    $user_categories    =   $mail->categories;
-                    $user_locations     =   $mail->locations;
-                    $subscribtion_status=   $mail->status;
+                    $data               =   array(
+                        'locations' =>  $mail->locations,
+                        'types'     =>  $mail->types,
+                        'categories'=>  $mail->categories
+                    );
                     
+                    $form                   =   $this->generateSettingForm($app,$types,$locations,$categories,$data);                   
+                    $subscribtion_status    =   $mail->status;
                     // active it if not
                     $mail->setAsActive();
                     
                     // render view
-                    return $app['twig']->render('mail/setting',array(
-                        'default_types'             =>  $default_types,
-                        'default_categories'        =>  $default_categories,
-                        'default_locations'         =>  $default_locations,
-                        'user_types'                =>  $user_types,
-                        'user_categories'           =>  $user_categories,
-                        'user_locations'            =>  $user_locations,
-                        'subscribtion_status'       =>  $subscribtion_status
+                    return $app['twig']->render('mail/setting.html',array(
+                        'subscribtion_status'       =>  $subscribtion_status,
+                        'form'                      =>  $form->createView()
                     ));
-                    
                 } else {
                     $app->abort(404);
                 }                
-            })->bind('setting');
+            })->bind('setting')->method('GET|POST');
             
             
             
             return $controller;
         }
+        
         
         /**
          * generate subscribtion json response
@@ -108,6 +107,29 @@ namespace Controller{
             } else {
                 return \Helper\Ajax::error(NULL, $app['translator']->trans('ctrl.mail.subscribe.sent_error'), NULL);
             }            
+        }
+        
+        private function generateSettingForm(Application $app,$types,$locations,$categories,$data){
+            
+            $builder = $app['form.factory']->createBuilder('form', $data);
+            
+            $builder
+            ->add('types', 'choice', array(
+                'choices' => $types,
+                'multiple' => true,
+                'expanded' => true,
+            ))
+            ->add('locations', 'choice', array(
+                'choices' => $locations,
+                'multiple' => true,
+                'expanded' => true,
+            ))
+            ->add('categories', 'choice', array(
+                'choices' => $categories,
+                'multiple' => true,
+                'expanded' => true,
+            ));
+            return $builder->getForm();            
         }
     }
 }

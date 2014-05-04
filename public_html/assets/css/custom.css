@@ -2,3 +2,6 @@ body{
     direction: rtl;
     font-family: "B yekan","IranianSans","Helvetica Neue", Helvetica, Arial, sans-serif;
 }
+.rtl_input{
+    float:right;
+}

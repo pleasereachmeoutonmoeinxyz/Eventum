@@ -6,36 +6,38 @@
                 <h2 class="content-head is-center"></h2>
 <!--                <form method="post" class="pure-form pure-form-aligned">-->
                     <div class="pure-g-r">
+                        {{ form_start(form) }}
                         <div class="l-box pure-u-1 pure-u-med-1-2 pure-u-lrg-1-3">
                             <h3 class="content-subhead">
-                                <i class="fa fa-th-large">{{'types'|trans}}</i>
+                                <i class="fa fa-th-large">{{'type'|trans}}</i>
                             </h3>
                             <fieldset>
                                 {% for type in form.types %}
-                                    {{form_row(type)}}
+                                    {{form_row(type,{'attr':{'class':'rtl_input'}})}}
                                 {% endfor %}
                             </fieldset>
                         </div>
                         <div class="l-box pure-u-1 pure-u-med-1-2 pure-u-lrg-1-3">
                             <h3 class="content-subhead">
-                                <i class="fa fa-th-large">{{'categories'|trans}}</i>
+                                <i class="fa fa-th-large">{{'category'|trans}}</i>
                             </h3>
                             <fieldset>
                                 {% for category in form.categories %}
-                                    {{form_row(category)}}
+                                    {{form_row(category,{'attr':{'class':'rtl_input'}})}}
                                 {% endfor %}
                             </fieldset>                            
                         </div>
                         <div class="l-box pure-u-1 pure-u-med-1-2 pure-u-lrg-1-3">
                             <h3 class="content-subhead">
-                                <i class="fa fa-th-large">{{'locations'|trans}}</i>
+                                <i class="fa fa-th-large">{{'location'|trans}}</i>
                             </h3>
                             <fieldset>
                                 {% for location in form.locations %}
-                                    {{form_row(location)}}
+                                    {{form_row(location,{'attr':{'class':'rtl_input'}})}}
                                 {% endfor %}
                             </fieldset>                                  
-                        </div>                                        
+                        </div>              
+                        {{ form_end(form) }}
                     </div>
 <!--                </form>-->
             </div>            

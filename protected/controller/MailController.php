@@ -44,28 +44,7 @@ namespace Controller{
                 }
                 
                 if ($mail   !=  NULL && $mail->code === $code){
-                    
-                    $types      =   $app['event.types'];
-                    $categories =   $app['event.categories'];
-                    $locations  =   $app['event.locations'];
-                    
-                    // load user setting
-                    $data               =   array(
-                        'locations' =>  $mail->locations,
-                        'types'     =>  $mail->types,
-                        'categories'=>  $mail->categories
-                    );
-                    
-                    $form                   =   $this->generateSettingForm($app,$types,$locations,$categories,$data);                   
-                    $subscribtion_status    =   $mail->status;
-                    // active it if not
-                    $mail->setAsActive();
-                    
-                    // render view
-                    return $app['twig']->render('mail/setting.html',array(
-                        'subscribtion_status'       =>  $subscribtion_status,
-                        'form'                      =>  $form->createView()
-                    ));
+                    return $this->settingHandler($app, $request, $mail);
                 } else {
                     $app->abort(404);
                 }                
@@ -109,7 +88,57 @@ namespace Controller{
             }            
         }
         
-        private function generateSettingForm(Application $app,$types,$locations,$categories,$data){
+        /**
+         * 
+         * @param \Silex\Application $app
+         * @param \Symfony\Component\HttpFoundation\Request $request
+         * @param \Model\Mail $mail
+         */
+        private function settingHandler(Application $app,Request $request,  \Model\Mail $mail){
+            $types      =   $app['event.types'];
+            $categories =   $app['event.categories'];
+            $locations  =   $app['event.locations'];
+            $data               =   array(
+                'locations' =>  $mail->locations,
+                'types'     =>  $mail->types,
+                'categories'=>  $mail->categories
+            );                        
+
+            $form                   =   $this->getSettingForm($app,$types,$locations,$categories,$data);                   
+            
+            if ($request->isMethod('POST')){
+                $form->bind($request);
+                if ($form->isValid()){
+                    $data   =   $form->getData();
+                    $mail->categories   =   $data['categories'];
+                    $mail->locations    =   $data['locations'];
+                    $mail->types        =   $data['types'];
+                    $mail->update();
+                }
+            } else {
+                $subscribtion_status    =   $mail->status;
+                // active it if not
+                $mail->setAsActive();                
+            }
+
+            // render view
+            return $app['twig']->render('mail/setting.html',array(
+                'subscribtion_status'       =>  $subscribtion_status,
+                'form'                      =>  $form->createView()
+            ));            
+        }
+
+
+        /**
+         * 
+         * @param \Silex\Application $app
+         * @param mixed $types
+         * @param mixed $locations
+         * @param mixed $categories
+         * @param mixed $data
+         * @return \Symfony\Component\Form\Form
+         */
+        private function getSettingForm(Application $app,$types,$locations,$categories,$data){
             
             $builder = $app['form.factory']->createBuilder('form', $data);
             

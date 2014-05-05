@@ -21,6 +21,17 @@ namespace Model {
             return $app['dm']->getRepository(get_called_class())->find($id);
         }
 
+        public function insert(){
+            $app    = \EventMail::app();
+            $app['dm']->persist($this);
+            $app['dm']->flush();
+        }
+
+        public function update(){-
+            $app    = \EventMail::app();
+            $app['dm']->flush();
+        }
+
         public function getErrors(){
             $app    =   \EventMail::app();
             $errors = $app['validator']->validate($this);

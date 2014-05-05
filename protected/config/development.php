@@ -24,13 +24,44 @@ $app['mailer.sender_mail']      =   'moein7tl@gmail.com';
 
 // events setting
 $app['event.types']             =   array(
-    'festival'
+    'Festival'=>'Festival',
+    'Workshop'=>'Workshop'
 );
 
 $app['event.locations']         =   array(
-    'Alborz'=>'Alborz'
+    'Online'                        =>  'Online',
+    'Alborz'                        =>  'Alborz',
+    'Ardabil'                       =>  'Ardabil',
+    'Azerbaijan, East'              =>  'Azerbaijan, East',
+    'Azerbaijan, West'              =>  'Azerbaijan, West',
+    'Bushehr'                       =>  'Bushehr',
+    'Chahar Mahaal and Bakhtiari'   =>  'Chahar Mahaal and Bakhtiari',
+    'Fars'                          =>  'Fars',
+    'Gilan'                         =>  'Gilan',
+    'Golestan'                      =>  'Golestan',
+    'Hamadan'                       =>  'Hamadan',
+    'Hormozgan'                     =>  'Hormozgan',
+    'Isfahan'                       =>  'Isfahan',
+    'Kerman'                        =>  'Kerman',
+    'Kermanshah'                    =>  'Kermanshah',
+    'Khorasan, North'               =>  'Khorasan, North',
+    'Khorasan, Razavi'              =>  'Khorasan, Razavi',
+    'Khorasan, South'               =>  'Khorasan, South',
+    'Khuzestan'                     =>  'Khuzestan',
+    'Kohgiluyeh and Boyer-Ahmad'    =>  'Kohgiluyeh and Boyer-Ahmad',
+    'Kurdistan'                     =>  'Kurdistan',
+    'Lorestan'                      =>  'Lorestan',
+    'Markazi'                       =>  'Markazi',
+    'Mazandaran'                    =>  'Mazandaran',
+    'Qazvin'                        =>  'Qazvin',
+    'Qom'                           =>  'Qom',
+    'Semnan'                        =>  'Semnan',
+    'Sistan and Baluchestan'        =>  'Sistan and Baluchestan',
+    'Tehran'                        =>  'Tehran',
+    'Yazd'                          =>  'Yazd',
+    'Zanjan'                        =>  'Zanjan'
 );
 
 $app['event.categories']        =   array(
-    'computer','startup'
+    
 );

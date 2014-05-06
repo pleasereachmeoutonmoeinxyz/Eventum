@@ -5,7 +5,7 @@ type:       نوع
 new_event:  ارسال رویداد
 homepage:   خانه
 
-Online: آنلاین
+Online: آنلاین - مجازی
 Alborz: البرز
 Ardabil: اردبیل
 Azerbaijan, East: آذربایجان شرقی
@@ -36,3 +36,16 @@ Sistan and Baluchestan: سیستان و بلوچستان
 Tehran: تهران
 Yazd: یزد
 Zanjan: زنجان
+
+Festival: فستیوال
+Conference: کنفرانس
+Seminar: سمینار
+Workshop: کارگاه
+Meeting: ملاقات
+Product Lanuch: رونمایی از محصول
+Networking Event: شبکه سازی / آشنایی
+Award Ceremony: مراسم اهدای جایزه
+User Group Event: گروه های کاربری
+Happy Hours: تفریحی
+Show: نمایش
+Press Conference: کنفرانس خبری

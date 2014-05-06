@@ -15,6 +15,7 @@ $app->register(new SessionServiceProvider());
 $app->register(new ValidatorServiceProvider());
 $app->register(new FormServiceProvider());
 $app->register(new UrlGeneratorServiceProvider());
+//$app->register(new UrlGene)
 
 // Translation definition.
 $app->register(new TranslationServiceProvider());

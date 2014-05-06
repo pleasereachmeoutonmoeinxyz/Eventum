@@ -2,7 +2,7 @@
 namespace Helper;
 class Mailer{
     public static function settingMailUrl($email,$id,$secure_code){
-        
+
         // generate urls
         $settingUrl         = \EventMail::url('setting',array('id'=>$id,'code'=>$secure_code));
         $unsubscribeUrl     = \EventMail::url('unsubscribe',array('id'=>$id,'code'=>$secure_code));

@@ -73,5 +73,6 @@ $app['event.locations']         =   array(
 );
 
 $app['event.categories']        =   array(
+    
     'Charity'                       =>  'Charity'
 );

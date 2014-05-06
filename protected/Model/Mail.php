@@ -13,7 +13,7 @@ namespace Model{
      * @property mixed $categories
      * @property string $status;
      * @property string $link;
-     * @property \MongoTimestamp $critical_imestamp critical timestamp;
+     * @property \MongoTimestamp $critical_timestamp critical timestamp;
      * @property \MongoTimestamp $subscribtion_timestamp subscribe timestamp; 
      * @ODM\Document*/
     class Mail extends Base{
@@ -43,7 +43,7 @@ namespace Model{
         private $code;
         
         /** @ODM\timestamp */
-        private $critical_imestamp;
+        private $critical_timestamp;
         
         /** @ODM\timestamp */
         private $subscribtion_timestamp;
@@ -100,7 +100,7 @@ namespace Model{
             $mail->status                   =   self::STATUS_DEACTIVE;
             $mail->code                     =   $mail->generateRndUrl();
             $mail->subscribtion_timestamp   =   new \MongoTimestamp($timestamp);
-            $mail->critical_imestamp        =   new \MongoTimestamp($timestamp);
+            $mail->critical_timestamp        =   new \MongoTimestamp($timestamp);
             
             if (($errors = $mail->getErrors()) === NULL){
                 $app['dm']->persist($mail);
@@ -121,7 +121,7 @@ namespace Model{
         
         public function updateTimestamp(){
             $app                        =   \EventMail::app();
-            $this->critical_imestamp    =   new \MongoTimestamp();
+            $this->critical_timestamp    =   new \MongoTimestamp();
             $app['dm']->flush();
         }
         

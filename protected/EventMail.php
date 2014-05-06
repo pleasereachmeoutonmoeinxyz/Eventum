@@ -32,7 +32,8 @@ class EventMail {
      * @return string
      */
     public static function url($router,$params){
-        return self::app()->url($router,$params);
+        $app    =   self::app();
+        return $app['url_generator']->generate($router,$params);
     }
     
     /**

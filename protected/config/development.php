@@ -24,8 +24,18 @@ $app['mailer.sender_mail']      =   'moein7tl@gmail.com';
 
 // events setting
 $app['event.types']             =   array(
-    'Festival'=>'Festival',
-    'Workshop'=>'Workshop'
+    'Festival'                      =>  'Festival',
+    'Conference'                    =>  'Conference',
+    'Seminar'                       =>  'Seminar',
+    'Workshop'                      =>  'Workshop',
+    'Meeting'                       =>  'Meeting',
+    'Product Lanuch'                =>  'Product Lanuch',
+    'Networking Event'              =>  'Networking Event',
+    'Award Ceremony'                =>  'Award Ceremony',
+    'User Group Event'              =>  'User Group Event',
+    'Happy Hours'                   =>  'Happy Hours',
+    'Show'                          =>  'Show',
+    'Press Conference'              =>  'Press Conference'
 );
 
 $app['event.locations']         =   array(
@@ -63,5 +73,5 @@ $app['event.locations']         =   array(
 );
 
 $app['event.categories']        =   array(
-    
+    'Charity'                       =>  'Charity'
 );

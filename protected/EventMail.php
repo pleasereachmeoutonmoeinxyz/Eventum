@@ -21,8 +21,9 @@ class EventMail {
      * @param string $text
      * @return string
      */
-    public static function t($text){
-        return self::app()->trans($text);
+    public static function t($text,$params  =   array()){
+        $app    =   self::app();
+        return $app['translator']->trans($text,$params);
     }
     
     /**
@@ -31,7 +32,7 @@ class EventMail {
      * @param mixed $params
      * @return string
      */
-    public static function url($router,$params){
+    public static function url($router,$params = array()){
         $app    =   self::app();
         return $app['url_generator']->generate($router,$params);
     }
@@ -43,7 +44,8 @@ class EventMail {
      * @return string
      */
     public static function render($file,$params){
-        return self::app()->render($file,$params);
+        $app    =   self::app();
+        return $app['twig']->render($file,$params);
     }
     
     /**

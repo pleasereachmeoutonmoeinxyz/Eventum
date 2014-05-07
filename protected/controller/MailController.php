@@ -80,7 +80,7 @@ namespace Controller{
          * @return string
          */
         private function sendSettingMail(Application $app,$mail){
-            if (\Helper\Mailer::settingMailUrl($mail->email, $mail->id, $mail->mail)){
+            if (\Helper\Mailer::settingMailUrl($mail->email, $mail->id, $mail->code)){
                 $mail->updateTimestamp();
                 return \Helper\Ajax::message(NULL, $app['translator']->trans('ctrl.mail.subscribe.sent_successfully'), NULL);
             } else {

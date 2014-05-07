@@ -12,7 +12,7 @@ namespace Model{
      * @property mixed $types
      * @property mixed $categories
      * @property string $status;
-     * @property string $link;
+     * @property string $code;
      * @property \MongoTimestamp $critical_timestamp critical timestamp;
      * @property \MongoTimestamp $subscribtion_timestamp subscribe timestamp; 
      * @ODM\Document*/

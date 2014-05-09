@@ -5,7 +5,10 @@
             <div class="content">
                 <h2 class="content-head is-center">{{'setting_header'|trans}}</h2>
                     {{ form_start(form) }}
-                    <h3>{{form_errors(form)}}</h3>
+                    {% if save == true %}
+                        <h4 class="is-center">{{'setting_saved'|trans}}</h4>
+                    {% endif %}
+                    <h4 class="is-center">{{form_errors(form)}}</h4>
                     <div class="pure-g-r">
                         <div class="l-box pure-u-1 pure-u-med-1-2 pure-u-lrg-1-3">
                             <h3 class="content-subhead">

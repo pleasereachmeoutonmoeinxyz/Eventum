@@ -105,15 +105,16 @@ namespace Controller{
             );                        
 
             $form                   =   $this->getSettingForm($app,$types,$locations,$categories,$data);                   
-            
+            $save                   =   NULL;
             if ($request->isMethod('POST')){
                 $form->bind($request);
                 if ($form->isValid()){
-                    $data   =   $form->getData();
+                    $data               =   $form->getData();
                     $mail->categories   =   $data['categories'];
                     $mail->locations    =   $data['locations'];
                     $mail->types        =   $data['types'];
                     $mail->update();
+                    $save               =   TRUE;
                 }
             } else {
                 $subscribtion_status    =   $mail->status;
@@ -124,7 +125,8 @@ namespace Controller{
             // render view
             return $app['twig']->render('mail/setting.html',array(
                 'subscribtion_status'       =>  $subscribtion_status,
-                'form'                      =>  $form->createView()
+                'form'                      =>  $form->createView(),
+                'save'                      =>  $save
             ));            
         }
 

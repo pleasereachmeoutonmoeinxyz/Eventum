@@ -25,6 +25,7 @@ $app['mailer.sender_mail']      =   'moein7tl@gmail.com';
 // events setting
 $app['event.types']             =   array(
     'Festival'                      =>  'Festival',
+    'Exhibition'                    =>  'Exhibition',
     'Conference'                    =>  'Conference',
     'Seminar'                       =>  'Seminar',
     'Workshop'                      =>  'Workshop',

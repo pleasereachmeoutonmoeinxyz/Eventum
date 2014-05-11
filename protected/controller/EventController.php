@@ -10,11 +10,16 @@ namespace Controller{
             
             $controller =   $app['controllers_factory'];
             
-            $controller->match('/new',function(Request $request) use($app){
-                
-            })->bind('new_event')->method('GET|POST');
+            $controller->match('/new',array($this,'newEventAction'))->bind('new_event')->method('GET|POST');
             
             return $controller;
+        }
+        
+        public function newEventAction(Request $request){
+            $app    = \EventMail::app();
+            
+            
+            return $app['twig']->render('event/new_event.html');
         }
     }
 }

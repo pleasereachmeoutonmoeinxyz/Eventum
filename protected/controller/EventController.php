@@ -7,6 +7,14 @@ namespace Controller{
     
     class EventController implements ControllerProviderInterface{
         public function connect(Application $app) {
+            
+            $controller =   $app['controllers_factory'];
+            
+            $controller->match('/new',function(Request $request) use($app){
+                
+            })->bind('new_event')->method('GET|POST');
+            
+            return $controller;
         }
     }
 }

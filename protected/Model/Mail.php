@@ -6,7 +6,7 @@ namespace Model{
     use Symfony\Component\Validator\Mapping\ClassMetadata;    
     
     /** 
-     * @property int $id
+     * @property \MongoId $id
      * @property string $email
      * @property mixed $locations
      * @property mixed $types

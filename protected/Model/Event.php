@@ -5,8 +5,68 @@ namespace Model{
     use Symfony\Component\Validator\Constraints as Assert;
     use Symfony\Component\Validator\Mapping\ClassMetadata;    
     
-    /* @ODM\Document*/
+    /**
+     *  @property \MongoId $id
+     *  @property string $name
+     *  @property string $email
+     *  @property string $site
+     *  @property string $tel
+     *  @property mixed $locations
+     *  @property mixed $categories
+     *  @property mixed $types
+     *  @property string $subject
+     *  @property string $content
+     *  @property string $status
+     *  @property \MongoTimestamp $timestamp
+     *  @ODM\Document*/
     class Event extends Base{
         
+        /** @ODM\Id */        
+        private $id;
+        
+        /** @ODM\String*/        
+        private $name;
+        
+        /** @ODM\String*/        
+        private $email;
+        
+        /** @ODM\String*/        
+        private $site;
+        
+        /** @ODM\String*/        
+        private $tel;
+        
+        /** @ODM\Collection @ODM\Index */
+        private $locations  =   array();
+        
+        /** @ODM\Collection @ODM\Index */
+        private $types      =   array();
+
+        /** @ODM\Collection @ODM\Index */
+        private $categories =   array();        
+
+        /** @ODM\String*/        
+        private $subject;
+        
+        /** @ODM\String*/        
+        private $content;
+
+        /** @ODM\String*/    
+        private $status;
+
+        /** @ODM\timestamp */        
+        private $timestamp;
+        
+        public function __set($name, $value) {
+            if (property_exists(__CLASS__, $name)){
+                $this->{$name}  =   $value;
+            }
+        }
+
+        public function __get($name) {
+            if (property_exists(__CLASS__, $name)){
+                return $this->{$name};
+            }
+        }
     }
 }

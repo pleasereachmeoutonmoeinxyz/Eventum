@@ -17,7 +17,11 @@ namespace Controller{
             return $controller;
         }
         
-        
+        /**
+         * Handle subscribe request "base_url/mail/subscribe"
+         * @param \Symfony\Component\HttpFoundation\Request $request
+         * @return type
+         */
         private function subscribeAction(Request $request){
             $app    = \EventMail::app();
 
@@ -37,6 +41,12 @@ namespace Controller{
             }            
         }
         
+        /**
+         * Handle unsubscribe request "base_url/mail/unsubscribe"
+         * @param type $id
+         * @param type $code
+         * @return type
+         */
         private function unsbscribeAction($id,$code){
             $app    = \EventMail::app();
 
@@ -54,20 +64,27 @@ namespace Controller{
             }            
         }
         
+        /**
+         * Handle setting request "base_url/mail/setting"
+         * @param \Symfony\Component\HttpFoundation\Request $request
+         * @param type $id
+         * @param type $code
+         * @return type
+         */
         private function settingAction(Request $request,$id,$code){
             $app    = \EventMail::app();
             
             try{
-                    $mail   = \Model\Mail::findById($id);    
-                } catch (\MongoException $ex) {
-                    $app->abort(404);
-                }
-                
-                if ($mail   !=  NULL && $mail->code === $code){
-                    return $this->settingHandler($app, $request, $mail);
-                } else {
-                    $app->abort(404);
-                }                   
+                $mail   = \Model\Mail::findById($id);    
+            } catch (\MongoException $ex) {
+                $app->abort(404);
+            }
+
+            if ($mail   !=  NULL && $mail->code === $code){
+                return $this->settingHandler($app, $request, $mail);
+            } else {
+                $app->abort(404);
+            }                   
         }
         
         /**

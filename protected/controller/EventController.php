@@ -46,6 +46,7 @@ namespace Controller{
                     $data   =   $form->getData();
                     if ($event  === NULL){
                         $event  =   new \Model\Event;
+                        $event->code    =   '';
                     }
                     
                     foreach ($data as $key=>$value){

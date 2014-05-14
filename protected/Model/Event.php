@@ -53,6 +53,9 @@ namespace Model{
 
         /** @ODM\String*/    
         private $status;
+        
+        /** @ODM\String*/
+        private $code;
 
         /** @ODM\timestamp */        
         private $timestamp;

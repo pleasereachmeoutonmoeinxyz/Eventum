@@ -100,7 +100,7 @@ namespace Model{
             $mail->status                   =   self::STATUS_DEACTIVE;
             $mail->code                     =   $mail->generateRndUrl();
             $mail->subscribtion_timestamp   =   new \MongoTimestamp($timestamp);
-            $mail->critical_timestamp        =   new \MongoTimestamp($timestamp);
+            $mail->critical_timestamp       =   new \MongoTimestamp($timestamp);
             
             if (($errors = $mail->getErrors()) === NULL){
                 $app['dm']->persist($mail);

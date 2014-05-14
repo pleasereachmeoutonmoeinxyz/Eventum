@@ -10,34 +10,54 @@ namespace Controller{
             
             $controller =   $app['controllers_factory'];
             
-            // subscribe action
-            $controller->post('/subscribe',  function (Request $request) use ($app){
-                if (!$data   =   $request->get('form'))
-                    $app->abort(404);
-                
-                $mail    = \Model\Mail::getLinkParams($data['email']);
-                return $this->subscribeResonse($app,$mail);
-            });
+            $controller->post('/subscribe',array($this,'subscribeAction'));
+            $controller->get('/unsbscribe',array($this,'unsbscribeAction'))->bind('unsubscribe');
+            $controller->match('/setting/{id}/{code}',array($this,'settingAction'))->bind('setting')->method('GET|POST');
             
-            // unsubscribe action
-            $controller->get('/unsubscribe/{id}/{code}',  function ($id,$code) use ($app){
-                try{
-                    $mail   = \Model\Mail::findById($id);    
-                } catch (\MongoException $ex) {
-                    $app->abort(404);
-                }
-                
-                if ($mail   !=  NULL && $mail->code === $code){
-                    $mail->setAsDeactive();
-                    return $app['twig']->render('mail/unsubscribe.html');
+            return $controller;
+        }
+        
+        
+        private function subscribeAction(Request $request){
+            $app    = \EventMail::app();
+
+            if (!$data   =   $request->get('form'))
+                $app->abort(404);
+
+            $mail    = \Model\Mail::getLinkParams($data['email']);
+            
+            if ($mail instanceof \Model\Mail){
+                if ((time() - $mail->critical_timestamp->sec) < $app['activation.time_limit'] && $mail->critical_timestamp->sec != $mail->subscribtion_timestamp->sec){
+                    return \Helper\Ajax::error(NULL, $app['translator']->trans('ctrl.mail.subscribe.time_limit'), NULL);
                 } else {
-                    $app->abort(404);
+                    return $this->sendSettingMail($app,$mail);
                 }
-            })->bind('unsubscribe');
+            } else if ($mail instanceof \Model\Errors) {
+                return \Helper\Ajax::error(NULL, $app['translator']->trans('ctrl.mail.subscribe.errors'), $mail->getErrors());
+            }            
+        }
+        
+        private function unsbscribeAction($id,$code){
+            $app    = \EventMail::app();
+
+            try{
+                $mail   = \Model\Mail::findById($id);    
+            } catch (\MongoException $ex) {
+                $app->abort(404);
+            }
+
+            if ($mail   !=  NULL && $mail->code === $code){
+                $mail->setAsDeactive();
+                return $app['twig']->render('mail/unsubscribe.html');
+            } else {
+                $app->abort(404);
+            }            
+        }
+        
+        private function settingAction(Request $request,$id,$code){
+            $app    = \EventMail::app();
             
-            // setting get action
-            $controller->match('/setting/{id}/{code}',    function(Request $request,$id,$code) use ($app){
-                try{
+            try{
                     $mail   = \Model\Mail::findById($id);    
                 } catch (\MongoException $ex) {
                     $app->abort(404);
@@ -47,32 +67,9 @@ namespace Controller{
                     return $this->settingHandler($app, $request, $mail);
                 } else {
                     $app->abort(404);
-                }                
-            })->bind('setting')->method('GET|POST');
-            
-            
-            
-            return $controller;
+                }                   
         }
         
-        
-        /**
-         * generate subscribtion json response
-         * @param Application $app
-         * @param \Model\Mail $mail
-         * @return string
-         */
-        private function subscribeResonse(Application $app,$mail){
-            if ($mail instanceof \Model\Mail){
-                if ((time() - $mail->critical_timestamp->sec) < $app['activation.time_limit'] && $mail->critical_timestamp->sec != $mail->subscribtion_timestamp->sec){
-                    return \Helper\Ajax::error(NULL, $app['translator']->trans('ctrl.mail.subscribe.time_limit'), NULL);
-                } else {
-                    return $this->sendSettingMail($app,$mail);
-                }
-            } elseif ($mail instanceof \Model\Errors) {
-                return \Helper\Ajax::error(NULL, $app['translator']->trans('ctrl.mail.subscribe.errors'), $mail->getErrors());
-            }            
-        }
         /**
          * send setting url to user mail address and return json for ajax response
          * @param Application $app
@@ -104,7 +101,7 @@ namespace Controller{
                 'categories'=>  $mail->categories
             );                        
 
-            $form                   =   $this->getSettingForm($app,$types,$locations,$categories,$data);                   
+            $form                   =   $this->buildSettingForm($app,$types,$locations,$categories,$data);                   
             $save                   =   NULL;
             if ($request->isMethod('POST')){
                 $form->bind($request);
@@ -140,7 +137,7 @@ namespace Controller{
          * @param mixed $data
          * @return \Symfony\Component\Form\Form
          */
-        private function getSettingForm(Application $app,$types,$locations,$categories,$data){
+        private function buildSettingForm(Application $app,$types,$locations,$categories,$data){
             
             $builder = $app['form.factory']->createBuilder('form', $data);
             

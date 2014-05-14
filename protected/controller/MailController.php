@@ -22,7 +22,7 @@ namespace Controller{
          * @param \Symfony\Component\HttpFoundation\Request $request
          * @return type
          */
-        private function subscribeAction(Request $request){
+        public function subscribeAction(Request $request){
             $app    = \EventMail::app();
 
             if (!$data   =   $request->get('form'))
@@ -47,7 +47,7 @@ namespace Controller{
          * @param type $code
          * @return type
          */
-        private function unsbscribeAction($id,$code){
+        public function unsbscribeAction($id,$code){
             $app    = \EventMail::app();
 
             try{
@@ -71,7 +71,7 @@ namespace Controller{
          * @param type $code
          * @return type
          */
-        private function settingAction(Request $request,$id,$code){
+        public function settingAction(Request $request,$id,$code){
             $app    = \EventMail::app();
             
             try{

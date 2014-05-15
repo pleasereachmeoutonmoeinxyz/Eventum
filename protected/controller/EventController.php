@@ -33,6 +33,10 @@ namespace Controller{
                 $app->abort(404);
             }            
             
+            if ($event->status !== \Model\Event::STATUS_NEW){
+                $app->abort(404);
+            }
+            
             $data   = get_object_vars($event);
             
             if ($data['content'] === NULL || $data['content'] === ''){

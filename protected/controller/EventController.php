@@ -24,7 +24,13 @@ namespace Controller{
             return $controller;
         }
         
-        
+        public function templateAction(Request $request,$id,$code){
+            return 2;;
+        }
+
+        public function contentAction(Request $request,$id,$code){
+            return 1;
+        }        
         
         public function basicAction(Request $request,$id,$code){
             $app        =   \EventMail::app();
@@ -45,7 +51,7 @@ namespace Controller{
                 if ($event->status !== \Model\Event::STATUS_NEW){
                     $app->abort(404);
                 }
-                $data   =   (array) $event;
+                $data   = get_object_vars($event);
             }
             
             $form       =   $this->buildBasicForm($app,$data);      
@@ -61,14 +67,13 @@ namespace Controller{
                     foreach ($data as $key=>$value){
                         $event->{$key}  =   $value;
                     }     
-                    
                     $event->save();
                     
                     if ($event->content === NULL){
-                        \Helper\Mailer::eventUrl($event->email, $event->id, $event->code);
-                        $app->redirect($app['url_generator']->generate('event_template',array('id'=>$event->id,'code'=>$event->code)));
+//                       \Helper\Mailer::eventUrl($event->email, $event->id, $event->code);
+                        return $app->redirect($app['url_generator']->generate('event_template',array('id'=>$event->id,'code'=>$event->code)));
                     } else {
-                        $app->redirect($app['url_generator']->generate('event_content',array('id'=>$event->id,'code'=>$event->code)));
+                        return $app->redirect($app['url_generator']->generate('event_content',array('id'=>$event->id,'code'=>$event->code)));
                     }
                 }
             }

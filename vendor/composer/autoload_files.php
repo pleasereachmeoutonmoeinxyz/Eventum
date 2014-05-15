@@ -7,4 +7,5 @@ $baseDir = dirname($vendorDir);
 
 return array(
     $vendorDir . '/symfony/intl/Symfony/Component/Intl/Resources/stubs/functions.php',
+    $vendorDir . '/ezyang/htmlpurifier/library/HTMLPurifier.composer.php',
 );

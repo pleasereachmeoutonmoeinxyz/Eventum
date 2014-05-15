@@ -1,0 +1,130 @@
+{% block ckeditor_widget %}
+{% spaceless %}
+    <textarea {{ block('widget_attributes') }}>{{ value }}</textarea>
+
+    <script type="text/javascript">
+    {% autoescape true js %}
+        var CKEDITOR_BASEPATH = '{{ app.request.basePath ~ '/' ~ base_path }}';
+    {% endautoescape %}
+    </script>
+
+    <script type="text/javascript" src="{{ asset(base_path ~ 'ckeditor.js') }}"></script>
+    <script type="text/javascript">
+    {% autoescape false %}
+        {% set plugins = '' %}
+        {% for name, external_plugin in external_plugins %}
+            CKEDITOR.plugins.addExternal('{{ name }}', '{{ app.request.basePath ~ external_plugin.path }}', '{{ external_plugin.file }}');
+            {% if not loop.first %}
+                {% set plugins = plugins ~ ',' %}
+            {% endif %}
+            {% set plugins = plugins ~ name %}
+        {% endfor %}
+
+        var trsteelConfig = {
+            {% if width is not null %}
+                width: '{{ width }}',
+            {% endif %}
+			{% if templates_files|length > 0 %}
+				templates_files: ['{{ templates_files|join(',')|raw }}'],
+            {% endif %}
+            {% if extra_allowed_content is not null %}
+                extraAllowedContent: '{{ extra_allowed_content }}',
+            {% endif %}
+            {% if height is not null %}
+                height: '{{ height }}',
+            {% endif %}
+            {% if force_paste_as_plaintext is not null %}
+                forcePasteAsPlainText: {{ force_paste_as_plaintext }},
+            {% endif %}
+            {% if language is not null %}
+                language: '{{ language }}',
+            {% endif %}
+            {% if ui_color is not null %}
+                uiColor: "{{ ui_color }}",
+            {% endif %}
+            {% if startup_outline_blocks == true %}
+                startupOutlineBlocks: {{ startup_outline_blocks }},
+            {% endif %}
+            {% if filebrowser_browse_url.route is defined and filebrowser_browse_url.route is not null %}
+                filebrowserBrowseUrl: '{{ path(filebrowser_browse_url.route, filebrowser_browse_url.route_parameters) }}',
+            {% elseif filebrowser_browse_url.url is defined and filebrowser_browse_url.url is not null  %}
+                filebrowserBrowseUrl: '{{ filebrowser_browse_url.url }}',
+            {% endif %}
+            {% if filebrowser_upload_url.route is defined and filebrowser_upload_url.route is not null %}
+                filebrowserUploadUrl: '{{ path(filebrowser_upload_url.route, filebrowser_upload_url.route_parameters) }}',
+            {% elseif filebrowser_upload_url.url is defined and filebrowser_upload_url.url is not null  %}
+                filebrowserUploadUrl: '{{ filebrowser_upload_url.url }}',
+            {% endif %}
+            {% if filebrowser_image_browse_url.route is defined and filebrowser_image_browse_url.route is not null %}
+                filebrowserImageBrowseUrl: '{{ path(filebrowser_image_browse_url.route, filebrowser_image_browse_url.route_parameters) }}',
+            {% elseif filebrowser_image_browse_url.url is defined and filebrowser_image_browse_url.url is not null  %}
+                filebrowserImageBrowseUrl: '{{ filebrowser_image_browse_url.url }}',
+            {% endif %}
+
+            {% if filebrowser_image_upload_url.route is defined and filebrowser_image_upload_url.route is not null %}
+                filebrowserImageUploadUrl: '{{ path(filebrowser_image_upload_url.route, filebrowser_image_upload_url.route_parameters) }}',
+            {% elseif filebrowser_image_upload_url.url is defined and filebrowser_image_upload_url.url is not null  %}
+                filebrowserImageUploadUrl: '{{ filebrowser_image_upload_url.url }}',
+            {% endif %}
+            {% if filebrowser_flash_browse_url.route is defined and filebrowser_flash_browse_url.route is not null %}
+                filebrowserFlashBrowseUrl: '{{ path(filebrowser_flash_browse_url.route, filebrowser_flash_browse_url.route_parameters) }}',
+            {% elseif filebrowser_flash_browse_url.url is defined and filebrowser_flash_browse_url.url is not null  %}
+                filebrowserFlashBrowseUrl: '{{ filebrowser_flash_browse_url.url }}',
+            {% endif %}
+            {% if filebrowser_flash_upload_url.route is defined and filebrowser_flash_upload_url.route is not null %}
+                filebrowserFlashUploadUrl: '{{ path(filebrowser_flash_upload_url.route, filebrowser_flash_upload_url.route_parameters) }}',
+            {% elseif filebrowser_flash_upload_url.url is defined and filebrowser_flash_upload_url.url is not null  %}
+                filebrowserFlashUploadUrl: '{{ filebrowser_flash_upload_url.url }}',
+            {% endif %}
+            {% if skin is not null %}
+                skin: '{{ skin }}',
+            {% endif %}
+            {% if format_tags|length > 0 %}
+                format_tags: '{{ format_tags | join(';') | raw }}',
+            {% endif %}
+            {% if body_class is not null %}
+                bodyClass: '{{ body_class }}',
+            {% endif %}
+            {% if contents_css is not null %}
+                {% if contents_css is iterable %}
+                    {% set contents_css_array = [] %}
+                    {% for file in contents_css %}
+                        {% set contents_css_array = contents_css_array|merge([asset(file)]) %}
+                    {% endfor %}
+                    contentsCss: {{ contents_css_array|json_encode }},
+                {% else %}
+                    contentsCss: '{{ asset(contents_css) }}',
+                {% endif %}
+            {% endif %}
+            {% if basic_entities is not null %}
+                basicEntities: '{{ basic_entities }}',
+            {% endif %}
+            {% if entities is not null %}
+                entities: '{{ entities }}',
+            {% endif %}
+            {% if entities_latin is not null %}
+                entities_latin: '{{ entities_latin }}',
+            {% endif %}
+            {% if startup_mode is not null %}
+                startupMode: '{{ startup_mode }}',
+            {% endif %}
+            {% if enter_mode is not null %}
+                enterMode: CKEDITOR.{{ enter_mode }},
+            {% endif %}
+            {% if plugins %}
+                extraPlugins: '{{ plugins }}',
+            {% endif %}
+            {% if custom_config %}
+                customConfig: '{{ asset(custom_config) }}',
+            {% endif %}
+            toolbar: {{ toolbar | json_encode | raw }},
+            baseHref: '{{ base_href ? base_href : app.request.schemeAndHttpHost ~ app.request.baseUrl ~ '/' }}'
+        };
+
+        CKEDITOR.replace("{{ id }}", trsteelConfig);
+        CKEDITOR.instances["{{ id }}"].rawConfig = trsteelConfig;
+
+    {% endautoescape %}
+    </script>
+{% endspaceless %}
+{% endblock %}

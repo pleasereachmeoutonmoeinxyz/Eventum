@@ -8,7 +8,6 @@ use Silex\Provider\TwigServiceProvider;
 use Silex\Provider\UrlGeneratorServiceProvider;
 use Silex\Provider\ValidatorServiceProvider;
 use Symfony\Component\Translation\Loader\YamlFileLoader;
-use Mongo\Silex\Provider\MongoServiceProvider;
 
 $app->register(new HttpCacheServiceProvider());
 $app->register(new SessionServiceProvider());
@@ -43,15 +42,6 @@ $app->register(new TwigServiceProvider(), array(
 		'strict_variables'      => true
 	),
 	'twig.path'		=> array( PATH_VIEWS )
-));
-
-$app->register(new MongoServiceProvider, array(
-    'mongo.connections' => array(
-        'default' => array(
-            'server'    =>  $app['db']['server'],
-            'options'   =>  $app['db']['options']
-        )
-    ),
 ));
 
 // Error Handler

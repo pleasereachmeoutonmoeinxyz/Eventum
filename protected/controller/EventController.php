@@ -32,17 +32,15 @@ namespace Controller{
             } catch (Exception $ex) {
                 $app->abort(404);
             }            
-
-            if ($event->content === NULL || $event->content == ''){
-                $form   = $this->buildContentForm($app,array(
-                    'content'   =>  $app['twig']->render('event/template.html')
-                ));    
-            } else {
-                $form   = $this->buildContentForm($app,array(
-                    'content'   =>  $event->content
-                ));                    
+            
+            $data   = get_object_vars($event);
+            
+            if ($data['content'] === NULL || $data['content'] === ''){
+                $data['content']    =   $app['twig']->render('event/template.html');
             }
-            $save                   =   NULL;
+            
+            $form   =   $this->buildContentForm($app,$data);
+            $save   =   NULL;
             if ($request->isMethod('POST')){
                 $form->bind($request);
                 if ($form->isValid()){

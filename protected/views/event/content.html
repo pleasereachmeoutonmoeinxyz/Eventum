@@ -11,7 +11,10 @@
                 <h4 class="is-center">{{form_errors(form)}}</h4>
                 <div class="pure-g-r">
                     <div class="l-box pure-u-1 pure-u-med-1 pure-u-lrg-1 is-center">
-                        {{form_row(form.content)}}
+                        <fieldset class="pure-form pure-form-aligned">
+                            {{form_row(form.subject,{'attr':{'dir':'rtl'}})}}
+                            {{form_row(form.content)}}                            
+                        </fieldset>
                     </div>
                 </div>
                 <div class="pure-g-r">

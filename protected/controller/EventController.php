@@ -142,6 +142,7 @@ namespace Controller{
         private function buildContentForm(Application $app,$data=array()){
             $builder    =   $app['form.factory']->createBuilder('form',$data);
             $builder->add('content', 'textarea', array('label'=>false));
+            $builder->add('subject', 'text');
             return $builder->getForm();
         }
     }

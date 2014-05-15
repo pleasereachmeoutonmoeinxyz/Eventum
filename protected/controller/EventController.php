@@ -15,6 +15,12 @@ namespace Controller{
                     ->value('id', null)->value('code',null)
                     ->bind('event_basic')->method('GET|POST');
             
+            $controller->match('/template/{id}/{code}',array($this,'templateAction'))
+                    ->bind('event_template')->method('GET|POST');
+            
+            $controller->match('/content/{id}/{code}',array($this,'contentAction'))
+                    ->bind('event_content')->method('GET|POST');
+            
             return $controller;
         }
         
@@ -35,6 +41,10 @@ namespace Controller{
                 } catch (\Exception $ex){
                     $app->abort(404);
                 }
+                
+                if ($event->status !== \Model\Event::STATUS_NEW){
+                    $app->abort(404);
+                }
                 $data   =   (array) $event;
             }
             
@@ -46,13 +56,20 @@ namespace Controller{
                     $data   =   $form->getData();
                     if ($event  === NULL){
                         $event  =   new \Model\Event;
-                        $event->code    =   '';
                     }
                     
                     foreach ($data as $key=>$value){
                         $event->{$key}  =   $value;
-                    }                    
-                    $event->insert();
+                    }     
+                    
+                    $event->save();
+                    
+                    if ($event->content === NULL){
+                        \Helper\Mailer::eventUrl($event->email, $event->id, $event->code);
+                        $app->redirect($app['url_generator']->generate('event_template',array('id'=>$event->id,'code'=>$event->code)));
+                    } else {
+                        $app->redirect($app['url_generator']->generate('event_content',array('id'=>$event->id,'code'=>$event->code)));
+                    }
                 }
             }
             

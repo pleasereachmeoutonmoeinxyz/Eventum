@@ -27,7 +27,7 @@ namespace Model{
         
         const CONFIRMATION_ACCEPTED         =   'CONFIRMED';
         const CONFIRMATION_REJECTED         =   'REJECTED';
-        
+        const CONFIRMATION_WAITING          =   'WAITING';
         /** @ODM\Id */        
         private $id;
         
@@ -70,6 +70,7 @@ namespace Model{
         /** @ODM\timestamp */        
         private $timestamp;
         
+        
         public function __set($name, $value) {
             if (property_exists(__CLASS__, $name)){
                 $this->{$name}  =   $value;
@@ -80,6 +81,21 @@ namespace Model{
             if (property_exists(__CLASS__, $name)){
                 return $this->{$name};
             }
+        }
+
+        /**
+         * insert or update record in MongoDB
+         * If record is new,set code,status and timestamp
+         * always set confrimation as waiting
+         */
+        public function save() {
+            if ($this->isNewRecord()){
+                $this->code         =   \EventMail::genRandomCode();
+                $this->timestamp    =   new \MongoTimestamp();
+                $this->status       =   self::STATUS_NEW;
+            }
+            $this->confirmation     =   self::CONFIRMATION_WAITING;
+            parent::save();
         }
         
     }

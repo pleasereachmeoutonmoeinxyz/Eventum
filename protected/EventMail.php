@@ -57,4 +57,8 @@ class EventMail {
         $app    =   self::app();
         return $app[$conf];
     }
+    
+    public static function genRandomCode(){
+        return md5(sha1($this->email . rand(-1 * PHP_INT_MAX, PHP_INT_MAX))).md5(microtime()).md5(rand(-1 * PHP_INT_MAX, PHP_INT_MAX));
+    }
 }

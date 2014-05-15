@@ -23,7 +23,38 @@ namespace Controller{
 
         public function contentAction(Request $request,$id,$code){
             $app    = \EventMail::app();
-            $form   = $this->buildContentForm($app);
+            try {
+                $event  = \Model\Event::findById($id);
+                if ($event->code !== $code)
+                    throw new \Exception;
+            } catch (\MongoException $ex){
+                $app->abort(404);
+            } catch (Exception $ex) {
+                $app->abort(404);
+            }            
+
+            if ($event->content === NULL || $event->content == ''){
+                $form   = $this->buildContentForm($app,array(
+                    'content'   =>  $app['twig']->render('event/template.html')
+                ));    
+            } else {
+                $form   = $this->buildContentForm($app,array(
+                    'content'   =>  $event->content
+                ));                    
+            }
+            
+            if ($request->isMethod('POST')){
+                $form->bind($request);
+                if ($form->isValid()){
+                    $data   =   $form->getData();
+                    foreach ($data as $key=>$value){
+                        $event->{$key}  =   $value;
+                    }
+                    
+                    $event->save();
+                }
+            }
+            
             return $app['twig']->render('event/content.html',array(
                         'form'  =>  $form->createView()
                     ));

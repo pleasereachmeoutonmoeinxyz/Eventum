@@ -21,6 +21,13 @@ namespace Model{
      *  @ODM\Document*/
     class Event extends Base{
         
+        const STATUS_SENT                   =   'SENT';
+        const STATUS_RUNNING                =   'RUNNING';
+        const STATUS_NEW                    =   'NEW';
+        
+        const CONFIRMATION_ACCEPTED         =   'CONFIRMED';
+        const CONFIRMATION_REJECTED         =   'REJECTED';
+        
         /** @ODM\Id */        
         private $id;
         
@@ -55,6 +62,9 @@ namespace Model{
         private $status;
         
         /** @ODM\String*/
+        private $confirmation;
+        
+        /** @ODM\String*/
         private $code;
 
         /** @ODM\timestamp */        
@@ -71,5 +81,6 @@ namespace Model{
                 return $this->{$name};
             }
         }
+        
     }
 }

@@ -75,9 +75,7 @@ namespace Model{
          * @param string $email
          * @return Model\Mail
          */
-        public static function getLinkParams($email){
-            $app                =   \EventMail::app();
-            
+        public static function getLinkParams($email){            
             $mail   =   self::findOne(array('email' =>  $email));
             if ($mail   === null){
                 return self::subscribe($email);
@@ -93,54 +91,41 @@ namespace Model{
          * @return Errors
          */
         private static function subscribe($email){
-            $app                            =   \EventMail::app();
             $timestamp                      =   time();
             $mail                           =   new self();
             $mail->email                    =   $email;
             $mail->status                   =   self::STATUS_DEACTIVE;
-            $mail->code                     =   $mail->generateRndUrl();
+            $mail->code                     =   \EventMail::genRandomCode();
             $mail->subscribtion_timestamp   =   new \MongoTimestamp($timestamp);
             $mail->critical_timestamp       =   new \MongoTimestamp($timestamp);
             
             if (($errors = $mail->getErrors()) === NULL){
-                $app['dm']->persist($mail);
-                $app['dm']->flush();
+                $mail->save();
                 return $mail;
             } else {
                 return $errors;
             }
         }
 
-        /**
-         * 
-         * @return string
-         */
-        public function generateRndUrl(){
-            return md5(sha1($this->email . rand(-1 * PHP_INT_MAX, PHP_INT_MAX))).md5(microtime()).md5(rand(-1 * PHP_INT_MAX, PHP_INT_MAX));
-        }
-        
         public function updateTimestamp(){
-            $app                        =   \EventMail::app();
             $this->critical_timestamp    =   new \MongoTimestamp();
-            $app['dm']->flush();
+            $this->save();
         }
         
         /**
          * active mail
          */
         public function setAsActive(){
-            $app                        =   \EventMail::app();
             $this->status               =   self::STATUS_ACTIVE;
-            $app['dm']->flush();            
+            $this->save();
         }
         
         /**
          * deactive mail
          */
         public function setAsDeactive(){
-            $app                        =   \EventMail::app();
             $this->status               =   self::STATUS_DEACTIVE;
-            $app['dm']->flush();
+            $this->save();
         }
     }
 }

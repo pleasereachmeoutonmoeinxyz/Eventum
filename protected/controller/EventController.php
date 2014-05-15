@@ -42,7 +42,7 @@ namespace Controller{
                     'content'   =>  $event->content
                 ));                    
             }
-            
+            $save                   =   NULL;
             if ($request->isMethod('POST')){
                 $form->bind($request);
                 if ($form->isValid()){
@@ -52,11 +52,13 @@ namespace Controller{
                     }
                     
                     $event->save();
+                    $save   =   TRUE;
                 }
             }
             
             return $app['twig']->render('event/content.html',array(
-                        'form'  =>  $form->createView()
+                        'form'  =>  $form->createView(),
+                        'save'  =>  $save
                     ));
         }        
         

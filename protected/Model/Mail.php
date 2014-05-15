@@ -22,31 +22,31 @@ namespace Model{
         const STATUS_DEACTIVE   =   'DEACTIVE';
         
         /** @ODM\Id */
-        private $id;
+        public $id;
 
         /** @ODM\String @ODM\Index(unique=true, order="asc") */
-        private $email;
+        public $email;
         
         /** @ODM\Collection @ODM\Index */
-        private $locations  =   array();
+        public $locations  =   array();
         
         /** @ODM\Collection @ODM\Index */
-        private $types      =   array();
+        public $types      =   array();
 
         /** @ODM\Collection @ODM\Index */
-        private $categories =   array();
+        public $categories =   array();
         
         /** @ODM\String*/
-        private $status;
+        public $status;
 
         /** @ODM\String */
-        private $code;
+        public $code;
         
         /** @ODM\timestamp */
-        private $critical_timestamp;
+        public $critical_timestamp;
         
         /** @ODM\timestamp */
-        private $subscribtion_timestamp;
+        public $subscribtion_timestamp;
 
         public function __set($name, $value) {
             if (property_exists(__CLASS__, $name)){

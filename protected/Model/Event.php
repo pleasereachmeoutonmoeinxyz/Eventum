@@ -14,6 +14,7 @@ namespace Model{
      *  @property mixed $locations
      *  @property mixed $categories
      *  @property mixed $types
+     *  @property string $code
      *  @property string $subject
      *  @property string $content
      *  @property string $status
@@ -29,46 +30,46 @@ namespace Model{
         const CONFIRMATION_REJECTED         =   'REJECTED';
         const CONFIRMATION_WAITING          =   'WAITING';
         /** @ODM\Id */        
-        private $id;
+        public $id;
         
         /** @ODM\String*/        
-        private $name;
+        public $name;
         
         /** @ODM\String*/        
-        private $email;
+        public $email;
         
         /** @ODM\String*/        
-        private $site;
+        public $site;
         
         /** @ODM\String*/        
-        private $tel;
+        public $tel;
         
         /** @ODM\Collection @ODM\Index */
-        private $locations  =   array();
+        public $locations  =   array();
         
         /** @ODM\Collection @ODM\Index */
-        private $types      =   array();
+        public $types      =   array();
 
         /** @ODM\Collection @ODM\Index */
-        private $categories =   array();        
+        public $categories =   array();        
 
         /** @ODM\String*/        
-        private $subject;
+        public $subject;
         
         /** @ODM\String*/        
-        private $content;
+        public $content;
 
         /** @ODM\String*/    
-        private $status;
+        public $status;
         
         /** @ODM\String*/
-        private $confirmation;
+        public $confirmation;
         
         /** @ODM\String*/
-        private $code;
+        public $code;
 
         /** @ODM\timestamp */        
-        private $timestamp;
+        public $timestamp;
         
         
         public function __set($name, $value) {

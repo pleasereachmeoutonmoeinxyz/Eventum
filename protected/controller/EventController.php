@@ -15,21 +15,17 @@ namespace Controller{
                     ->value('id', null)->value('code',null)
                     ->bind('event_basic')->method('GET|POST');
             
-            $controller->match('/template/{id}/{code}',array($this,'templateAction'))
-                    ->bind('event_template')->method('GET|POST');
-            
             $controller->match('/content/{id}/{code}',array($this,'contentAction'))
                     ->bind('event_content')->method('GET|POST');
-            
             return $controller;
         }
         
-        public function templateAction(Request $request,$id,$code){
-            return 2;;
-        }
 
         public function contentAction(Request $request,$id,$code){
-            return 1;
+            $app    = \EventMail::app();
+            $form   = $this->buildContentForm($app);
+            var_dump($form);
+            $app['twig']->render('event/content.html');
         }        
         
         public function basicAction(Request $request,$id,$code){
@@ -66,15 +62,11 @@ namespace Controller{
                     
                     foreach ($data as $key=>$value){
                         $event->{$key}  =   $value;
-                    }     
+                    }
                     $event->save();
                     
-                    if ($event->content === NULL){
-//                       \Helper\Mailer::eventUrl($event->email, $event->id, $event->code);
-                        return $app->redirect($app['url_generator']->generate('event_template',array('id'=>$event->id,'code'=>$event->code)));
-                    } else {
-                        return $app->redirect($app['url_generator']->generate('event_content',array('id'=>$event->id,'code'=>$event->code)));
-                    }
+//                       \Helper\Mailer::eventUrl($event->email, $event->id, $event->code);                    
+                    return $app->redirect($app['url_generator']->generate('event_content',array('id'=>$event->id,'code'=>$event->code)));
                 }
             }
             
@@ -110,6 +102,15 @@ namespace Controller{
                                     'multiple' => true,
                                     'expanded' => true,
                                 ));            
+            return $builder->getForm();
+        }
+        
+        private function buildContentForm(Application $app,$data=array()){
+            $builder    =   $app['form.factory']->createBuilder('form',$data)
+                                ->add('content','ckeditor',array(
+                                    'constraints'   =>  array(new Assert\NotBlank())
+                                ));
+            
             return $builder->getForm();
         }
     }

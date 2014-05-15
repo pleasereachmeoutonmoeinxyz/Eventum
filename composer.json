@@ -13,6 +13,6 @@
         "monolog/monolog": ">=1.0.0",
         "doctrine/mongodb-odm": "1.0.0-BETA9",
         "symfony/locale": "~2.3",
-        "Trsteel/ckeditor-bundle":"~1.4"
+        "egeloen/ckeditor-bundle": "~2.0"
     }
 }

@@ -24,8 +24,9 @@ namespace Controller{
         public function contentAction(Request $request,$id,$code){
             $app    = \EventMail::app();
             $form   = $this->buildContentForm($app);
-            var_dump($form);
-            $app['twig']->render('event/content.html');
+            return $app['twig']->render('event/content.html',array(
+                        'form'  =>  $form->createView()
+                    ));
         }        
         
         public function basicAction(Request $request,$id,$code){
@@ -106,11 +107,8 @@ namespace Controller{
         }
         
         private function buildContentForm(Application $app,$data=array()){
-            $builder    =   $app['form.factory']->createBuilder('form',$data)
-                                ->add('content','ckeditor',array(
-                                    'constraints'   =>  array(new Assert\NotBlank())
-                                ));
-            
+            $builder    =   $app['form.factory']->createBuilder('form',$data);
+            $builder->add('content', 'textarea', array('label'=>false));
             return $builder->getForm();
         }
     }

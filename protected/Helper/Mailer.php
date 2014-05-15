@@ -17,7 +17,18 @@ class Mailer{
         return self::sendHTMLMail($email, $subject, $body);
     }
     
-    
+    public static function eventUrl($email,$id,$code){
+        $basic_event_url         = \EventMail::url('setting',array('id'=>$id,'code'=>$code));
+        $subject                 = \EventMail::t('mailer.event_subject');
+        // generate mail body
+        $body               = \EventMail::render('mailer/event.html', array(
+            'header'            =>  $subject,
+            'setting_url'       =>  $settingUrl,
+        ));
+        // send mail
+        return self::sendHTMLMail($email, $subject, $body);        
+    }
+
     private static function sendHTMLMail($email,$subject,$body)
     {
         $sender_n    = \EventMail::t('mailer.sender_name');

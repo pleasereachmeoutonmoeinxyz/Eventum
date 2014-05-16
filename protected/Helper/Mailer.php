@@ -2,8 +2,6 @@
 namespace Helper;
 class Mailer{
     public static function settingMailUrl($email,$id,$secure_code){
-        return TRUE;
-        // generate urls
         $settingUrl         = \EventMail::url('setting',array('id'=>$id,'code'=>$secure_code));
         $unsubscribeUrl     = \EventMail::url('unsubscribe',array('id'=>$id,'code'=>$secure_code));
         // generate subject
@@ -24,7 +22,7 @@ class Mailer{
         // generate mail body
         $body               = \EventMail::render('mailer/event.html', array(
             'header'            =>  $subject,
-            'setting_url'       =>  $settingUrl,
+            'setting_url'       =>  $basic_event_url,
         ));
         // send mail
         return self::sendHTMLMail($email, $subject, $body);        

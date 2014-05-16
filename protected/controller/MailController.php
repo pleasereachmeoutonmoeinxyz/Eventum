@@ -11,7 +11,7 @@ namespace Controller{
             $controller =   $app['controllers_factory'];
             
             $controller->post('/subscribe',array($this,'subscribeAction'));
-            $controller->get('/unsbscribe',array($this,'unsbscribeAction'))->bind('unsubscribe');
+            $controller->get('/unsbscribe/{id}/{code}',array($this,'unsbscribeAction'))->bind('unsubscribe');
             $controller->match('/setting/{id}/{code}',array($this,'settingAction'))->bind('setting')->method('GET|POST');
             
             return $controller;
@@ -51,17 +51,18 @@ namespace Controller{
             $app    = \EventMail::app();
 
             try{
-                $mail   = \Model\Mail::findById($id);    
+                $mail   = \Model\Mail::findById($id); 
+                if ($mail->code != $code){
+                    throw new \Exception;
+                }
             } catch (\MongoException $ex) {
+                $app->abort(404);
+            } catch(\Exception $ex){
                 $app->abort(404);
             }
 
-            if ($mail   !=  NULL && $mail->code === $code){
-                $mail->setAsDeactive();
-                return $app['twig']->render('mail/unsubscribe.html');
-            } else {
-                $app->abort(404);
-            }            
+            $mail->setAsDeactive();
+            return $app['twig']->render('mail/unsubscribe.html');         
         }
         
         /**

@@ -101,7 +101,7 @@ namespace Controller{
                     }
                     $event->save();
                     
-//                       \Helper\Mailer::eventUrl($event->email, $event->id, $event->code);                    
+                    \Helper\Mailer::eventUrl($event->email, $event->id, $event->code);                    
                     return $app->redirect($app['url_generator']->generate('event_content',array('id'=>$event->id,'code'=>$event->code)));
                 }
             }

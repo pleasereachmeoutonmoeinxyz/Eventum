@@ -28,7 +28,22 @@ class __TwigTemplate_26ed45c9edc4dacbaf9021f77bcf66bd058827a6d85fd4bf3b33bdfeaaa
     public function block_content($context, array $blocks = array())
     {
         // line 4
-        echo "
+        echo "        <div class=\"content-wrapper-internal\">
+            <div class=\"content\">
+                <h2 class=\"content-head is-center\">";
+        // line 6
+        echo twig_escape_filter($this->env, $this->env->getExtension('translator')->trans("unsubscribe_header"), "html", null, true);
+        echo "</h2>
+                <div class=\"pure-g-r\">
+                    <div class=\"l-box pure-u-1 pure-u-med-1-1 pure-u-lrg-1-1 is-center\">
+                        <p>";
+        // line 9
+        echo twig_escape_filter($this->env, $this->env->getExtension('translator')->trans("unsubscribe_text"), "html", null, true);
+        echo "</p>
+                    </div>
+                </div>
+            </div>
+        </div>
 ";
     }
 
@@ -44,6 +59,6 @@ class __TwigTemplate_26ed45c9edc4dacbaf9021f77bcf66bd058827a6d85fd4bf3b33bdfeaaa
 
     public function getDebugInfo()
     {
-        return array (  31 => 4,  28 => 3,);
+        return array (  41 => 9,  35 => 6,  31 => 4,  28 => 3,);
     }
 }

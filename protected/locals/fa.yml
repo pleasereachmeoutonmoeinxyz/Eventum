@@ -73,8 +73,13 @@ mailer.need_help: در صورتی که به کمک نیاز داشتید می ت
 mailer.event.say_hello: به رویدادگرا خوش آمدید
 mailer.event.say_thanks: از اینکه رویدادگرا را به عنوان رسانه ای برای رویداد خود انتخاب نمودید از شما سپاسگزارم
 mailer.event.say_please_share: رویدادگرا یک سیستم رایگان و غیر دولتی است، ما برای توسعه به یاری شما نیازمندیم.لطفا رویدادگرا را به عنوان اسپانسر رسانه ای رویداد خود به دیگران معرفی نمایید.
-mailer.setting.introduce_event_url: شما می توانید تا قبل از ارسال رویدادتان به مخاطبان از لینک زیر اقدام به تغییر محتوی و مخاطبان نمایید.
+mailer.event.introduce_event_url: شما می توانید تا قبل از ارسال رویدادتان به مخاطبان از لینک زیر اقدام به تغییر محتوی و مخاطبان نمایید.
 
+mailer.event_subject: ثبت رویداد در eventum
+mailer.setting_subject: تاییده عضویت و تنظیمات در eventum
+
+mailer.sender_name: رویدادگرا - Eventum.ir
+mailer.help: contact info: moein7tl@gmail.com
 
 Online: آنلاین - مجازی
 Alborz: البرز
@@ -150,3 +155,4 @@ Insurance: بیمه
 Charity: خیریه
 Security: امنیتی
 Others: غیره
+

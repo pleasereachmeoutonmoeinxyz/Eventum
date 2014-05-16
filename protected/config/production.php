@@ -11,7 +11,7 @@ $app['cache.path']              = PATH_CACHE;
 $app['http_cache.cache_dir']    = $app['cache.path'] . '/http';
 $app['twig.options.cache']      = $app['cache.path'] . '/twig';
 
-$app['debug']                   = true;
+$app['debug']                   = false;
 
 $app['db']                      =   array(
                                         'server'        =>  "mongodb://moein:12345@localhost:27017",

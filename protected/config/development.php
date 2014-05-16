@@ -74,6 +74,32 @@ $app['event.locations']         =   array(
 );
 
 $app['event.categories']        =   array(
-    
-    'Charity'                       =>  'Charity'
+    'Computer/IT'                   =>  'Computer/IT',
+    'Startup'                       =>  'Startup',
+    'Marketing'                     =>  'Marketing',
+    'Advertisments'                 =>  'Advertisments',
+    'Chemical engineering'          =>  'Chemical engineering',
+    'Civil engineering'             =>  'Civil engineering',
+    'Electrical engineering'        =>  'Electrical engineering',
+    'Mechanical engineering'        =>  'Mechanical engineering',
+    'Systems engineering'           =>  'Systems engineering',
+    'Interdisciplinary'             =>  'Interdisciplinary',
+    'Medical'                       =>  'Medical',    
+    'Religion'                      =>  'Religion',
+    'Policy'                        =>  'Policy',
+    'Tourism'                       =>  'Tourism',
+    'Culture and history'           =>  'Culture and history',
+    'Art'                           =>  'Art',
+    'Athletic'                      =>  'Athletic',
+    'Energy and Environment'        =>  'Energy and Environment',
+    'Agriculture'                   =>  'Agriculture',
+    'Industry'                      =>  'Industry',
+    'Architecture'                  =>  'Architecture',
+    'Economy'                       =>  'Economy',    
+    'Banking'                       =>  'Banking',
+    'Management'                    =>  'Management',
+    'Human Resources'               =>  'Human Resources',
+    'Insurance'                     =>  'Insurance',
+    'Charity'                       =>  'Charity',
+    'Ohters'                        =>  'Others'
 );

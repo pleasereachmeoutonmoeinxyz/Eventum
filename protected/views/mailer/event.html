@@ -2,9 +2,13 @@
 
 {% block content %}
     {{'mailer.event.say_hello'|trans}}
+    <br>
     {{'mailer.event.say_thanks'|trans}}
+    <br>
     {{'mailer.event.say_please_share'|trans}}
+    <br>
     {{'mailer.setting.introduce_event_url'|trans}}
     <a href='{{setting_url}}'>{{setting_url}}</a>
+    <br>
     {{'mailer.need_help'|trans}}
 {% endblock content %}

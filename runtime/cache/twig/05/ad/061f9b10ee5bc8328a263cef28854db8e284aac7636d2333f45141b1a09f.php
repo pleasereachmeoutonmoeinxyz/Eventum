@@ -33,7 +33,7 @@ class __TwigTemplate_05ad061f9b10ee5bc8328a263cef28854db8e284aac7636d2333f45141b
         <div class=\"content\">
             <h2 class=\"content-head is-center\">";
         // line 6
-        echo twig_escape_filter($this->env, $this->env->getExtension('translator')->trans("basic_header"), "html", null, true);
+        echo twig_escape_filter($this->env, $this->env->getExtension('translator')->trans("content_header"), "html", null, true);
         echo "</h2>
                 ";
         // line 7

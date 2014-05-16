@@ -20,7 +20,7 @@ $app['db']                      =   array(
 
 $app['activation.time_limit']   =   300; // 5 mins
 
-$app['mailer.sender_mail']      =   'moein7tl@gmail.com';
+$app['mailer.sender_mail']      =   'noreply@eventum.ir';
 
 // events setting
 $app['event.types']             =   array(

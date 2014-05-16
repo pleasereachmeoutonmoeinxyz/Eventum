@@ -1,0 +1,10 @@
+{% extends "mailer/mail_layout.html" %}
+
+{% block content %}
+    {{'mailer.event.say_hello'|trans}}
+    {{'mailer.event.say_thanks'|trans}}
+    {{'mailer.event.say_please_share'|trans}}
+    {{'mailer.setting.introduce_event_url'|trans}}
+    <a href='{{setting_url}}'>{{setting_url}}</a>
+    {{'mailer.need_help'|trans}}
+{% endblock content %}

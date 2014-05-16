@@ -9,11 +9,11 @@
     <br>
     {{'mailer.setting.introduce_setting_url'|trans}}
     <br>
-    <a href='{{setting_url}}'>{{setting_url}}</a>
+    <a href='{{ url('setting',{'id':id,'code':code}) }}'>{{ url('setting',{'id':id,'code':code}) }}</a>
     <br>
     {{'mailer.setting.introduce_unsubscribe_url'|trans}}
     <br>
-    <a href='{{unsubscribe_url}}'>{{unsubscribe_url}}</a>
+    <a href='{{ url('unsubscribe',{'id':id,'code':code}) }}'>{{ url('unsubscribe',{'id':id,'code':code}) }}</a>
     <br>
     {{'mailer.need_help'|trans}}
 {% endblock content %}

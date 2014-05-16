@@ -9,7 +9,7 @@
     <br>
     {{'mailer.event.introduce_event_url'|trans}}
     <br>
-    <a href='{{setting_url}}'>{{setting_url}}</a>
+    <a href='{{ url('event_basic',{'id':id,'code':code}) }}'>{{ url('event_basic',{'id':id,'code':code}) }}</a>
     <br>
     {{'mailer.need_help'|trans}}
 {% endblock content %}

@@ -5,6 +5,7 @@ category:   گروه
 type:       نوع
 new_event:  ارسال رویداد
 homepage:   خانه
+description: اطلاع از آخرین رویدادهای تخصیصی 
 
 ctrl.mail.subscribe.time_limit: چگالی ارسال/زمان این ایمیل به پایان آمده،لطفا ۵ دقیقه دیگر امتحان کنید.
 ctrl.mail.subscribe.errors: خطایی رخ داده است،لطفا دوباره امتحان کنید.

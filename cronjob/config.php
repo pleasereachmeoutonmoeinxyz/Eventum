@@ -6,5 +6,6 @@ return array(
     'PASSWORD'      =>  'guest',
     'CHANNEL'       =>  'MAIL_CHANNEL',
     'DB_STRING'     =>  'mongodb://moein:12345@localhost:27017',
-    'DB_COLLECTION' =>  'eventmail'
+    'DB_COLLECTION' =>  'eventmail',
+    'PAGINATION_LIMIT'  =>  20
 );

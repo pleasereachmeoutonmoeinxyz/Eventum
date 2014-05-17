@@ -1,4 +1,5 @@
 <?php
+set_time_limit(0);
 $config = include_once './config.php';
 include_once (dirname( __DIR__ )."/vendor/autoload.php");
 use PhpAmqpLib\Connection\AMQPConnection;

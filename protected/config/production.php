@@ -24,6 +24,7 @@ $app['mailer.sender_mail']      =   'noreply@eventum.ir';
 
 // events setting
 $app['event.types']             =   array(
+    'Competition'                   =>  'Competition',    
     'Festival'                      =>  'Festival',
     'Exhibition'                    =>  'Exhibition',
     'Conference'                    =>  'Conference',

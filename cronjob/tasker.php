@@ -66,7 +66,17 @@ if(($pid = cronHelper::lock()) !== FALSE) {
 }
 
 function genrateEmailJSON($to,$subject,$body){
-    $data   =   array();
+    $headers = "MIME-Version: 1.0" . "\r\n";
+    $headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
+    $headers .= "From: Eventum.ir<events@eventum.ir>" . "\r\n";
+    $headers .= "TO: {$to}" . "\r\n";
+
+    $data   =   array(
+        'to'        =>  $to,
+        'subject'   =>  $subject,
+        'body'      =>  $body,
+        'headers'   =>  $headers
+    );
     
     return json_encode($data);
 }

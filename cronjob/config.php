@@ -7,5 +7,5 @@ return array(
     'CHANNEL'       =>  'MAIL_CHANNEL',
     'DB_STRING'     =>  'mongodb://moein:12345@localhost:27017',
     'DB_COLLECTION' =>  'eventmail',
-    'PAGINATION_LIMIT'  =>  20
+    'PAGINATION_LIMIT'  =>  20,
 );

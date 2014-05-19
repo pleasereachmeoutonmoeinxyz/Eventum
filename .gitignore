@@ -1,3 +1,7 @@
-/nbproject/
+/nbproject
 /runtime/cache/twig/69/
 /runtime/cache/twig/cc/
+
+/vendor
+composer.phar
+composer.lock

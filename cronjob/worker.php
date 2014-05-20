@@ -20,8 +20,8 @@ $channel->queue_declare($config['CHANNEL'], false, true, false, false);
 $callback = function($msg){
   $data = json_decode($msg->body);
   mail($data->to, $data->subject, $data->body,$data->headers);
+  $msg->delivery_info['channel']->basic_ack($msg->delivery_info['delivery_tag']);  
   sleep(rand(1, 5));
-  $msg->delivery_info['channel']->basic_ack($msg->delivery_info['delivery_tag']);
 };
 
 $channel->basic_qos(null, 1, null);

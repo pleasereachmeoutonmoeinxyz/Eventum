@@ -7,6 +7,9 @@ use PhpAmqpLib\Connection\AMQPConnection;
 use PhpAmqpLib\Message\AMQPMessage;
 Rollbar::init($config['ROLLBAR_CONFIG']);
 
+Rollbar::report_message("Worker is running", 'info');
+Rollbar::flush();
+
 try{
     $connection = new AMQPConnection($config['SERVER'], $config['PORT'], $config['USERNAME'], $config['PASSWORD']);    
 } catch (Exception $ex) {

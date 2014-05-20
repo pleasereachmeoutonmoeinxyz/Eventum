@@ -6,6 +6,10 @@ $config = include_once (dirname(__FILE__))."/config.php";
 use PhpAmqpLib\Connection\AMQPConnection;
 use PhpAmqpLib\Message\AMQPMessage;
 Rollbar::init($config['ROLLBAR_CONFIG']);
+
+Rollbar::report_message("Tasker is running", 'info');
+Rollbar::flush();
+
 if(($pid = cronHelper::lock()) !== FALSE) {
     set_time_limit(0);
     try{
@@ -64,6 +68,8 @@ if(($pid = cronHelper::lock()) !== FALSE) {
     cronHelper::unlock();
 }
 
+Rollbar::report_message("Tasker has been ended.", 'info');
+Rollbar::flush();
 function genrateEmailJSON($to,$subject,$body){
     $headers = "MIME-Version: 1.0" . "\r\n";
     $headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";

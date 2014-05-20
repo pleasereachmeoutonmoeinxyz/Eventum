@@ -1,27 +1,29 @@
 <?php
-require_once './cron.helper.php';
+include_once (dirname(__FILE__))."/cron.helper.php";
 include_once (dirname( __DIR__ )."/vendor/autoload.php");
-$config = include_once './config.php';
+$config = include_once (dirname(__FILE__))."/config.php";
 
 use PhpAmqpLib\Connection\AMQPConnection;
 use PhpAmqpLib\Message\AMQPMessage;
-
+Rollbar::init($config['ROLLBAR_CONFIG']);
 if(($pid = cronHelper::lock()) !== FALSE) {
     set_time_limit(0);
     try{
         $connection =   new AMQPConnection($config['SERVER'], $config['PORT'], $config['USERNAME'], $config['PASSWORD']);
     } catch (Exception $ex) {    
+        Rollbar::report_exception($ex);
         cronHelper::unlock();
-        die();
+        exit();
     }
 
     try{
         $mongo      =   new Mongo($config['DB_STRING']);        
     } catch (Exception $ex) {
+        Rollbar::report_exception($ex);
         $channel->close();
         $connection->close();    
         cronHelper::unlock();
-        die();
+        exit();
     }
     
     $channel    =   $connection->channel();
@@ -51,7 +53,6 @@ if(($pid = cronHelper::lock()) !== FALSE) {
                 $channel->basic_publish($msg, '', $config['CHANNEL']);                
             }
         }
-        
         $event->update(
                 array('_id' =>  $event_obj['_id']),
                 array('$set'=>  array('status'=>'SENT'))

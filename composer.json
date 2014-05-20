@@ -14,6 +14,7 @@
         "doctrine/mongodb-odm": "1.0.0-BETA9",
         "symfony/locale": "~2.3",
         "egeloen/ckeditor-bundle": "~2.0",
-        "videlalvaro/php-amqplib": "v2.1.0"
+        "videlalvaro/php-amqplib": "v2.1.0",
+        "rollbar/rollbar": "~0.8.1"
     }
 }

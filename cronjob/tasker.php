@@ -31,9 +31,8 @@ if(($pid = cronHelper::lock()) !== FALSE) {
     $db         =   $mongo->selectDB($config['DB_COLLECTION']);
     $event      =   $db->Event;
     $mail       =   $db->Mail;
-    
-    while($event->find(array('$and'=>array(array('status'=>'SENT'),array('confirmation'=>'WAITING'))))->count()){
-        $event_obj  =   $event->findOne(array('$and'=>array(array('status'=>'SENT'),array('confirmation'=>'WAITING'))));       
+    while($event->find(array('$and'=>array(array('status'=>'NEW'),array('confirmation'=>'ACCEPTED'))))->count()){
+        $event_obj  =   $event->findOne(array('$and'=>array(array('status'=>'NEW'),array('confirmation'=>'ACCEPTED'))));       
         $event->update(
                 array('_id' =>  $event_obj['_id']),
                 array('$set'=>  array('status'=>'RUNNING'))
@@ -57,7 +56,6 @@ if(($pid = cronHelper::lock()) !== FALSE) {
                 array('_id' =>  $event_obj['_id']),
                 array('$set'=>  array('status'=>'SENT'))
                 );
-        break;
     }
     
     $channel->close();

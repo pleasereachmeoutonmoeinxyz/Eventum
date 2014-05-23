@@ -18,5 +18,4 @@ $app    =   EventMail::app();
 require PATH_PROTECTED . '/config/development.php';
 require PATH_PROTECTED . '/bootstrap.php';
 require PATH_PROTECTED . '/app.php';
-
 $app['http_cache']->run();

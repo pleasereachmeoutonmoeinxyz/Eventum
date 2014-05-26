@@ -127,16 +127,19 @@ namespace Controller{
                                     'choices' => $app['event.types'],
                                     'multiple' => true,
                                     'expanded' => true,
+                                    'constraints' => array(new Assert\Count(array('min'=>1))),
                                 ))
                                 ->add('locations', 'choice', array(
                                     'choices' => $app['event.locations'],
                                     'multiple' => true,
                                     'expanded' => true,
+                                    'constraints' => array(new Assert\Count(array('min'=>1))),
                                 ))
                                 ->add('categories', 'choice', array(
                                     'choices' => $app['event.categories'],
                                     'multiple' => true,
                                     'expanded' => true,
+                                    'constraints' => array(new Assert\Count(array('min'=>1))),
                                 ));            
             return $builder->getForm();
         }

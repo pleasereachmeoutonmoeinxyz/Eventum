@@ -14,6 +14,7 @@
                             <h3 class="content-subhead">
                                 <i class="fa fa-th-large">{{'type'|trans}}</i>
                             </h3>
+                                {{ form_errors(form.types) }}
                                 {% for type in form.types %}
                                     {{form_row(type,{'attr':{'class':'rtl_input'}})}}
                                 {% endfor %}
@@ -22,6 +23,7 @@
                             <h3 class="content-subhead">
                                 <i class="fa fa-th-large">{{'category'|trans}}</i>
                             </h3>
+                                {{ form_errors(form.types) }}
                                 {% for category in form.categories %}
                                     {{form_row(category,{'attr':{'class':'rtl_input'}})}}
                                 {% endfor %}
@@ -30,6 +32,7 @@
                             <h3 class="content-subhead">
                                 <i class="fa fa-th-large">{{'location'|trans}}</i>
                             </h3>
+                                {{ form_errors(form.types) }}
                                 {% for location in form.locations %}
                                     {{form_row(location,{'attr':{'class':'rtl_input'}})}}
                                 {% endfor %}

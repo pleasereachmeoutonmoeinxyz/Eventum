@@ -164,16 +164,19 @@ namespace Controller{
                 'choices' => $types,
                 'multiple' => true,
                 'expanded' => true,
+                'constraints' => array(new Assert\Count(array('min'=>1))),
             ))
             ->add('locations', 'choice', array(
                 'choices' => $locations,
                 'multiple' => true,
                 'expanded' => true,
+                'constraints' => array(new Assert\Count(array('min'=>1))),
             ))
             ->add('categories', 'choice', array(
                 'choices' => $categories,
                 'multiple' => true,
                 'expanded' => true,
+                'constraints' => array(new Assert\Count(array('min'=>1))),
             ));
             return $builder->getForm();            
         }

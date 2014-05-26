@@ -2,14 +2,16 @@
 
 {% block content %}
     {{'mailer.event.say_hello'|trans}}
-    <br>
+    <br><br>
     {{'mailer.event.say_thanks'|trans}}
-    <br>
+    <br><br>
     {{'mailer.event.say_please_share'|trans}}
     <br>
-    {{'mailer.event.introduce_event_url'|trans}}
+    <img src="{{ app.request.basepath }}/assets/img/eventum.png">
     <br>
-    <a href='{{ url('event_basic',{'id':id,'code':code}) }}'>{{ url('event_basic',{'id':id,'code':code}) }}</a>
+    {{'mailer.event.introduce_event_url'|trans}}
+    <br><br>
+    <a style="float: left;" href='{{ url('event_basic',{'id':id,'code':code}) }}'>{{ url('event_basic',{'id':id,'code':code}) }}</a>
     <br>
     {{'mailer.need_help'|trans}}
 {% endblock content %}

@@ -91,9 +91,11 @@ namespace Controller{
             if ($request->isMethod('POST')){
                 $form->bind($request);
                 if ($form->isValid()){
-                    $data   =   $form->getData();
+                    $data       =   $form->getData();
+                    $new_event  =   FALSE;
                     if ($event  === NULL){
-                        $event  =   new \Model\Event;
+                        $event      =   new \Model\Event;
+                        $new_event  =   TRUE;
                     }
                     
                     foreach ($data as $key=>$value){
@@ -101,7 +103,10 @@ namespace Controller{
                     }
                     $event->save();
                     
-                    \Helper\Mailer::eventUrl($event->email, $event->id, $event->code);                    
+                    if ($new_event){
+                        \Helper\Mailer::eventUrl($event->email, $event->id, $event->code);                    
+                    }
+                    
                     return $app->redirect($app['url_generator']->generate('event_content',array('id'=>$event->id,'code'=>$event->code)));
                 }
             }

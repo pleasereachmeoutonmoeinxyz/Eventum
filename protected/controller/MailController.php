@@ -5,6 +5,7 @@ namespace Controller{
     use Silex\ControllerProviderInterface;
     use Symfony\Component\HttpFoundation\Request;
     use Symfony\Component\Validator\Constraints\NotBlank;
+    use Symfony\Component\Validator\Constraints as Assert;
     class MailController implements ControllerProviderInterface{
         public function connect(Application $app) {
             
@@ -112,7 +113,7 @@ namespace Controller{
         private function settingHandler(Application $app,Request $request,  \Model\Mail $mail){
             $types      =   $app['event.types'];
             $categories =   $app['event.categories'];
-            $locations  =   $app['event.locations'];
+            $locations  =   $app['event.locations'];            
             $data               =   array(
                 'locations' =>  $mail->locations,
                 'types'     =>  $mail->types,
@@ -136,7 +137,7 @@ namespace Controller{
                 // active it if not
                 $mail->setAsActive();                
             }
-
+            
             // render view
             return $app['twig']->render('mail/setting.html',array(
                 'subscribtion_status'       =>  $subscribtion_status,

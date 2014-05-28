@@ -15,5 +15,7 @@ return array(
     'REMINDER_CTS'      =>  3600 * 24 * 2,
     'REMINDER_LRTS'     =>  3600 * 24 * 25,
     'LANG'              =>  'FA',
-    'URL_SETTING_BASE'  =>  'http://eventum.ir/mail/setting'
+    'URL_SETTING_BASE'  =>  'http://eventum.ir/mail/setting',
+    'EXCUSE_START_TIME' =>  0,
+    'EXCUSE_END_TIME'   =>  0,
 );

@@ -1,4 +1,5 @@
 <?php
+
 include_once (dirname(__FILE__))."/cron.helper.php";
 include_once (dirname( __DIR__ )."/vendor/autoload.php");
 $config = include_once (dirname(__FILE__))."/config.php";
@@ -8,8 +9,6 @@ $loader = new Twig_Loader_Filesystem(dirname(__FILE__)."/views");
 $twig = new Twig_Environment($loader, array(
     'cache' => dirname(__FILE__)."/runtime/cache",
 ));
-
-echo $twig->render('index.html', array('name' => 'Fabien'));
 
 use PhpAmqpLib\Connection\AMQPConnection;
 use PhpAmqpLib\Message\AMQPMessage;
@@ -46,17 +45,16 @@ if(($pid = cronHelper::lock()) !== FALSE) {
                                     array('status'=>'DEACTIVE'),
                                     array('critical_timestamp'=>array('$lt'=>(new MongoTimestamp(time() - $config['REMINDER_CTS'])))),
                                     array('$or'=>array(
-                                        array('last_remind'=>array('$exist'=>FALSE)),
+                                        array('last_remind'=>array('$exists'=>FALSE)),
                                         array('last_remind'=>array('$lt'=>(new MongoTimestamp(time() - $config['REMINDER_LRTS']))))
                                     ))
                     ));
-    
+
     while(($mail = $maildb->findOne($query)) != NULL){
         $maildb->update(array('_id' =>  $mail['_id']),
                         array('$set'=>  array('last_remind' =>  new MongoTimestamp())));
         
-        $content    =   $twig->render('reminder.html',array('link'=>$config['URL_SETTING_BASE']."/{$mail['_id']}/{$mail['code']}",'locals'=>$locals[$config['LANG']['REMINDER']]));
-        
+        $content    =   $twig->render('reminder.html',array('link'=>$config['URL_SETTING_BASE']."/{$mail['_id']}/{$mail['code']}",'locals'=>$locals[$config['LANG']]['REMINDER']));
         $data       = genrateEmailJSON($mail['email'], $locals[$config['LANG']]['REMINDER_SUBJECT'], $content);
         $msg        = new AMQPMessage($data,array('delivery_mode' => 2));
         $channel->basic_publish($msg, '', $config['CHANNEL']);               

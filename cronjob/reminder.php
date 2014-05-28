@@ -50,7 +50,7 @@ if(($pid = cronHelper::lock()) !== FALSE) {
                                     ))
                     ));
 
-    while(($mail = $maildb->findOne($query)) != NULL){
+    while(($mail = $maildb->findOne($query,array('email','code'))) != NULL){
         $maildb->update(array('_id' =>  $mail['_id']),
                         array('$set'=>  array('last_remind' =>  new MongoTimestamp())));
         

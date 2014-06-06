@@ -2,18 +2,18 @@
 
 {% block content %}
     {{'mailer.setting.say_hello'|trans}}
-    <br>
+    <br><br>
     {{'mailer.setting.say_thanks'|trans}}
-    <br>    
+    <br><br>    
     {{'mailer.setting.say_please_share'|trans}}
-    <br>
+    <br><br>
     {{'mailer.setting.introduce_setting_url'|trans}}
-    <br>
-    <a href='{{ url('setting',{'id':id,'code':code}) }}'>{{ url('setting',{'id':id,'code':code}) }}</a>
-    <br>
+    <br><br>
+    <a style="float: left;" href='{{ url('setting',{'id':id,'code':code}) }}'>{{ url('setting',{'id':id,'code':code}) }}</a>
+    <br><br>
     {{'mailer.setting.introduce_unsubscribe_url'|trans}}
-    <br>
-    <a href='{{ url('unsubscribe',{'id':id,'code':code}) }}'>{{ url('unsubscribe',{'id':id,'code':code}) }}</a>
-    <br>
+    <br><br>
+    <a style="float: left;" href='{{ url('unsubscribe',{'id':id,'code':code}) }}'>{{ url('unsubscribe',{'id':id,'code':code}) }}</a>
+    <br><br>
     {{'mailer.need_help'|trans}}
 {% endblock content %}

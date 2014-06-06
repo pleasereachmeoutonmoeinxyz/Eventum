@@ -1,19 +1,19 @@
 {% extends "mailer/mail_layout.html" %}
 
 {% block content %}
-    {{'mailer.setting.say_hello'|trans}}
+    <p dir="rtl" style="text-align: right;">{{'mailer.setting.say_hello'|trans}}</p>
     <br><br>
-    {{'mailer.setting.say_thanks'|trans}}
+    <p dir="rtl" style="text-align: right;">{{'mailer.setting.say_thanks'|trans}}</p>
     <br><br>    
-    {{'mailer.setting.say_please_share'|trans}}
+    <p dir="rtl" style="text-align: right;">{{'mailer.setting.say_please_share'|trans}}</p>
     <br><br>
-    {{'mailer.setting.introduce_setting_url'|trans}}
+    <p dir="rtl" style="text-align: right;">{{'mailer.setting.introduce_setting_url'|trans}}</p>
     <br><br>
     <a style="float: left;" href='{{ url('setting',{'id':id,'code':code}) }}'>{{ url('setting',{'id':id,'code':code}) }}</a>
     <br><br>
-    {{'mailer.setting.introduce_unsubscribe_url'|trans}}
+    <p dir="rtl" style="text-align: right;">{{'mailer.setting.introduce_unsubscribe_url'|trans}}</p>
     <br><br>
     <a style="float: left;" href='{{ url('unsubscribe',{'id':id,'code':code}) }}'>{{ url('unsubscribe',{'id':id,'code':code}) }}</a>
     <br><br>
-    {{'mailer.need_help'|trans}}
+    <p dir="rtl" style="text-align: right;">{{'mailer.need_help'|trans}}</p>
 {% endblock content %}

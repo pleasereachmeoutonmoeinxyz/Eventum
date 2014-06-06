@@ -1,15 +1,15 @@
 {% extends "mailer/mail_layout.html" %}
 
 {% block content %}
-    {{'mailer.event.say_hello'|trans}}
+    <p dir="rtl" style="text-align: right;">{{'mailer.event.say_hello'|trans}}</p>
     <br><br>
-    {{'mailer.event.say_thanks'|trans}}
+    <p dir="rtl" style="text-align: right;">{{'mailer.event.say_thanks'|trans}}</p>
     <br><br>
-    {{'mailer.event.say_please_share'|trans}}
+    <p dir="rtl" style="text-align: right;">{{'mailer.event.say_please_share'|trans}}</p>
     <br><br>
-    {{'mailer.event.introduce_event_url'|trans}}
+    <p dir="rtl" style="text-align: right;">{{'mailer.event.introduce_event_url'|trans}}</p>
     <br><br>
     <a style="float: left;" href='{{ url('event_basic',{'id':id,'code':code}) }}'>{{ url('event_basic',{'id':id,'code':code}) }}</a>
     <br><br>
-    {{'mailer.need_help'|trans}}
+    <p dir="rtl" style="text-align: right;">{{'mailer.need_help'|trans}}</p>
 {% endblock content %}

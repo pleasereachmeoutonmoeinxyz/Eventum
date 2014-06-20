@@ -20,6 +20,7 @@ namespace Model{
         
         const STATUS_ACTIVE     =   'ACTIVE';
         const STATUS_DEACTIVE   =   'DEACTIVE';
+        const STATUS_WAITING    =   'WAITING';
         
         /** @ODM\Id */
         public $id;
@@ -94,7 +95,7 @@ namespace Model{
             $timestamp                      =   time();
             $mail                           =   new self();
             $mail->email                    =   $email;
-            $mail->status                   =   self::STATUS_DEACTIVE;
+            $mail->status                   =   self::STATUS_WAITING;
             $mail->code                     =   \EventMail::genRandomCode();
             $mail->subscribtion_timestamp   =   new \MongoTimestamp($timestamp);
             $mail->critical_timestamp       =   new \MongoTimestamp($timestamp);

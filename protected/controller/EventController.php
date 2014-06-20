@@ -39,10 +39,6 @@ namespace Controller{
             
             $data   = get_object_vars($event);
             
-            if ($data['content'] === NULL || $data['content'] === ''){
-                $data['content']    =   $app['twig']->render('event/template.html');
-            }
-            
             $form   =   $this->buildContentForm($app,$data);
             $save   =   NULL;
             if ($request->isMethod('POST')){

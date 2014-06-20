@@ -3,17 +3,16 @@
 class mailHelper{
     private static $instance    =   null;
     public $twig;
-    public $loader;
     public $config;
     /**
      * construct mailHelper class
      */
     public function __construct() {
-        $this->loader = new Twig_Loader_Filesystem(dirname(__FILE__)."/views");
+        $loader = new Twig_Loader_Filesystem(dirname(__FILE__)."/views");
         $this->twig = new Twig_Environment($loader, array(
             'cache' => dirname(__FILE__)."/runtime/cache",
         ));
-        $this->config   = include_once (dirname(__FILE__))."/config.php";
+        $this->config   = include (dirname(__FILE__))."/config.php";
     }
     
     /**
@@ -42,7 +41,7 @@ class mailHelper{
         return $helper->config['URL_DEACTIVE_BASE'].'/'.$id.'/'.$code;
     }
     
-    public static function generateSUbscribeLink($id,$code){
+    public static function generateSubscribeLink($id,$code){
         $helper =   self::getInstance();
         return $helper->config['URL_SETTING_BASE'].'/'.$id.'/'.$code;        
     }

@@ -1,19 +1,21 @@
 {% extends "mailer/layout.html" %}
 
 {% block content %}
-    <p>{{'mailer.event.say_hello'|trans}}</p>
-    <p>{{'mailer.event.say_thanks'|trans}}</p>
-    <p>{{'mailer.event.say_please_share'|trans}}</p>
-    <p>{{'mailer.event.introduce_event_url'|trans}}</p>
-    <table>
-        <tr>
-            <td class="padding">
-                <p><a href="{{ url('event_basic',{'id':id,'code':code}) }}" class="btn-primary">{{'mailer.event.basic_btn'|trans}}</a></p>
+
+    <p style="margin: 0;padding: 0;font-family: &quot;Helvetica Neue&quot;, &quot;Helvetica&quot;, Helvetica, Arial, sans-serif;font-size: 14px;line-height: 1.6;margin-bottom: 10px;font-weight: normal;">{{'mailer.event.say_hello'|trans}}</p>
+    <p style="margin: 0;padding: 0;font-family: &quot;Helvetica Neue&quot;, &quot;Helvetica&quot;, Helvetica, Arial, sans-serif;font-size: 14px;line-height: 1.6;margin-bottom: 10px;font-weight: normal;">{{'mailer.event.say_thanks'|trans}}</p>
+    <p style="margin: 0;padding: 0;font-family: &quot;Helvetica Neue&quot;, &quot;Helvetica&quot;, Helvetica, Arial, sans-serif;font-size: 14px;line-height: 1.6;margin-bottom: 10px;font-weight: normal;">{{'mailer.event.say_please_share'|trans}}</p>
+    <p style="margin: 0;padding: 0;font-family: &quot;Helvetica Neue&quot;, &quot;Helvetica&quot;, Helvetica, Arial, sans-serif;font-size: 14px;line-height: 1.6;margin-bottom: 10px;font-weight: normal;">{{'mailer.event.introduce_event_url'|trans}}</p>
+    <table style="margin: 0;padding: 0;font-family: &quot;Helvetica Neue&quot;, &quot;Helvetica&quot;, Helvetica, Arial, sans-serif;font-size: 100%;line-height: 1.6;">
+        <tr style="margin: 0;padding: 0;font-family: &quot;Helvetica Neue&quot;, &quot;Helvetica&quot;, Helvetica, Arial, sans-serif;font-size: 100%;line-height: 1.6;">
+            <td class="padding" style="margin: 0;padding: 10px 0;font-family: &quot;Helvetica Neue&quot;, &quot;Helvetica&quot;, Helvetica, Arial, sans-serif;font-size: 100%;line-height: 1.6;">
+                <p style="margin: 0;padding: 0;font-family: &quot;Helvetica Neue&quot;, &quot;Helvetica&quot;, Helvetica, Arial, sans-serif;font-size: 14px;line-height: 1.6;margin-bottom: 10px;font-weight: normal;"><a href="{{ url('event_basic',{'id':id,'code':code}) }}" class="btn-primary" style="margin: 0;padding: 0;font-family: &quot;Helvetica Neue&quot;, &quot;Helvetica&quot;, Helvetica, Arial, sans-serif;font-size: 100%;line-height: 2;color: #FFF;text-decoration: none;background-color: #348eda;border: solid #348eda;border-width: 10px 20px;font-weight: bold;margin-right: 10px;text-align: center;cursor: pointer;display: inline-block;border-radius: 25px;">{{'mailer.event.basic_btn'|trans}}</a></p>
             </td>
         </tr>
     </table>
-    <br>
-    <a style="float: left;" href='{{ url('event_basic',{'id':id,'code':code}) }}'>{{ url('event_basic',{'id':id,'code':code}) }}</a>
-    <br>
-    <p>{{'mailer.need_help'|trans}}</p>
+    <br style="margin: 0;padding: 0;font-family: &quot;Helvetica Neue&quot;, &quot;Helvetica&quot;, Helvetica, Arial, sans-serif;font-size: 100%;line-height: 1.6;">
+    <a style="float: left;margin: 0;padding: 0;font-family: &quot;Helvetica Neue&quot;, &quot;Helvetica&quot;, Helvetica, Arial, sans-serif;font-size: 100%;line-height: 1.6;color: #348eda;" href="{{ url('event_basic',{'id':id,'code':code}) }}">{{ url('event_basic',{'id':id,'code':code}) }}</a>
+    <br style="margin: 0;padding: 0;font-family: &quot;Helvetica Neue&quot;, &quot;Helvetica&quot;, Helvetica, Arial, sans-serif;font-size: 100%;line-height: 1.6;">
+    <p style="margin: 0;padding: 0;font-family: &quot;Helvetica Neue&quot;, &quot;Helvetica&quot;, Helvetica, Arial, sans-serif;font-size: 14px;line-height: 1.6;margin-bottom: 10px;font-weight: normal;">{{'mailer.need_help'|trans}}</p>
+
 {% endblock content %}

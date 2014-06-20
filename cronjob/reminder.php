@@ -52,7 +52,6 @@ if(($pid = cronHelper::lock()) !== FALSE) {
                         array('$set'=>  array('last_remind' =>  new MongoTimestamp())));
         
         $twig_vars     =   array(
-            'content'           =>  $event_obj['content'],
             'unsubscribe_link'  =>  mailHelper::generateUnsubscribeLink($result['id'], $result['code']),
             'link'              =>  mailHelper::generateSUbscribeLink($result['id'], $result['code']),
             'locals'            =>  $locals[$config['LANG']]['REMINDER']
@@ -73,19 +72,3 @@ if(($pid = cronHelper::lock()) !== FALSE) {
 
 Rollbar::report_message("Reminder has been ended. {{$counter}} mails sent.", 'info');
 Rollbar::flush();
-
-function genrateEmailJSON($to,$subject,$body){
-    $headers = "MIME-Version: 1.0" . "\r\n";
-    $headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
-    $headers .= "From: Eventum.ir<noreply@eventum.ir>" . "\r\n";
-    $headers .= "To: {$to}" . "\r\n";
-
-    $data   =   array(
-        'to'        =>  $to,
-        'subject'   =>  $subject,
-        'body'      =>  $body,
-        'headers'   =>  $headers
-    );
-    
-    return json_encode($data);
-}

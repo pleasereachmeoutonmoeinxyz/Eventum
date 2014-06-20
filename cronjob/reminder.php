@@ -5,11 +5,6 @@ include_once (dirname( __DIR__ )."/vendor/autoload.php");
 $config = include_once (dirname(__FILE__))."/config.php";
 $locals = include_once (dirname(__FILE__))."/locals.php";
 
-$loader = new Twig_Loader_Filesystem(dirname(__FILE__)."/views");
-$twig = new Twig_Environment($loader, array(
-    'cache' => dirname(__FILE__)."/runtime/cache",
-));
-
 use PhpAmqpLib\Connection\AMQPConnection;
 use PhpAmqpLib\Message\AMQPMessage;
 Rollbar::init($config['ROLLBAR_CONFIG']);
@@ -41,8 +36,9 @@ if(($pid = cronHelper::lock()) !== FALSE) {
     
     $db         =   $mongo->selectDB($config['DB_COLLECTION']);
     $maildb     =   $db->Mail;
+    $counter    =   0;
     $query      =   array('$and'=>array(
-                                    array('status'=>'DEACTIVE'),
+                                    array('status'=>'WAITING'),
                                     array('critical_timestamp'=>array('$lt'=>(new MongoTimestamp(time() - $config['REMINDER_CTS'])))),
                                     array('$or'=>array(
                                         array('last_remind'=>array('$exists'=>FALSE)),
@@ -54,10 +50,17 @@ if(($pid = cronHelper::lock()) !== FALSE) {
         $maildb->update(array('_id' =>  $mail['_id']),
                         array('$set'=>  array('last_remind' =>  new MongoTimestamp())));
         
-        $content    =   $twig->render('reminder.html',array('link'=>$config['URL_SETTING_BASE']."/{$mail['_id']}/{$mail['code']}",'locals'=>$locals[$config['LANG']]['REMINDER']));
-        $data       = genrateEmailJSON($mail['email'], $locals[$config['LANG']]['REMINDER_SUBJECT'], $content);
+        $twig_vars     =   array(
+            'content'           =>  $event_obj['content'],
+            'unsubscribe_link'  =>  mailHelper::generateUnsubscribeLink($result['id'], $result['code']),
+            'link'              =>  mailHelper::generateSUbscribeLink($result['id'], $result['code']),
+            'locals'            =>  $locals[$config['LANG']]['REMINDER']
+        );
+        $content    = mailHelper::generateContent($twig_vars,'reminder.html');
+        $data       = mailHelper::generateEmailJSON($result['email'], $locals[$config['LANG']]['REMINDER_SUBJECT'], $content);        
         $msg        = new AMQPMessage($data,array('delivery_mode' => 2));
-        $channel->basic_publish($msg, '', $config['CHANNEL']);               
+        $channel->basic_publish($msg, '', $config['CHANNEL']);      
+        $counter++;
     }
     
     
@@ -67,7 +70,7 @@ if(($pid = cronHelper::lock()) !== FALSE) {
     cronHelper::unlock();
 }
 
-Rollbar::report_message("Reminder has been ended.", 'info');
+Rollbar::report_message("Reminder has been ended. {{$counter}} mails sent.", 'info');
 Rollbar::flush();
 
 function genrateEmailJSON($to,$subject,$body){

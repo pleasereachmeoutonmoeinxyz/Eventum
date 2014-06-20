@@ -1,6 +1,7 @@
 <?php
 include_once (dirname(__FILE__))."/cron.helper.php";
 include_once (dirname( __DIR__ )."/vendor/autoload.php");
+include_once (dirname(__DIR___))."/mailhelper.php";
 $config = include_once (dirname(__FILE__))."/config.php";
 
 use PhpAmqpLib\Connection\AMQPConnection;
@@ -35,6 +36,7 @@ if(($pid = cronHelper::lock()) !== FALSE) {
     $db         =   $mongo->selectDB($config['DB_COLLECTION']);
     $event      =   $db->Event;
     $mail       =   $db->Mail;
+    $counter    =   0;
     while($event->find(array('$and'=>array(array('status'=>'NEW'),array('confirmation'=>'ACCEPTED'))))->count()){
         $event_obj  =   $event->findOne(array('$and'=>array(array('status'=>'NEW'),array('confirmation'=>'ACCEPTED'))));       
         $event->update(
@@ -49,11 +51,17 @@ if(($pid = cronHelper::lock()) !== FALSE) {
         $email_counter  =   $mail->find($query)->count();
         
         for($i = 0;$i < $email_counter;$i+= $config['PAGINATION_LIMIT']){
-            $results    =   $mail->find($query,array('email'))->skip($i)->limit($config['PAGINATION_LIMIT']);
+            $results    =   $mail->find($query,array('email','code'))->skip($i)->limit($config['PAGINATION_LIMIT']);
             foreach ($results as $result){
-                $data       = genrateEmailJSON($result['email'], $event_obj['subject'], $event_obj['content']);
+                $twig_vars     =   array(
+                    'content'           =>  $event_obj['content'],
+                    'unsubscribe_link'  => mailHelper::generateUnsubscribeLink($result['id'], $result['code'])
+                );
+                $content    = mailHelper::generateContent($twig_vars,'content.html');
+                $data       = mailHelper::generateEmailJSON($result['email'], $event_obj['subject'], $content);
                 $msg        = new AMQPMessage($data,array('delivery_mode' => 2));
-                $channel->basic_publish($msg, '', $config['CHANNEL']);                
+                $channel->basic_publish($msg, '', $config['CHANNEL']);    
+                $counter++;
             }
         }
         $event->update(
@@ -68,20 +76,5 @@ if(($pid = cronHelper::lock()) !== FALSE) {
     cronHelper::unlock();
 }
 
-Rollbar::report_message("Tasker has been ended.", 'info');
+Rollbar::report_message("Tasker has been ended. {{$counter}} mail generated", 'info');
 Rollbar::flush();
-function genrateEmailJSON($to,$subject,$body){
-    $headers = "MIME-Version: 1.0" . "\r\n";
-    $headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
-    $headers .= "From: Eventum.ir<events@eventum.ir>" . "\r\n";
-    $headers .= "To: {$to}" . "\r\n";
-
-    $data   =   array(
-        'to'        =>  $to,
-        'subject'   =>  $subject,
-        'body'      =>  $body,
-        'headers'   =>  $headers
-    );
-    
-    return json_encode($data);
-}

@@ -2,6 +2,7 @@
 
 include_once (dirname(__FILE__))."/cron.helper.php";
 include_once (dirname( __DIR__ )."/vendor/autoload.php");
+include_once (dirname(__FILE__))."/mailhelper.php";
 $config = include_once (dirname(__FILE__))."/config.php";
 $locals = include_once (dirname(__FILE__))."/locals.php";
 

@@ -52,12 +52,12 @@ if(($pid = cronHelper::lock()) !== FALSE) {
                         array('$set'=>  array('last_remind' =>  new MongoTimestamp())));
         
         $twig_vars     =   array(
-            'unsubscribe_link'  =>  mailHelper::generateUnsubscribeLink($result['id'], $result['code']),
-            'link'              =>  mailHelper::generateSUbscribeLink($result['id'], $result['code']),
+            'unsubscribe_link'  =>  mailHelper::generateUnsubscribeLink($mail['_id'], $mail['code']),
+            'link'              =>  mailHelper::generateSUbscribeLink($mail['_id'], $mail['code']),
             'locals'            =>  $locals[$config['LANG']]['REMINDER']
         );
         $content    = mailHelper::generateContent($twig_vars,'reminder.html');
-        $data       = mailHelper::generateEmailJSON($result['email'], $locals[$config['LANG']]['REMINDER_SUBJECT'], $content);        
+        $data       = mailHelper::generateEmailJSON($mail['email'], $locals[$config['LANG']]['REMINDER_SUBJECT'], $content);        
         $msg        = new AMQPMessage($data,array('delivery_mode' => 2));
         $channel->basic_publish($msg, '', $config['CHANNEL']);      
         $counter++;

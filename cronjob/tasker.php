@@ -10,6 +10,7 @@ Rollbar::init($config['ROLLBAR_CONFIG']);
 
 Rollbar::report_message("Tasker is running", 'info');
 Rollbar::flush();
+$counter    =   0;
 
 if(($pid = cronHelper::lock()) !== FALSE) {
     set_time_limit(0);
@@ -36,7 +37,6 @@ if(($pid = cronHelper::lock()) !== FALSE) {
     $db         =   $mongo->selectDB($config['DB_COLLECTION']);
     $event      =   $db->Event;
     $mail       =   $db->Mail;
-    $counter    =   0;
     while($event->find(array('$and'=>array(array('status'=>'NEW'),array('confirmation'=>'ACCEPTED'))))->count()){
         $event_obj  =   $event->findOne(array('$and'=>array(array('status'=>'NEW'),array('confirmation'=>'ACCEPTED'))));       
         $event->update(

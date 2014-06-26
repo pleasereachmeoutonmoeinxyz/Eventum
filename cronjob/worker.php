@@ -21,7 +21,10 @@ $channel    = $connection->channel();
 
 $callback = function($msg){
   $data = json_decode($msg->body);
-  mail($data->to, $data->subject, $data->body,$data->headers);
+  $header   =   $data->headers;
+  str_replace($config['HEADER_FROM'], $config['HOST_HEADER_FROM'], $header);
+  str_replace($config['HEADER_RETURN_PATH'], $config['HOST_HEADER_RP'], $header);
+  mail($data->to, $data->subject, $data->body,$header);
   $msg->delivery_info['channel']->basic_ack($msg->delivery_info['delivery_tag']);  
   sleep(rand(10, 15));
 };

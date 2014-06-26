@@ -19,4 +19,7 @@ return array(
     'URL_DEACTIVE_BASE' =>  'http://eventum.ir/mail/deactive',
     'EXCUSE_START_TIME' =>  0,
     'EXCUSE_END_TIME'   =>  0,
+    'HEADER_FROM'       =>  'From: Eventum.ir <events@eventum.ir>',
+    'HEADER_RETURN_PATH'=>  'Return-Path: events@eventum.ir',
+    ''
 );

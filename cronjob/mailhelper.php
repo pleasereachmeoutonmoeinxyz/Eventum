@@ -56,7 +56,8 @@ class mailHelper{
     public static function generateEmailJSON($to,$subject,$body){
         $headers = "MIME-Version: 1.0" . "\r\n";
         $headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
-        $headers .= "From: Eventum.ir <events@eventum.ir>" . "\r\n";
+        $headers .= "{$this->config['HEADER_FROM']}" . "\r\n";
+        $headers .= "{$this->config['HEADER_RETURN_PATH']}" . "\r\n";
         $headers .= "To: {$to}" . "\r\n";
 
         $data   =   array(

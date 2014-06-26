@@ -19,7 +19,6 @@ if(($pid = cronHelper::lock()) !== FALSE) {
     }
 
     $channel    = $connection->channel();
-    $channel->queue_declare($config['CHANNEL'], false, true, false, false);
 
     $callback = function($msg){
       $data = json_decode($msg->body);

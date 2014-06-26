@@ -7,7 +7,7 @@ use PhpAmqpLib\Connection\AMQPConnection;
 use PhpAmqpLib\Message\AMQPMessage;
 Rollbar::init($config['ROLLBAR_CONFIG']);
 
-Rollbar::report_message("Worker is running", 'info');
+Rollbar::report_message("{$config['WORKER_NAME']} worker is running", 'info');
 Rollbar::flush();
 
 if(($pid = cronHelper::lock()) !== FALSE) {

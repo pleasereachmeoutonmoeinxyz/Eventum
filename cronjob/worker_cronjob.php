@@ -1,4 +1,5 @@
 <?php
+set_time_limit(0);
 include_once (dirname(__FILE__))."/cron.helper.php";
 include_once (dirname( __DIR__ )."/vendor/autoload.php");
 $config = include_once (dirname(__FILE__))."/config.php";

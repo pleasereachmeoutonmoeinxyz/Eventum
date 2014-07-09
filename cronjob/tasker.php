@@ -1,4 +1,5 @@
 <?php
+set_time_limit(0);
 include_once (dirname(__FILE__))."/cron.helper.php";
 include_once (dirname( __DIR__ )."/vendor/autoload.php");
 include_once (dirname(__FILE__))."/mailhelper.php";
@@ -13,26 +14,35 @@ Rollbar::flush();
 $counter    =   0;
 
 if(($pid = cronHelper::lock()) !== FALSE) {
-    set_time_limit(0);
+    register_shutdown_function(function (){
+        cronHelper::unlock();
+    });
+    
+    
     try{
         $connection =   new AMQPConnection($config['SERVER'], $config['PORT'], $config['USERNAME'], $config['PASSWORD']);
         $channel    =   $connection->channel();
         $channel->queue_declare($config['CHANNEL'], false, true, false, false);
     } catch (Exception $ex) {    
         Rollbar::report_exception($ex);
-        cronHelper::unlock();
         exit();
     }
+    
+    register_shutdown_function(function () use($connection,$channel){
+        $channel->close();
+        $connection->close();    
+    });
 
     try{
         $mongo      =   new Mongo($config['DB_STRING']);        
     } catch (Exception $ex) {
         Rollbar::report_exception($ex);
-        $channel->close();
-        $connection->close();    
-        cronHelper::unlock();
         exit();
     }
+    
+    register_shutdown_function(function () use($mongo){
+        $mongo->close();
+    });
     
     $db         =   $mongo->selectDB($config['DB_COLLECTION']);
     $event      =   $db->Event;
@@ -69,11 +79,6 @@ if(($pid = cronHelper::lock()) !== FALSE) {
                 array('$set'=>  array('status'=>'SENT'))
                 );
     }
-    
-    $channel->close();
-    $connection->close();    
-    $mongo->close();
-    cronHelper::unlock();
 }
 
 Rollbar::report_message("Tasker has been ended. {{$counter}} mail generated", 'info');

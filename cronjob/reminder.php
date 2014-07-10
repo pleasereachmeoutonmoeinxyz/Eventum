@@ -13,6 +13,8 @@ Rollbar::init($config['ROLLBAR_CONFIG']);
 Rollbar::report_message("Reminder is running", 'info');
 Rollbar::flush();
 
+$counter    =   0;
+
 if(($pid = cronHelper::lock()) !== FALSE) {
     set_time_limit(0);
     try{
@@ -37,7 +39,6 @@ if(($pid = cronHelper::lock()) !== FALSE) {
     
     $db         =   $mongo->selectDB($config['DB_COLLECTION']);
     $maildb     =   $db->Mail;
-    $counter    =   0;
     $query      =   array('$and'=>array(
                                     array('status'=>'WAITING'),
                                     array('critical_timestamp'=>array('$lt'=>(new MongoTimestamp(time() - $config['REMINDER_CTS'])))),

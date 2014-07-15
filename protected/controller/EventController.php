@@ -17,9 +17,30 @@ namespace Controller{
             
             $controller->match('/content/{id}/{code}',array($this,'contentAction'))
                     ->bind('event_content')->method('GET|POST');
+            
+            $controller->get('/view/{id}',array($this,'viewAction'))
+                    ->bind('view_event');
+            
             return $controller;
         }
         
+        public function viewAction($id){
+            $app    = \EventMail::app();
+            try{
+                $event  = \Model\Event::findById($id);
+            } catch (Exception $ex) {
+                $app->abort(404);
+            }
+            
+            if ($event->status !== \Model\Event::CONFIRMATION_ACCEPTED){
+                $app->abort(404);
+            }            
+            
+            return $app['twig']->render('event/view.html',array(
+                'title'     =>  $event->subject,
+                'content'   =>  $event->content
+            ));
+        }
 
         public function contentAction(Request $request,$id,$code){
             $app    = \EventMail::app();

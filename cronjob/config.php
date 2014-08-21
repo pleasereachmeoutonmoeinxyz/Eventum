@@ -23,5 +23,6 @@ return array(
     'HEADER_RETURN_PATH'=>  'Return-Path: events@eventum.ir',
     'HOST_HEADER_FROM'  =>  'From: Eventum.ir <events@quantum.eventum.ir>',
     'HOST_HEADER_RP'    =>  'Return-Path: events@quantum.eventum.ir',
-    'WORKER_NAME'       =>  'TEST'
+    'WORKER_NAME'       =>  'TEST',
+    'MANDRILL_API'      =>  'TEST'
 );

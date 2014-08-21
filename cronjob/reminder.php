@@ -43,6 +43,10 @@ if(($pid = cronHelper::lock()) !== FALSE) {
                                     array('status'=>'WAITING'),
                                     array('critical_timestamp'=>array('$lt'=>(new MongoTimestamp(time() - $config['REMINDER_CTS'])))),
                                     array('$or'=>array(
+                                        array('cheat'=>array('$exists'=>FALSE)),
+                                        array('cheat'=>FALSE)
+                                    )),
+                                    array('$or'=>array(
                                         array('last_remind'=>array('$exists'=>FALSE)),
                                         array('last_remind'=>array('$lt'=>(new MongoTimestamp(time() - $config['REMINDER_LRTS']))))
                                     ))

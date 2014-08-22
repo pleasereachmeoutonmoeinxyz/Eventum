@@ -26,6 +26,7 @@ class sendHelper{
     public static function sendBySMTP($to,$subject,$body){
         $mail               =   new \PHPMailer();
         $mail->isSMTP();
+        $mail->CharSet = 'UTF-8';
         $mail->Host         =   self::getInstance()->config['SMTP_HOST'];
         $mail->Port         =   self::getInstance()->config['SMTP_PORT'];
         $mail->SMTPAuth     =   true;

@@ -26,14 +26,14 @@ class sendHelper{
     public static function sendBySMTP($to,$subject,$body){
         $mail               =   new \PHPMailer();
         $mail->isSMTP();
-        $mail->Host         =   self::getInstance()->config('mailer.smtp_host');
-        $mail->Port         =   self::getInstance()->config('mailer.smtp_port');
+        $mail->Host         =   self::getInstance()->config('SMTP_HOST');
+        $mail->Port         =   self::getInstance()->config('SMTP_PORT');
         $mail->SMTPAuth     =   true;
         $mail->Subject      =   $subject;
-        $mail->Username     =   self::getInstance()->config('mailer.smtp_username');;
-        $mail->Password     =   self::getInstance()->config('mailer.smtp_password');
-        $mail->setFrom(self::getInstance()->config('mailer.sender_mail'), self::getInstance()->config('mailer.sender_name'));
-        $mail->addReplyTo(self::getInstance()->config('mailer.reply_mail'));
+        $mail->Username     =   self::getInstance()->config('SMTP_USERNAME');;
+        $mail->Password     =   self::getInstance()->config('SMTP_PASSWORD');
+        $mail->setFrom(self::getInstance()->config('SENDER_MAIL'), self::getInstance()->config('SENDER_NAME'));
+        $mail->addReplyTo(self::getInstance()->config('REPLY_MAIL'));
         $mail->msgHTML($body);
         $mail->addAddress($to);
         return $mail->send();    

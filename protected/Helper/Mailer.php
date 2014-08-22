@@ -23,8 +23,12 @@ class Mailer{
         return self::sendHTMLMail($email, $subject, $body);        
     }
 
-    private static function sendHTMLMail($email,$subject,$body)
+    private static function sendHTMLMail($email,$subject,$body,$smtp = true)
     {
+        if ($smtp){
+            return self::sendHTMLMailBySMTP($email, $subject, $body);
+        }
+            
         $sender_n    = \EventMail::t('mailer.sender_name');
         $sender_m    = \EventMail::config('mailer.sender_mail');
         
@@ -34,5 +38,21 @@ class Mailer{
         $headers .= "From: {$sender_n} <{$sender_m}>" . "\r\n";
         
         return mail($email, $subject, $body, $headers);
+    }
+    
+    private static function sendHTMLMailBySMTP($email,$subject,$body){
+        $mail   =   new \PHPMailer();
+        $mail->isSMTP();
+        $mail->Host =   'smtp.mandrillapp.com';
+        $mail->Port =   587;
+        $mail->SMTPAuth   = true;
+        $mail->Subject  =   $subject;
+        $mail->Username =   \EventMail::config('mailer.smtp_username');
+        $mail->Password =   \EventMail::config('mailer.smtp_password');
+        $mail->setFrom(\EventMail::config('mailer.sender_mail'), \EventMail::t('mailer.sender_name'));
+        $mail->addReplyTo(\EventMail::config('mailer.sender_mail'));
+        $mail->msgHTML($body);
+        $mail->addAddress($email);
+        return $mail->send();
     }
 }

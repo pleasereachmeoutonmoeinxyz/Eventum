@@ -51,6 +51,10 @@ if(($pid = cronHelper::lock()) !== FALSE) {
 
     while(count($channel->callbacks)) {
         $channel->wait();
-        sleep(rand(4,8));
+        if ($config['USING_SMTP']){
+            sleep(rand(16, 18));
+        } else {
+            sleep(rand(45, 75));
+        }
     }
 }

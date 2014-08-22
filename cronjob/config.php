@@ -33,4 +33,6 @@ return array(
     'SENDER_NAME'       =>  '',
     'REPLY_MAIL'        =>  '',
     
+    'USING_SMTP'        =>  TRUE
+    
 );

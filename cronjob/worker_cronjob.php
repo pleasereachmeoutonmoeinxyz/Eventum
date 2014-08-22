@@ -35,7 +35,6 @@ if(($pid = cronHelper::lock()) !== FALSE) {
     $callback = function($msg) use($config){
         $data     =   json_decode($msg->body);
         if ($config['USING_SMTP']){
-            var_dump($data);die;
             sendHelper::sendBySMTP($data->to, $data->subject, $data->body);
         } else {
             $header   =   $data->headers;

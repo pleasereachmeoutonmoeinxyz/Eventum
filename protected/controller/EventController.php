@@ -8,22 +8,22 @@ namespace Controller{
 
     class EventController implements ControllerProviderInterface{
         public function connect(Application $app) {
-            
+
             $controller =   $app['controllers_factory'];
-            
+
             $controller->match('/basic/{id}/{code}',array($this,'basicAction'))
                     ->value('id', null)->value('code',null)
                     ->bind('event_basic')->method('GET|POST');
-            
+
             $controller->match('/content/{id}/{code}',array($this,'contentAction'))
                     ->bind('event_content')->method('GET|POST');
-            
+
             $controller->get('/view/{id}',array($this,'viewAction'))
                     ->bind('view_event');
-            
+
             return $controller;
         }
-        
+
         public function viewAction($id){
             $app    = \EventMail::app();
             try{
@@ -31,11 +31,11 @@ namespace Controller{
             } catch (Exception $ex) {
                 $app->abort(404);
             }
-            
+
             if ($event->status !== \Model\Event::CONFIRMATION_ACCEPTED){
                 $app->abort(404);
-            }            
-            
+            }
+
             return $app['twig']->render('event/view.html',array(
                 'title'     =>  $event->subject,
                 'content'   =>  $event->content
@@ -52,14 +52,14 @@ namespace Controller{
                 $app->abort(404);
             } catch (Exception $ex) {
                 $app->abort(404);
-            }            
-            
+            }
+
             if ($event->status !== \Model\Event::STATUS_NEW){
                 $app->abort(404);
             }
-            
+
             $data   = get_object_vars($event);
-            
+
             $form   =   $this->buildContentForm($app,$data);
             $save   =   NULL;
             if ($request->isMethod('POST')){
@@ -69,18 +69,18 @@ namespace Controller{
                     foreach ($data as $key=>$value){
                         $event->{$key}  =   $value;
                     }
-                    
+
                     $event->save();
                     $save   =   TRUE;
                 }
             }
-            
+
             return $app['twig']->render('event/content.html',array(
                         'form'  =>  $form->createView(),
                         'save'  =>  $save
                     ));
-        }        
-        
+        }
+
         public function basicAction(Request $request,$id,$code){
             $app        =   \EventMail::app();
             $data       =   array();
@@ -96,15 +96,15 @@ namespace Controller{
                 } catch (\Exception $ex){
                     $app->abort(404);
                 }
-                
+
                 if ($event->status !== \Model\Event::STATUS_NEW){
                     $app->abort(404);
                 }
                 $data   = get_object_vars($event);
             }
-            
-            $form       =   $this->buildBasicForm($app,$data);      
-            
+
+            $form       =   $this->buildBasicForm($app,$data);
+
             if ($request->isMethod('POST')){
                 $form->bind($request);
                 if ($form->isValid()){
@@ -114,23 +114,23 @@ namespace Controller{
                         $event      =   new \Model\Event;
                         $new_event  =   TRUE;
                     }
-                    
+
                     foreach ($data as $key=>$value){
                         $event->{$key}  =   $value;
                     }
                     $event->save();
-                    
+
                     if ($new_event){
-                        \Helper\Mailer::eventUrl($event->email, $event->id, $event->code);                    
+                        \Helper\Mailer::eventUrl($event->email, $event->id, $event->code);
                     }
-                    
+
                     return $app->redirect($app['url_generator']->generate('event_content',array('id'=>$event->id,'code'=>$event->code)));
                 }
             }
-            
+
             return $app['twig']->render('event/basic.html',array('form'=>$form->createView()));
         }
-    
+
         private function buildBasicForm(Application $app,$data = array()){
             $builder    =   $app['form.factory']->createBuilder('form',$data)
                                 ->add('name','text',array(
@@ -162,16 +162,17 @@ namespace Controller{
                                     'multiple' => true,
                                     'expanded' => true,
                                     'constraints' => array(new Assert\Count(array('min'=>1))),
-                                ));            
+                                ));
             return $builder->getForm();
         }
-        
+
         private function buildContentForm(Application $app,$data=array()){
             $builder    =   $app['form.factory']->createBuilder('form',$data);
             $builder->add('content', 'textarea', array('label'=>false));
-            $builder->add('subject', 'text');
+            $builder->add('subject', 'text',array(
+                'constraints' => array(new Assert\Count(array('max'=>70)))
+            ));
             return $builder->getForm();
         }
     }
 }
-

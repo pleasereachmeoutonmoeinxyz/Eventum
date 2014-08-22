@@ -36,7 +36,12 @@ class sendHelper{
         $mail->addReplyTo(self::getInstance()->config['REPLY_MAIL']);
         $mail->msgHTML($body);
         $mail->addAddress($to);
-        return $mail->send();    
+        try{
+            return $mail->send();        
+        } catch (phpmailerException $ex) {
+            Rollbar::report_exception($ex);
+            return FALSE;
+        }
     }
 }
 ?>

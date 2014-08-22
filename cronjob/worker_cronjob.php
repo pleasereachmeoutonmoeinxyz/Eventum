@@ -1,8 +1,8 @@
 <?php
 set_time_limit(0);
 include_once (dirname(__FILE__))."/cron.helper.php";
-include_once (dirname(__FILE__))."/sendHelper.php";
 include_once (dirname( __DIR__ )."/vendor/autoload.php");
+include_once (dirname(__FILE__))."/sendHelper.php";
 $config = include_once (dirname(__FILE__))."/config.php";
 
 use PhpAmqpLib\Connection\AMQPConnection;
@@ -35,6 +35,7 @@ if(($pid = cronHelper::lock()) !== FALSE) {
     $callback = function($msg) use($config){
         $data     =   json_decode($msg->body);
         if ($config['USING_SMTP']){
+            var_dump($data);die;
             sendHelper::sendBySMTP($data->to, $data->subject, $data->body);
         } else {
             $header   =   $data->headers;

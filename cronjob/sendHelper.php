@@ -19,14 +19,29 @@ class sendHelper{
         return self::$instance;
     }
     
+    /**
+     * 
+     * @param string $to
+     * @param string $subject
+     * @param string $body
+     * @param string $header
+     * @return type
+     */
     public static function sendByPHP($to,$subject,$body,$header){
         return mail($to,$subject,$body,$header);
     }
     
+    /**
+     * 
+     * @param string $to
+     * @param string $subject
+     * @param string $body
+     * @return boolean
+     */
     public static function sendBySMTP($to,$subject,$body){
         $mail               =   new \PHPMailer();
         $mail->isSMTP();
-        $mail->CharSet = 'UTF-8';
+        $mail->CharSet      =   'UTF-8';
         $mail->Host         =   self::getInstance()->config['SMTP_HOST'];
         $mail->Port         =   self::getInstance()->config['SMTP_PORT'];
         $mail->SMTPAuth     =   true;
@@ -37,6 +52,7 @@ class sendHelper{
         $mail->addReplyTo(self::getInstance()->config['REPLY_MAIL']);
         $mail->msgHTML($body);
         $mail->addAddress($to);
+
         try{
             return $mail->send();        
         } catch (phpmailerException $ex) {

@@ -29,9 +29,9 @@ return array(
     'SMTP_PORT'         =>  25,
     'SMTP_USERNAME'     =>  '',
     'SMTP_PASSWORD'     =>  '',
-    'SENDER_MAIL'       =>  '',
-    'SENDER_NAME'       =>  '',
-    'REPLY_MAIL'        =>  '',
+    'SENDER_NAME'       =>  'Eventum.ir - رویدادگرا',
+    'SENDER_MAIL'       =>  'info@eventum.ir',
+    'REPLY_MAIL'        =>  'info@eventum.ir',
     
     'USING_SMTP'        =>  TRUE
     

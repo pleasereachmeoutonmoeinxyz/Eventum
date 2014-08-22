@@ -1,6 +1,7 @@
 <?php
 set_time_limit(0);
 include_once (dirname(__FILE__))."/cron.helper.php";
+include_once (dirname(__FILE__))."/sendHelper.php";
 include_once (dirname( __DIR__ )."/vendor/autoload.php");
 $config = include_once (dirname(__FILE__))."/config.php";
 
@@ -32,12 +33,17 @@ if(($pid = cronHelper::lock()) !== FALSE) {
     });    
     
     $callback = function($msg) use($config){
-      $data     =   json_decode($msg->body);
-      $header   =   $data->headers;
-      str_replace($config['HEADER_FROM'], $config['HOST_HEADER_FROM'], $header);
-      str_replace($config['HEADER_RETURN_PATH'], $config['HOST_HEADER_RP'], $header);
-      mail($data->to, $data->subject, $data->body,$header);
-      $msg->delivery_info['channel']->basic_ack($msg->delivery_info['delivery_tag']);  
+        $data     =   json_decode($msg->body);
+        if ($config['USING_SMTP']){
+            sendHelper::sendBySMTP($data->to, $data->subject, $data->body);
+        } else {
+            $header   =   $data->headers;
+            str_replace($config['HEADER_FROM'], $config['HOST_HEADER_FROM'], $header);
+            str_replace($config['HEADER_RETURN_PATH'], $config['HOST_HEADER_RP'], $header);
+            mail($data->to, $data->subject, $data->body,$header);          
+            sendHelper::sendByPHP($data->to, $data->subject, $data->body,$header);
+        }
+        $msg->delivery_info['channel']->basic_ack($msg->delivery_info['delivery_tag']);  
     };
 
     $channel->basic_qos(null, 1, null);

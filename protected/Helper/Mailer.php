@@ -53,6 +53,11 @@ class Mailer{
         $mail->addReplyTo(\EventMail::config('mailer.reply_mail'));
         $mail->msgHTML($body);
         $mail->addAddress($email);
-        return $mail->send();
+        try{
+            return $mail->send();
+        } catch (\phpmailerException $ex) {
+            \Rollbar::report_exception($ex);
+            return false;
+        }
     }
 }

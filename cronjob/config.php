@@ -25,4 +25,12 @@ return array(
     'HOST_HEADER_RP'    =>  'Return-Path: events@quantum.eventum.ir',
     'WORKER_NAME'       =>  'TEST',
     
+    'SMTP_HOST'         =>  '',
+    'SMTP_PORT'         =>  25,
+    'SMTP_USERNAME'     =>  '',
+    'SMTP_PASSWORD'     =>  '',
+    'SENDER_MAIL'       =>  '',
+    'SENDER_NAME'       =>  '',
+    'REPLY_MAIL'        =>  '',
+    
 );

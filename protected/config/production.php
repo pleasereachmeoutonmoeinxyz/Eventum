@@ -28,6 +28,8 @@ $app['mailer.smtp_port']        =   25;
 
 $app['mailer.smtp_username']    =   '';
 $app['mailer.smtp_password']    =   '';
+$app['mailer.smtp']             =   true;
+
 // events setting
 $app['event.types']             =   array(
     'Competition'                   =>  'Competition',    

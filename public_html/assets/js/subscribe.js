@@ -48,7 +48,12 @@
     })();
     
     $(document).ready(function(){
-        console.log(AjaxBehavioral);
+        $("#subscribe").on('keypress',function(e){
+            if (e.keyCode === 13 && !e.shiftKey) {
+                e.preventDefault();
+                $("#subscribe button").trigger('click');
+            }
+        });
         $("#subscribe button").on('click',function(){
             $.post('mail/subscribe',$("form#subscribe").serialize())
             .done(function(data){

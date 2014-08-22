@@ -14,14 +14,20 @@ $app['twig.options.cache']      = $app['cache.path'] . '/twig';
 $app['debug']                   = false;
 
 $app['db']                      =   array(
-                                        'server'        =>  "mongodb://moein:12345@localhost:27017",
+                                        'server'        =>  "mongodb://localhost:27017",
                                         'collection'    =>  "eventmail"
 );   
 
 $app['activation.time_limit']   =   300; // 5 mins
 
 $app['mailer.sender_mail']      =   'noreply@eventum.ir';
+$app['mailer.reply_mail']       =   'moein7tl@gmail.com';
 
+$app['mailer.smtp_host']        =   '';
+$app['mailer.smtp_port']        =   25;
+
+$app['mailer.smtp_username']    =   '';
+$app['mailer.smtp_password']    =   '';
 // events setting
 $app['event.types']             =   array(
     'Competition'                   =>  'Competition',    

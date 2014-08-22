@@ -39,26 +39,18 @@ class sendHelper{
      * @return boolean
      */
     public static function sendBySMTP($to,$subject,$body){
-        $mail               =   new \PHPMailer();
-        $mail->isSMTP();
-        $mail->CharSet      =   'UTF-8';
-        $mail->Host         =   self::getInstance()->config['SMTP_HOST'];
-        $mail->Port         =   self::getInstance()->config['SMTP_PORT'];
-        $mail->SMTPAuth     =   true;
-        $mail->Subject      =   $subject;
-        $mail->Username     =   self::getInstance()->config['SMTP_USERNAME'];
-        $mail->Password     =   self::getInstance()->config['SMTP_PASSWORD'];
-        $mail->setFrom(self::getInstance()->config['SENDER_MAIL'], self::getInstance()->config['SENDER_NAME']);
-        $mail->addReplyTo(self::getInstance()->config['REPLY_MAIL']);
-        $mail->msgHTML($body);
-        $mail->addAddress($to);
-
-        try{
-            return $mail->send();        
-        } catch (phpmailerException $ex) {
-            Rollbar::report_exception($ex);
-            return FALSE;
-        }
+        $transport = \Swift_SmtpTransport::newInstance(self::getInstance()->config['SMTP_HOST'], self::getInstance()->config['SMTP_PORT'])
+            ->setUsername(self::getInstance()->config['SMTP_USERNAME'])
+            ->setPassword(self::getInstance()->config['SMTP_PASSWORD']);        
+        
+        $mailer = \Swift_Mailer::newInstance($transport);
+        $message = \Swift_Message::newInstance($subject)
+            ->setFrom(array(self::getInstance()->config['SENDER_MAIL'] => self::getInstance()->config['SENDER_NAME']))
+            ->setReplyTo(self::getInstance()->config['REPLY_MAIL'])
+            ->setTo(array($to))
+            ->setBody($body,'text/html','UTF-8');
+        
+        return (bool)$mailer->send($message);            
     }
 }
 ?>

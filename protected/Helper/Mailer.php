@@ -41,26 +41,17 @@ class Mailer{
     }
     
     private static function sendHTMLMailBySMTP($to,$subject,$body){
-        $mail   =   new \PHPMailer();
-        $mail->isSMTP();
-        $mail->setLanguage(\EventMail::config('locale'));
-        $mail->CharSet      =   'UTF-8';
-        $mail->Host         =   \EventMail::config('mailer.smtp_host');
-        $mail->Port         =   \EventMail::config('mailer.smtp_port');
-        $mail->SMTPAuth     =   true;
-        $mail->Subject      =   $subject;
-        $mail->Username     =   \EventMail::config('mailer.smtp_username');
-        $mail->Password     =   \EventMail::config('mailer.smtp_password');
-        $mail->setFrom(\EventMail::config('mailer.sender_mail'), \EventMail::t('mailer.sender_name'));
-        $mail->addReplyTo(\EventMail::config('mailer.reply_mail'));
-        $mail->msgHTML($body);
-        $mail->addAddress($to);
+        $transport = \Swift_SmtpTransport::newInstance(\EventMail::config('mailer.smtp_host'), \EventMail::config('mailer.smtp_port'))
+            ->setUsername(\EventMail::config('mailer.smtp_username'))
+            ->setPassword(\EventMail::config('mailer.smtp_password'));        
         
-        try{
-            return $mail->send();
-        } catch (\phpmailerException $ex) {
-            \Rollbar::report_exception($ex);
-            return false;
-        }
+        $mailer = \Swift_Mailer::newInstance($transport);
+        $message = \Swift_Message::newInstance($subject)
+            ->setFrom(array(\EventMail::config('mailer.sender_mail') => \EventMail::t('mailer.sender_name')))
+            ->setReplyTo(\EventMail::config('mailer.reply_mail'))
+            ->setTo(array($to))
+            ->setBody($body,'text/html','UTF-8');
+        
+        return (bool)$mailer->send($message);    
     }
 }

@@ -40,19 +40,22 @@ class Mailer{
         return mail($email, $subject, $body, $headers);
     }
     
-    private static function sendHTMLMailBySMTP($email,$subject,$body){
+    private static function sendHTMLMailBySMTP($to,$subject,$body){
         $mail   =   new \PHPMailer();
         $mail->isSMTP();
-        $mail->Host =   \EventMail::config('mailer.smtp_host');
-        $mail->Port =   \EventMail::config('mailer.smtp_port');
-        $mail->SMTPAuth   = true;
-        $mail->Subject  =   $subject;
-        $mail->Username =   \EventMail::config('mailer.smtp_username');
-        $mail->Password =   \EventMail::config('mailer.smtp_password');
+        $mail->setLanguage(\EventMail::config('locale'));
+        $mail->CharSet      =   'UTF-8';
+        $mail->Host         =   \EventMail::config('mailer.smtp_host');
+        $mail->Port         =   \EventMail::config('mailer.smtp_port');
+        $mail->SMTPAuth     =   true;
+        $mail->Subject      =   $subject;
+        $mail->Username     =   \EventMail::config('mailer.smtp_username');
+        $mail->Password     =   \EventMail::config('mailer.smtp_password');
         $mail->setFrom(\EventMail::config('mailer.sender_mail'), \EventMail::t('mailer.sender_name'));
         $mail->addReplyTo(\EventMail::config('mailer.reply_mail'));
         $mail->msgHTML($body);
-        $mail->addAddress($email);
+        $mail->addAddress($to);
+        
         try{
             return $mail->send();
         } catch (\phpmailerException $ex) {

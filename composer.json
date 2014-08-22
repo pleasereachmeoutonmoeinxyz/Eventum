@@ -1,21 +1,21 @@
 {
     "name"  :   "EventMail",
     "require": {
-        "silex/silex": "~1.1",
-        "twig/twig": ">=1.8,<2.0-dev",
-        "symfony/twig-bridge": "~2.1",
+        "silex/silex": "1.2.0",
+        "twig/twig": "1.15.1",
+        "symfony/twig-bridge": "2.4.4",
         "symfony/config": "~2.1",
-        "symfony/yaml": "~2.1",
-        "symfony/translation": "~2.1",
+        "symfony/yaml": "2.4.4",
+        "symfony/translation": "2.4.4",
         "symfony/validator": "~2.3",
         "symfony/security": "~2.3",
         "symfony/form": "~2.3",
         "monolog/monolog": ">=1.0.0",
         "doctrine/mongodb-odm": "1.0.0-BETA9",
-        "symfony/locale": "~2.3",
+        "symfony/locale": "2.4.4",
         "egeloen/ckeditor-bundle": "~2.0",
         "videlalvaro/php-amqplib": "v2.1.0",
         "rollbar/rollbar": "~0.8.1",
-        "phpmailer/phpmailer": "dev-master"
+        "swiftmailer/swiftmailer": "@stable"
     }
 }

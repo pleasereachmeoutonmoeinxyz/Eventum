@@ -23,9 +23,9 @@ class Mailer{
         return self::sendHTMLMail($email, $subject, $body);        
     }
 
-    private static function sendHTMLMail($email,$subject,$body,$smtp = true)
+    private static function sendHTMLMail($email,$subject,$body)
     {
-        if ($smtp){
+        if (\EventMail::config('mailer.smtp')){
             return self::sendHTMLMailBySMTP($email, $subject, $body);
         }
             

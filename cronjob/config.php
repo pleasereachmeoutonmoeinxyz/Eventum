@@ -33,6 +33,7 @@ return array(
     'SENDER_MAIL'       =>  'info@eventum.ir',
     'REPLY_MAIL'        =>  'info@eventum.ir',
     
-    'USING_SMTP'        =>  TRUE
+    'USING_SMTP'        =>  TRUE,    
     
+    'EMAIL_TO_TWITTER'  =>  'info@eventum.ir'
 );

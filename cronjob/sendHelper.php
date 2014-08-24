@@ -27,7 +27,7 @@ class sendHelper{
      * @param string $header
      * @return type
      */
-    public static function sendByPHP($to,$subject,$body,$header){
+    public static function sendByPHP($to,$subject,$body,$header = null){
         return mail($to,$subject,$body,$header);
     }
     

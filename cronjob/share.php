@@ -2,7 +2,7 @@
 set_time_limit(0);
 include_once (dirname(__FILE__))."/cron.helper.php";
 include_once (dirname( __DIR__ )."/vendor/autoload.php");
-include_once (dirname(__FILE__))."/mailhelper.php";
+include_once (dirname(__FILE__))."/sendHelper.php";
 $config = include_once (dirname(__FILE__))."/config.php";
 
 Rollbar::init($config['ROLLBAR_CONFIG']);
@@ -29,15 +29,16 @@ if(($pid = cronHelper::lock()) !== FALSE) {
     
     $db         =   $mongo->selectDB($config['DB_COLLECTION']);
     $event      =   $db->Event;
-
-    while($event->find(array('$and'=>array(array('status'=>'NEW'),array('confirmation'=>'ACCEPTED'))))->count()){
+    $criteria   =   array('$and'=>array(array('confirmation'=>'ACCEPTED'),
+                                        array('$or'=>array(
+                                            array('shared'=>array('$exists'=>FALSE)),
+                                            array('shared'=>FALSE)
+                                        ))));
+    
+    while($event->find($criteria)->count()){
         
-        $eventObj   =   $event->findOne(array('$and'=>array(
-                                                        array('confirmation'=>'ACCEPTED'),
-                                                        array('shared'=>array('$exists'=>FALSE)),
-                                                        array('shared'=>FALSE)
-        )));
-        sendHelper::sendBySMTP($config['EMAIL_TO_TWITTER'], $eventObj['subject'], $eventObj['site']);
+        $eventObj   =   $event->findOne($criteria);
+        sendHelper::sendByPHP($config['EMAIL_TO_TWITTER'], $eventObj['subject'], $eventObj['site']);
         $event->update( array('_id' =>  $eventObj['_id']),array('$set'=>  array('shared'=>TRUE)));
     }
 }

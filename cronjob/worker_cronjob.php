@@ -1,5 +1,6 @@
 <?php
 set_time_limit(0);
+error_reporting(E_ALL);
 include_once (dirname(__FILE__))."/cron.helper.php";
 include_once (dirname( __DIR__ )."/vendor/autoload.php");
 include_once (dirname(__FILE__))."/sendHelper.php";
@@ -13,18 +14,15 @@ Rollbar::report_message("{$config['WORKER_NAME']} worker is running", 'info');
 Rollbar::flush();
 
 if(($pid = cronHelper::lock()) !== FALSE) {
-    
     register_shutdown_function(function (){
         cronHelper::unlock();
     });
-    
     try{
         $connection = new AMQPConnection($config['SERVER'], $config['PORT'], $config['USERNAME'], $config['PASSWORD']);    
     } catch (Exception $ex) {
         Rollbar::report_exception($ex);
         exit();
     }
-    
     $channel    = $connection->channel();
 
     register_shutdown_function(function () use($connection,$channel){
@@ -34,13 +32,14 @@ if(($pid = cronHelper::lock()) !== FALSE) {
     
     $callback = function($msg) use($config){
         $data     =   json_decode($msg->body);
-        if ($config['USING_SMTP']){
+        if ($config['USING_SMTP'] && filter_var($data->to, FILTER_VALIDATE_EMAIL)){
             sendHelper::sendBySMTP($data->to, $data->subject, $data->body);
         } else {
             $header   =   $data->headers;
-            str_replace($config['HEADER_FROM'], $config['HOST_HEADER_FROM'], $header);
-            str_replace($config['HEADER_RETURN_PATH'], $config['HOST_HEADER_RP'], $header);
-            mail($data->to, $data->subject, $data->body,$header);          
+            if ($config['WORKER_NAME'] !== 'MAIN'){
+                str_replace($config['HEADER_FROM'], $config['HOST_HEADER_FROM'], $header);
+                str_replace($config['HEADER_RETURN_PATH'], $config['HOST_HEADER_RP'], $header);                
+            }
             sendHelper::sendByPHP($data->to, $data->subject, $data->body,$header);
         }
         $msg->delivery_info['channel']->basic_ack($msg->delivery_info['delivery_tag']);  
@@ -48,7 +47,6 @@ if(($pid = cronHelper::lock()) !== FALSE) {
 
     $channel->basic_qos(null, 1, null);
     $channel->basic_consume($config['CHANNEL'], '', false, false, false, false, $callback);
-
     while(count($channel->callbacks)) {
         $channel->wait();
         if ($config['USING_SMTP']){

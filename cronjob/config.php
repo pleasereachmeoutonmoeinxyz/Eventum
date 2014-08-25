@@ -5,7 +5,7 @@ return array(
     'USERNAME'          =>  'test',
     'PASSWORD'          =>  'test',
     'CHANNEL'           =>  'MAIL_CHANNEL',
-    'DB_STRING'         =>  'mongodb://moein:12345@localhost:27017',
+    'DB_STRING'         =>  'mongodb://localhost:27017',
     'DB_COLLECTION'     =>  'eventmail',
     'PAGINATION_LIMIT'  =>  20,
     'ROLLBAR_CONFIG'    =>  array(
@@ -23,7 +23,7 @@ return array(
     'HEADER_RETURN_PATH'=>  'Return-Path: events@eventum.ir',
     'HOST_HEADER_FROM'  =>  'From: Eventum.ir <events@quantum.eventum.ir>',
     'HOST_HEADER_RP'    =>  'Return-Path: events@quantum.eventum.ir',
-    'WORKER_NAME'       =>  'TEST',
+    'WORKER_NAME'       =>  'MAIN',
     
     'SMTP_HOST'         =>  '',
     'SMTP_PORT'         =>  25,

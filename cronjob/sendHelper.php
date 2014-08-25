@@ -38,7 +38,7 @@ class sendHelper{
      * @param string $body
      * @return boolean
      */
-    public static function sendBySMTP($to,$subject,$body){
+    public static function sendBySMTP($email,$subject='',$body=''){
         $transport = \Swift_SmtpTransport::newInstance(self::getInstance()->config['SMTP_HOST'], self::getInstance()->config['SMTP_PORT'])
             ->setUsername(self::getInstance()->config['SMTP_USERNAME'])
             ->setPassword(self::getInstance()->config['SMTP_PASSWORD']);        
@@ -47,10 +47,9 @@ class sendHelper{
         $message = \Swift_Message::newInstance($subject)
             ->setFrom(array(self::getInstance()->config['SENDER_MAIL'] => self::getInstance()->config['SENDER_NAME']))
             ->setReplyTo(self::getInstance()->config['REPLY_MAIL'])
-            ->setTo(array($to))
+            ->setTo(array($email))
             ->setBody($body,'text/html','UTF-8');
-        
-        return (bool)$mailer->send($message);            
+        return (bool) $mailer->send($message);
     }
 }
 ?>

@@ -47,12 +47,9 @@ if(($pid = cronHelper::lock()) !== FALSE) {
     $db         =   $mongo->selectDB($config['DB_COLLECTION']);
     $event      =   $db->Event;
     $mail       =   $db->Mail;
-    while($event->find(array('$and'=>array(array('status'=>'NEW'),array('confirmation'=>'ACCEPTED'))))->count()){
-        $event_obj  =   $event->findOne(array('$and'=>array(array('status'=>'NEW'),array('confirmation'=>'ACCEPTED'))));       
-        $event->update(
-                array('_id' =>  $event_obj['_id']),
-                array('$set'=>  array('status'=>'RUNNING'))
-                );
+    $criteria   =   array('$and'=>array(array('status'=>'NEW'),array('confirmation'=>'ACCEPTED')));
+    while(($event_obj = $event->findOne($criteria)) != NULL){
+        $event->update(array('_id' =>  $event_obj['_id']),array('$set'=>  array('status'=>'RUNNING')));
         $query  =   array('$and'=>array(
                                         array('types'       =>  array('$in'=>$event_obj['types'])),
                                         array('locations'   =>  array('$in'=>$event_obj['locations'])),
@@ -65,7 +62,7 @@ if(($pid = cronHelper::lock()) !== FALSE) {
             foreach ($results as $result){
                 $twig_vars     =   array(
                     'content'           =>  $event_obj['content'],
-                    'unsubscribe_link'  => mailHelper::generateUnsubscribeLink($result['id'], $result['code']),
+                    'unsubscribe_link'  =>  mailHelper::generateUnsubscribeLink($result['_id'], $result['code']),
                     'id'                =>  $event_obj['id']
                 );
                 $content    = mailHelper::generateContent($twig_vars,'content.html');

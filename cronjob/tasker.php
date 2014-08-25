@@ -63,6 +63,7 @@ if(($pid = cronHelper::lock()) !== FALSE) {
             foreach ($results as $result){
                 $twig_vars     =   array(
                     'content'           =>  $event_obj['content'],
+                    'setting_link'      =>  mailHelper::generateSubscribeLink($result['_id'], $result['code']),
                     'unsubscribe_link'  =>  mailHelper::generateUnsubscribeLink($result['_id'], $result['code']),
                     'id'                =>  $event_obj['_id']
                 );

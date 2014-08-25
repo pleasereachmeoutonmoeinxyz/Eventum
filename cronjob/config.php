@@ -16,7 +16,7 @@ return array(
     'REMINDER_LRTS'     =>  3600 * 24 * 25,
     'LANG'              =>  'FA',
     'URL_SETTING_BASE'  =>  'http://eventum.ir/mail/setting',
-    'URL_DEACTIVE_BASE' =>  'http://eventum.ir/mail/deactive',
+    'URL_DEACTIVE_BASE' =>  'http://eventum.ir/mail/unsbscribe',
     'EXCUSE_START_TIME' =>  0,
     'EXCUSE_END_TIME'   =>  0,
     'HEADER_FROM'       =>  'From: Eventum.ir <events@eventum.ir>',

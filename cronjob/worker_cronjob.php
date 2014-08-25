@@ -50,7 +50,8 @@ if(($pid = cronHelper::lock()) !== FALSE) {
     while(count($channel->callbacks)) {
         $channel->wait();
         if ($config['USING_SMTP']){
-            sleep(rand(16, 18));
+            //sleep(rand(16, 18));
+            //using mandrillapp broker
         } else {
             sleep(rand(45, 75));
         }

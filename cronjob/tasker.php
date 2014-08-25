@@ -48,7 +48,7 @@ if(($pid = cronHelper::lock()) !== FALSE) {
     $db         =   $mongo->selectDB($config['DB_COLLECTION']);
     $event      =   $db->Event;
     $mail       =   $db->Mail;
-    $criteria   =   array('$and'=>array(array('status'=>'RUNNING'),array('confirmation'=>'ACCEPTED')));
+    $criteria   =   array('$and'=>array(array('status'=>'NEW'),array('confirmation'=>'ACCEPTED')));
     while(($event_obj = $event->findOne($criteria)) != NULL){
         $event->update(array('_id' =>  $event_obj['_id']),array('$set'=>  array('status'=>'NEW')));
         $query  =   array('$and'=>array(

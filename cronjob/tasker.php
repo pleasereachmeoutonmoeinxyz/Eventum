@@ -50,7 +50,7 @@ if(($pid = cronHelper::lock()) !== FALSE) {
     $mail       =   $db->Mail;
     $criteria   =   array('$and'=>array(array('status'=>'RUNNING'),array('confirmation'=>'ACCEPTED')));
     while(($event_obj = $event->findOne($criteria)) != NULL){
-        $event->update(array('_id' =>  $event_obj['_id']),array('$set'=>  array('status'=>'RUNNING')));
+        $event->update(array('_id' =>  $event_obj['_id']),array('$set'=>  array('status'=>'NEW')));
         $query  =   array('$and'=>array(
                                         array('types'       =>  array('$in'=>$event_obj['types'])),
                                         array('locations'   =>  array('$in'=>$event_obj['locations'])),

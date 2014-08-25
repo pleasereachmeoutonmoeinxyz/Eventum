@@ -63,7 +63,7 @@ if(($pid = cronHelper::lock()) !== FALSE) {
                 $twig_vars     =   array(
                     'content'           =>  $event_obj['content'],
                     'unsubscribe_link'  =>  mailHelper::generateUnsubscribeLink($result['_id'], $result['code']),
-                    'id'                =>  $event_obj['id']
+                    'id'                =>  $event_obj['_id']
                 );
                 $content    = mailHelper::generateContent($twig_vars,'content.html');
                 $data       = mailHelper::generateEmailJSON($result['email'], $event_obj['subject'], $content);

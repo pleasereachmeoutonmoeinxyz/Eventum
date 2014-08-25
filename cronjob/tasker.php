@@ -3,6 +3,7 @@ set_time_limit(0);
 include_once (dirname(__FILE__))."/cron.helper.php";
 include_once (dirname( __DIR__ )."/vendor/autoload.php");
 include_once (dirname(__FILE__))."/mailhelper.php";
+include_once (dirname(__FILE__))."/sendHelper.php";
 $config = include_once (dirname(__FILE__))."/config.php";
 
 use PhpAmqpLib\Connection\AMQPConnection;
@@ -47,7 +48,7 @@ if(($pid = cronHelper::lock()) !== FALSE) {
     $db         =   $mongo->selectDB($config['DB_COLLECTION']);
     $event      =   $db->Event;
     $mail       =   $db->Mail;
-    $criteria   =   array('$and'=>array(array('status'=>'NEW'),array('confirmation'=>'ACCEPTED')));
+    $criteria   =   array('$and'=>array(array('status'=>'RUNNING'),array('confirmation'=>'ACCEPTED')));
     while(($event_obj = $event->findOne($criteria)) != NULL){
         $event->update(array('_id' =>  $event_obj['_id']),array('$set'=>  array('status'=>'RUNNING')));
         $query  =   array('$and'=>array(

@@ -35,5 +35,8 @@ return array(
     
     'USING_SMTP'        =>  TRUE,    
     
-    'EMAIL_TO_TWITTER'  =>  'info@eventum.ir'
+    'EMAIL_TO_TWITTER'  =>  'info@eventum.ir',
+    
+    'BANNERS_LINK'      =>  'http://blog.eventum.ir/banners/',
+    'DONATE_LINK'       =>  'http://eventum.ir'
 );

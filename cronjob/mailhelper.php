@@ -54,10 +54,11 @@ class mailHelper{
      * @return mixed
      */
     public static function generateEmailJSON($to,$subject,$body){
+        $helper =   self::getInstance();
         $headers = "MIME-Version: 1.0" . "\r\n";
         $headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
-        $headers .= "{$this->config['HEADER_FROM']}" . "\r\n";
-        $headers .= "{$this->config['HEADER_RETURN_PATH']}" . "\r\n";
+        $headers .= "{$helper->config['HEADER_FROM']}" . "\r\n";
+        $headers .= "{$helper->config['HEADER_RETURN_PATH']}" . "\r\n";
         $headers .= "To: {$to}" . "\r\n";
 
         $data   =   array(

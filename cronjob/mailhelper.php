@@ -45,6 +45,11 @@ class mailHelper{
         $helper =   self::getInstance();
         return $helper->config['URL_SETTING_BASE'].'/'.$id.'/'.$code;        
     }
+    
+    public static function generateEventUrl($id){
+        $helper =   self::getInstance();
+        return $helper->config['EVENT_VIEW_BASE'].'/'.$id;                
+    }
 
     /**
      * return json of email

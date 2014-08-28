@@ -5,6 +5,7 @@ include_once (dirname( __DIR__ )."/vendor/autoload.php");
 include_once (dirname(__FILE__))."/mailhelper.php";
 include_once (dirname(__FILE__))."/sendHelper.php";
 $config = include_once (dirname(__FILE__))."/config.php";
+$locals = include_once (dirname(__FILE__))."/locals.php";
 
 use PhpAmqpLib\Connection\AMQPConnection;
 use PhpAmqpLib\Message\AMQPMessage;
@@ -67,8 +68,9 @@ if(($pid = cronHelper::lock()) !== FALSE) {
                     'unsubscribe_link'  =>  mailHelper::generateUnsubscribeLink($result['_id'], $result['code']),
                     'id'                =>  $event_obj['_id']
                 );
+                $subject    = $locals[$config['LANG']]['TASKER_SUBJECT'].$event_obj['subject'];
                 $content    = mailHelper::generateContent($twig_vars,'content.html');
-                $data       = mailHelper::generateEmailJSON($result['email'], $event_obj['subject'], $content);
+                $data       = mailHelper::generateEmailJSON($result['email'], $subject, $content);
                 $msg        = new AMQPMessage($data,array('delivery_mode' => 2));
                 $channel->basic_publish($msg, '', $config['CHANNEL']);    
                 $counter++;

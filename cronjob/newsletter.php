@@ -47,12 +47,13 @@ if(($pid = cronHelper::lock()) !== FALSE) {
     $event      =   $db->Event;
     $mail       =   $db->Mail;
     $emails     =   $mail->find(array('status'=>'ACTIVE','email'=>'moein7tl@gmail.com'));//@todo fix it
-
+    
     foreach ($emails as $email){
         $criteria  =    array('$and'=>array(
                             array('types'       =>  array('$in'=>$email['types'])),
                             array('locations'   =>  array('$in'=>$email['locations'])),
                             array('categories'  =>  array('$in'=>$email['categories'])),
+                            array('_id'         =>  new MongoId("53ff97859ecda58a068b4567")),
                             //array('confirmation'=>  'ACCEPTED'),                                
                             //array('status'      =>  'NEW')
             ));
@@ -66,7 +67,6 @@ if(($pid = cronHelper::lock()) !== FALSE) {
                 'tweet'     =>  $eventObj['tweet'],
                 'date'      =>  $eventObj['date'],
                 'url'       =>  mailHelper::generateEventUrl($eventObj['_id']),
-                'locals'    =>  $locals[$config['LANG']]['NEWSLETTER']
             );
         }
         if (count($userEvent)){
@@ -74,9 +74,10 @@ if(($pid = cronHelper::lock()) !== FALSE) {
                     'events'            =>  $userEvent,
                     'setting_link'      =>  mailHelper::generateSubscribeLink($email['_id'], $email['code']),
                     'unsubscribe_link'  =>  mailHelper::generateUnsubscribeLink($email['_id'], $email['code']),
+                    'locals'    =>  $locals[$config['LANG']]['NEWSLETTER']                    
                 );
                 $subject    = $locals[$config['LANG']]['NEWSLETTER_SUBJECT'];
-                $content    = mailHelper::generateContent($twig_vars,'tasker.html');
+                $content    = mailHelper::generateContent($twig_vars,'newsletter.html');
                 $data       = mailHelper::generateEmailJSON($email['email'], $subject, $content);
                 $msg        = new AMQPMessage($data,array('delivery_mode' => 2));
                 $channel->basic_publish($msg, '', $config['CHANNEL']);    
@@ -84,8 +85,8 @@ if(($pid = cronHelper::lock()) !== FALSE) {
         }
     }
 
-    $event->update(array(array('confirmation'=>'ACCEPTED'),array('status'=>'NEW')),
-                        array('$set'=>  array('status'=>'SENT','send_timestamp'=>new MongoTimestamp())));
+//    $event->update(array(array('confirmation'=>'ACCEPTED'),array('status'=>'NEW')),
+//                        array('$set'=>  array('status'=>'SENT','send_timestamp'=>new MongoTimestamp())));
 }
 
 Rollbar::report_message("Tasker has been ended. {{$counter}} mail generated", 'info');

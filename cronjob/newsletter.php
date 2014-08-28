@@ -46,16 +46,15 @@ if(($pid = cronHelper::lock()) !== FALSE) {
     $db         =   $mongo->selectDB($config['DB_COLLECTION']);
     $event      =   $db->Event;
     $mail       =   $db->Mail;
-    $emails     =   $mail->find(array('status'=>'ACTIVE','email'=>'moein7tl@gmail.com'));//@todo fix it
+    $emails     =   $mail->find(array('status'=>'ACTIVE'));
     
     foreach ($emails as $email){
         $criteria  =    array('$and'=>array(
                             array('types'       =>  array('$in'=>$email['types'])),
                             array('locations'   =>  array('$in'=>$email['locations'])),
                             array('categories'  =>  array('$in'=>$email['categories'])),
-                            array('_id'         =>  new MongoId("53ff97859ecda58a068b4567")),
-                            //array('confirmation'=>  'ACCEPTED'),                                
-                            //array('status'      =>  'NEW')
+                            array('confirmation'=>  'ACCEPTED'),                                
+                            array('status'      =>  'NEW')
             ));
         $events         =   $event->find($criteria);
         $userEvent      =   array();
@@ -85,8 +84,8 @@ if(($pid = cronHelper::lock()) !== FALSE) {
         }
     }
 
-//    $event->update(array(array('confirmation'=>'ACCEPTED'),array('status'=>'NEW')),
-//                        array('$set'=>  array('status'=>'SENT','send_timestamp'=>new MongoTimestamp())));
+    $event->update(array(array('confirmation'=>'ACCEPTED'),array('status'=>'NEW')),
+                        array('$set'=>  array('status'=>'SENT','send_timestamp'=>new MongoTimestamp())));
 }
 
 Rollbar::report_message("Tasker has been ended. {{$counter}} mail generated", 'info');

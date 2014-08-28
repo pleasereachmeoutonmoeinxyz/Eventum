@@ -108,6 +108,7 @@ namespace Controller{
             $form       =   $this->buildBasicForm($app,$data);
             
             if ($request->isMethod('POST')){
+                $form->bind($request);
                 if ($form->isValid()){
                     $data       =   $form->getData();
                     $new_event  =   FALSE;
@@ -122,6 +123,7 @@ namespace Controller{
                     $event->save();
 
                     if ($new_event){
+                        \Helper\Mailer::eventUrl($event->email, $event->id, $event->code);
                         \Helper\Mailer::eventUrl($event->email, $event->id, $event->code);
                     }
 

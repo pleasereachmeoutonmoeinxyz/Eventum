@@ -48,7 +48,7 @@ namespace Model{
         
         /** @ODM\timestamp */
         public $subscribtion_timestamp;
-
+        
         public function __set($name, $value) {
             if (property_exists(__CLASS__, $name)){
                 $this->{$name}  =   $value;

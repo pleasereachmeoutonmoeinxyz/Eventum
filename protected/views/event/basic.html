@@ -1,5 +1,7 @@
 {% extends "layout.html" %}
-
+{% block stylesheets %}
+    <link rel="stylesheet" type="text/css" href="{{ app.request.basepath }}/assets/tooltipster/css/tooltipster.css" />
+{% endblock stylesheets %}
 {% block content %}
         <div class="content-wrapper-internal">
             <div class="content">
@@ -9,12 +11,16 @@
                     <div class="pure-g-r">
                         <div class="l-box pure-u-1 pure-u-med-1 pure-u-lrg-1 is-center">
                             <fieldset class="pure-form pure-form-aligned">
-                                {{form_row(form.name,{'attr':{'dir':'rtl'}})}}
-                                {{form_row(form.site,{'attr':{'dir':'ltr'}})}}
-                                {{form_row(form.email,{'attr':{'dir':'ltr'}})}}
-                                {{form_row(form.tel,{'attr':{'dir':'ltr'}})}}
-                            </fieldset>
-                        </div>
+                                {{form_row(form.name,{'attr':{'dir':'rtl','class':'tooltip','title':'name_hint'|trans}})}}
+                                {{form_row(form.email,{'attr':{'dir':'ltr','class':'tooltip','title':'email_hint'|trans}})}}                                                                
+                                {{form_row(form.tel,{'attr':{'dir':'ltr','class':'tooltip','title':'tel_hint'|trans}})}}
+                            </fieldset>                            
+                            <fieldset class="pure-form pure-form-aligned">
+                                {{form_row(form.site,{'attr':{'dir':'ltr','class':'tooltip','title':'site_hint'|trans}})}}
+                                {{form_row(form.date,{'attr':{'dir':'rtl','class':'tooltip','title':'date_hint'|trans}})}}
+                                {{form_row(form.secretariat,{'attr':{'dir':'rtl','class':'tooltip','title':'secretariat_hint'|trans}})}}
+                            </fieldset>                             
+                        </div>                        
                     </div>
                     <div class="pure-g-r">
                         <div class="l-box pure-u-1 pure-u-med-1-2 pure-u-lrg-1-3">
@@ -55,3 +61,12 @@
             
         </div>
 {% endblock content %}
+
+{% block javascripts %}
+    <script type="text/javascript" src="{{ app.request.basepath }}/assets/tooltipster/js/jquery.tooltipster.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $('.tooltip').tooltipster();
+        });
+    </script>
+{% endblock javascripts %}

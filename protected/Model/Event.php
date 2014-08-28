@@ -51,10 +51,19 @@ namespace Model{
         public $types      =   array();
 
         /** @ODM\Collection @ODM\Index */
-        public $categories =   array();        
-
+        public $categories =   array();
+        
+        /** @ODM\String*/
+        public $secretariat;
+        
+        /** @ODM\String */
+        public $date;
+        
         /** @ODM\String*/        
         public $subject;
+        
+        /** @ODM\String*/
+        public $tweet;
         
         /** @ODM\String*/        
         public $content;

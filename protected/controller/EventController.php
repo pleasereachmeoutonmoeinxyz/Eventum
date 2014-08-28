@@ -74,7 +74,6 @@ namespace Controller{
                     $save   =   TRUE;
                 }
             }
-
             return $app['twig']->render('event/content.html',array(
                         'form'  =>  $form->createView(),
                         'save'  =>  $save
@@ -104,9 +103,8 @@ namespace Controller{
             }
 
             $form       =   $this->buildBasicForm($app,$data);
-
+            
             if ($request->isMethod('POST')){
-                $form->bind($request);
                 if ($form->isValid()){
                     $data       =   $form->getData();
                     $new_event  =   FALSE;
@@ -139,12 +137,18 @@ namespace Controller{
                                 ->add('email','email',array(
                                     'constraints'   =>  array(new Assert\NotBlank(),new Assert\Email())
                                 ))
-                                ->add('site','text',array(
-                                    'constraints'   =>  array(new Assert\Url(),new Assert\NotBlank,new Assert\Length(array('min'=>5)))
-                                ))
                                 ->add('tel','text',array(
                                     'constraints'   =>  array(new Assert\NotBlank(),new Assert\Regex(array('pattern'=>'/^0[0-9]{8,10}$/')))
                                 ))
+                                ->add('site','text',array(
+                                    'constraints'   =>  array(new Assert\Url(),new Assert\NotBlank,new Assert\Length(array('min'=>5)))
+                                ))
+                                ->add('date','text',array(
+                                    'constraints'   =>  array(new Assert\NotBlank(),new Assert\Length(array('min'=>6,'max'=>100)))
+                                ))        
+                                ->add('secretariat','text',array(
+                                    'constraints'   =>  array(new Assert\Length(array('max'=>350)))
+                                ))                                        
                                 ->add('types', 'choice', array(
                                     'choices' => $app['event.types'],
                                     'multiple' => true,
@@ -168,9 +172,14 @@ namespace Controller{
 
         private function buildContentForm(Application $app,$data=array()){
             $builder    =   $app['form.factory']->createBuilder('form',$data);
-            $builder->add('content', 'textarea', array('label'=>false));
-            $builder->add('subject', 'text',array(
-                'constraints' => array(new Assert\Count(array('max'=>70)))
+            $builder->add('content', 'textarea', array(
+                'constraints'   =>  array(new Assert\NotBlank())
+                ))
+            ->add('subject', 'text',array(
+                'constraints' => array(new Assert\NotBlank(),new Assert\Length(array('max'=>50,'min'=>5)))
+            ))
+            ->add('tweet','text',array(
+                'constraints' => array(new Assert\NotBlank(),new Assert\Length(array('max'=>200,'min'=>30)))
             ));
             return $builder->getForm();
         }

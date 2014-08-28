@@ -1,9 +1,11 @@
 {% extends "layout.html" %}
-
+{% block stylesheets %}
+    <link rel="stylesheet" type="text/css" href="{{ app.request.basepath }}/assets/tooltipster/css/tooltipster.css" />
+{% endblock stylesheets %}
 {% block content %}
     <div class="content-wrapper-internal">
         <div class="content">
-            <h2 class="content-head is-center">{{'content_header'|trans}}</h2>
+            <h2 class="content-head is-center">{{'content_header'|trans}}</h2>            
                 {{ form_start(form) }}
                 {% if save == true %}
                     <h4 class="is-center">{{'content_saved'|trans}}</h4>
@@ -12,9 +14,10 @@
                 <div class="pure-g-r">
                     <div class="l-box pure-u-1 pure-u-med-1 pure-u-lrg-1 is-center">
                         <fieldset class="pure-form pure-form-aligned">
-                            {{form_row(form.subject,{'attr':{'dir':'rtl'}})}}
-                            {{form_row(form.content)}}                            
-                        </fieldset>
+                            {{form_row(form.subject,{'attr':{'dir':'rtl','class':'tooltip','title':'subject_hint'|trans } }) }}
+                            {{form_row(form.tweet,{'attr':{'dir':'rtl','class':'tooltip','title':'tweet_hint'|trans}})}}
+                            {{form_row(form.content)}}
+                        </fieldset>                        
                     </div>
                 </div>
                 <div class="pure-g-r">
@@ -29,12 +32,14 @@
 
 {% block javascripts %}
     <script type="text/javascript" src="{{ app.request.basepath }}/assets/ckeditor/ckeditor.js"></script>
+    <script type="text/javascript" src="{{ app.request.basepath }}/assets/tooltipster/js/jquery.tooltipster.min.js"></script>
     <script type="text/javascript">
         $(document).ready(function(){
             CKEDITOR.replace( 'form_content', {
-                fullPage: true,
+                fullPage: false,
                 allowedContent: true
-            });            
+            });
+            $('.tooltip').tooltipster();
         });
     </script>
 {% endblock javascripts %}

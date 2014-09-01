@@ -32,7 +32,7 @@ namespace Controller{
                 $app->abort(404);
             }
             
-            if ($event->status !== \Model\Event::CONFIRMATION_ACCEPTED){
+            if ($event->confirmation !== \Model\Event::CONFIRMATION_ACCEPTED){
                 $app->abort(404);
             }
             return $app['twig']->render('event/view.html',array(

@@ -26,7 +26,7 @@ namespace Model{
         const STATUS_RUNNING                =   'RUNNING';
         const STATUS_NEW                    =   'NEW';
         
-        const CONFIRMATION_ACCEPTED         =   'CONFIRMED';
+        const CONFIRMATION_ACCEPTED         =   'ACCEPTED';
         const CONFIRMATION_REJECTED         =   'REJECTED';
         const CONFIRMATION_WAITING          =   'WAITING';
         /** @ODM\Id */        

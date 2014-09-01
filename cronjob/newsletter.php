@@ -8,6 +8,7 @@ $locals = include_once (dirname(__FILE__))."/locals.php";
 
 use PhpAmqpLib\Connection\AMQPConnection;
 use PhpAmqpLib\Message\AMQPMessage;
+
 Rollbar::init($config['ROLLBAR_CONFIG']);
 
 Rollbar::report_message("Tasker is running", 'info');
@@ -83,9 +84,14 @@ if(($pid = cronHelper::lock()) !== FALSE) {
                 $counter++;            
         }
     }
-
-    $event->update(array(array('confirmation'=>'ACCEPTED'),array('status'=>'NEW')),
-                        array('$set'=>  array('status'=>'SENT','send_timestamp'=>new MongoTimestamp())));
+    
+    $event->update(array('$and'=>array(
+                                array('confirmation'=>  'ACCEPTED'),
+                                array('status'      =>  'NEW')),
+                    array('$set'=>array(
+                                array('status'      =>  'SENT'),
+                                array('send_timestamp'  =>  new MongoTimestamp())
+                    ))));
 }
 
 Rollbar::report_message("Tasker has been ended. {{$counter}} mail generated", 'info');

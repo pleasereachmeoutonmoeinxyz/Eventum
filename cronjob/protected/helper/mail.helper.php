@@ -8,11 +8,11 @@ class mailHelper{
      * construct mailHelper class
      */
     public function __construct() {
-        $loader = new Twig_Loader_Filesystem(dirname(__FILE__)."/views");
+        $loader = new Twig_Loader_Filesystem(dirname(__DIR__)."/../views");
         $this->twig = new Twig_Environment($loader, array(
-            'cache' => dirname(__FILE__)."/runtime/cache",
+            'cache' => dirname(__DIR__)."/../runtime/cache",
         ));
-        $this->config   = include (dirname(__FILE__))."/config.php";
+        $this->config   = include (dirname(__DIR__))."/config.php";
     }
     
     /**

@@ -1,12 +1,11 @@
 <?php
-
 class sendHelper{
     private static $instance    =   null;
     public $mandrill;
     public $config;
     
     public function __construct() {
-        $this->config       = include (dirname(__FILE__))."/config.php";
+        $this->config       = include (dirname(__DIR__))."/config.php";
     }
     
     /**

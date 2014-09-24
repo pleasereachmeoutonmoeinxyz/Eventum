@@ -1,10 +1,11 @@
 <?php
+set_time_limit(0);
 
-include_once (dirname(__FILE__))."/cron.helper.php";
-include_once (dirname( __DIR__ )."/vendor/autoload.php");
-include_once (dirname(__FILE__))."/mailhelper.php";
-$config = include_once (dirname(__FILE__))."/config.php";
-$locals = include_once (dirname(__FILE__))."/locals.php";
+include_once (dirname(__DIR__))."/protected/helper/cron.helper.php";
+include_once (dirname(__DIR__))."/../vendor/autoload.php";
+include_once (dirname(__DIR__))."/protected/helper/mail.helper.php";
+$config = include_once (dirname(__DIR__))."/protected/config.php";
+$locals = include_once (dirname(__DIR__))."/protected/locals.php";
 
 use PhpAmqpLib\Connection\AMQPConnection;
 use PhpAmqpLib\Message\AMQPMessage;
@@ -73,5 +74,5 @@ if(($pid = cronHelper::lock()) !== FALSE) {
     cronHelper::unlock();
 }
 
-Rollbar::report_message("$counter reminder mails sent.", 'info');
+Rollbar::report_message("{$counter} reminder mails sent.", 'info');
 Rollbar::flush();

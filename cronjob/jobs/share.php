@@ -1,9 +1,10 @@
 <?php
 set_time_limit(0);
-include_once (dirname(__FILE__))."/cron.helper.php";
-include_once (dirname( __DIR__ )."/vendor/autoload.php");
-include_once (dirname(__FILE__))."/sendHelper.php";
-$config = include_once (dirname(__FILE__))."/config.php";
+
+include_once (dirname(__DIR__))."/protected/helper/cron.helper.php";
+include_once (dirname(__DIR__))."/../vendor/autoload.php";
+include_once (dirname(__DIR__))."/protected/helper/send.helper.php";
+$config = include_once (dirname(__DIR__))."/protected/config.php";
 
 Rollbar::init($config['ROLLBAR_CONFIG']);
 
@@ -41,5 +42,5 @@ if(($pid = cronHelper::lock()) !== FALSE) {
     }
 }
 
-Rollbar::report_message("$counter events shared", 'info');
+Rollbar::report_message("{$counter} events shared", 'info');
 Rollbar::flush();

@@ -87,10 +87,10 @@ if(($pid = cronHelper::lock()) !== FALSE) {
     $event->update(array('$and'=>array(
                                 array('confirmation'=>  'ACCEPTED'),
                                 array('status'      =>  'NEW')),
-                    array('$set'=>array(
-                                array('status'      =>  'SENT')
-                        )
-            )));
+                    array(
+                        '$set' => array('status'    =>  'SENT')
+                    )
+        ));
 }
 
 Rollbar::report_message("{$counter} mail generated", 'info');

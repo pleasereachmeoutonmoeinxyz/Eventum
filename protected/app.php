@@ -8,13 +8,14 @@ use Silex\Provider\TwigServiceProvider;
 use Silex\Provider\UrlGeneratorServiceProvider;
 use Silex\Provider\ValidatorServiceProvider;
 use Symfony\Component\Translation\Loader\YamlFileLoader;
+use Kilte\Silex\Pagination\PaginationServiceProvider;
 
 $app->register(new HttpCacheServiceProvider());
 $app->register(new SessionServiceProvider());
 $app->register(new ValidatorServiceProvider());
 $app->register(new FormServiceProvider());
 $app->register(new UrlGeneratorServiceProvider());
-
+$app->register(new PaginationServiceProvider);
 // Translation definition.
 $app->register(new TranslationServiceProvider());
 $app['translator'] = $app->share($app->extend('translator', function($translator, $app) {
@@ -44,9 +45,8 @@ $app->register(new TwigServiceProvider(), array(
 ));
 
 // Error Handler
-$app->error(function (Exception $e,$code){
-    
-});
+//$app->error(function (Exception $e,$code){    
+//});
 
 require PATH_PROTECTED . '/routes.php';
 

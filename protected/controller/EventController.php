@@ -19,9 +19,33 @@ namespace Controller{
                     ->bind('event_content')->method('GET|POST');
 
             $controller->get('/view/{id}/{name}',array($this,'viewAction'))
-                    ->bind('view_event')->value('name',null);
+                    ->bind('event_view')->value('name',null);
+            
+            $controller->get('/list/{skip}/{limit}',array($this,'listAction'))
+                    ->value('skip', 0)->value('limit', 25)
+                    ->bind('events_list')->method('GET');
 
             return $controller;
+        }
+
+        public function listAction($skip,$limit){
+            $app    = \EventMail::app();
+            $events = array();
+            $params =   array('confirmation'=>  'ACCEPTED');
+            try{
+                $eventsCursor   =   \Model\Event::findAll($params, $skip, $limit, 'timestamp');
+                $count          =   \Model\Event::count($params);   
+            } catch (Exception $ex) {
+                $app->abort(404);
+            }
+            
+            while(($event = $eventsCursor->getNext()) != NULL){
+                $events[]   =   $event;
+            }
+            
+            return $app['twig']->render('event/list.html',array(
+                'events'    =>  $events,
+            ));
         }
 
         public function viewAction($id,$name){
@@ -35,6 +59,7 @@ namespace Controller{
             if ($event->confirmation !== \Model\Event::CONFIRMATION_ACCEPTED){
                 $app->abort(404);
             }
+            
             return $app['twig']->render('event/view.html',array(
                 'title'         =>  $event->subject,
                 'site'          =>  $event->site,
@@ -124,7 +149,7 @@ namespace Controller{
 
                     if ($new_event){
                         \Helper\Mailer::eventUrl($event->email, $event->id, $event->code);
-                        \Helper\Mailer::eventUrl($event->email, $event->id, $event->code);
+                        \Helper\Mailer::eventUrl(\EventMail::config('admin.mail'), $event->id, $event->code);
                     }
 
                     return $app->redirect($app['url_generator']->generate('event_content',array('id'=>$event->id,'code'=>$event->code)));

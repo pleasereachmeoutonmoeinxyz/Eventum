@@ -22,6 +22,8 @@ $app['activation.time_limit']   =   300; // 5 mins
 
 $app['mailer.sender_mail']      =   'noreply@eventum.ir';
 
+$app['admin.mail']              =   'moein7tl@gmail.com';
+$app['list.limit']              =   10;
 // events setting
 $app['event.types']             =   array(
     'Competition'                   =>  'Competition',    

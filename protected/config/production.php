@@ -30,6 +30,9 @@ $app['mailer.smtp_username']    =   '';
 $app['mailer.smtp_password']    =   '';
 $app['mailer.smtp']             =   true;
 
+$app['admin.mail']              =   'moein7tl@gmail.com';
+$app['list.limit']              =   10;
+
 // events setting
 $app['event.types']             =   array(
     'Competition'                   =>  'Competition',    

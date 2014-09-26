@@ -14,13 +14,22 @@ $app['twig.options.cache']      = $app['cache.path'] . '/twig';
 $app['debug']                   = true;
 
 $app['db']                      =   array(
-                                        'server'        =>  "mongodb://moein:12345@localhost:27017",
+                                        'server'        =>  "mongodb://localhost:27017",
                                         'collection'    =>  "eventmail"
 );   
-
+$app['list.limit']              =   10;
 $app['activation.time_limit']   =   300; // 5 mins
 
 $app['mailer.sender_mail']      =   'noreply@eventum.ir';
+$app['mailer.reply_mail']       =   'moein7tl@gmail.com';
+
+$app['mailer.smtp_host']        =   'smtp.mandrillapp.com';
+$app['mailer.smtp_port']        =   587;
+$app['mailer.smtp_username']    =   'moein7tl@gmail.com';
+$app['mailer.smtp_password']    =   'xXuDByNO5LBbD70LXW2rDQ';
+$app['mailer.smtp']             =   true;
+
+$app['admin.mail']              =   'moein7tl@gmail.com';
 
 // events setting
 $app['event.types']             =   array(

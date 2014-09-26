@@ -8,11 +8,34 @@ namespace Model {
             return $app['dm']->getRepository(get_called_class())->findOneBy($params);
         }
     
-        public static function findAll($params){
+        public static function findAll($params,$skip = null,$limit = null,$sort = null,$sortType = 'desc'){
             $app    = \EventMail::app();
-            return $app['dm']->getRepository(get_called_class())->findBy($params);
+            $result = $app['dm']->getRepository(get_called_class())->findBy($params);
+            
+            if ($skip != null){
+                $result = $result->skip($skip);
+            }            
+            
+            if ($limit != null){
+                $result = $result->limit($limit);
+            }
+            
+            if ($sort != null){
+                $result = $result->sort(array($sort=>$sortType));
+            }
+            
+            return $result;
         }
         
+        public static function count($params){
+            $app    = \EventMail::app();
+            $query = $app['dm']->createQueryBuilder(get_called_class());
+            foreach ($params as $field => $value){
+                $query->field($field)->equals($value);
+            }
+            return $query->count()->getQuery()->execute();
+        }
+
         public static function findById($id){
             if (!$id instanceof \MongoId){
                 $id =   new \MongoId($id);

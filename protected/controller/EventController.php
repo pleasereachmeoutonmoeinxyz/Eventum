@@ -34,6 +34,7 @@ namespace Controller{
             $params =   array('confirmation'=>  'ACCEPTED');
             $skip   =   ($page - 1) * \EventMail::config('list.limit');
             $limit  =   \EventMail::config('list.limit');
+
             try{
                 $eventsCursor   =   \Model\Event::findAll($params, $skip, $limit, 'timestamp');
                 $count          =   \Model\Event::count($params);   

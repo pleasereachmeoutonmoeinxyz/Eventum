@@ -1,0 +1,38 @@
+{% extends "layout.html" %}
+{% block content %}    
+
+
+    <div class="content-wrapper-internal">
+        <div class="content">
+            <h2 class="content-head is-center">{{'events_list'|trans}}</h2>
+            <div class="pure-g-r">
+                <div class="pure-u-1">
+                    {% for event in events %}
+                        <h3 class="content-head">{{event.name}} / <small>{{event.name}}</small></h3>
+                        <h5 class="content-head">{{event.name}}</h5>
+                        <a class="pure-button" href="{{ url('event_view',{'id':event.id,'name':event.subject}) }}">{{'more_info'|trans}}</a>
+                        <a class="pure-button" href="{{event.site}}" target="_blank">{{'Site'|trans}}</a>                        
+                    {% endfor %}
+                </div>
+                <div class="pure-u-1">
+                    <ul class="pure-paginator is-center">
+                        <li><a class="pure-button prev" href="#">&#171;</a></li>
+                        <li><a class="pure-button" href="#">1</a></li>
+                        <li><a class="pure-button pure-button-active" href="#">2</a></li>
+                        <li><a class="pure-button" href="#">3</a></li>
+                        <li><a class="pure-button" href="#">4</a></li>
+                        <li><a class="pure-button" href="#">5</a></li>
+                        <li><a class="pure-button next" href="#">&#187;</a></li>
+                    </ul>
+                </div>            
+            </div>
+        </div>        
+    </div>   
+
+{% endblock content %}
+
+{% block javascripts %}
+    <script type="text/javascript">var switchTo5x=true;</script>
+    <script type="text/javascript" src="http://w.sharethis.com/button/buttons.js"></script>
+    <script type="text/javascript">stLight.options({publisher: "e71ea2ac-07d5-4c29-a541-09569f6a0e0d", doNotHash: false, doNotCopy: false, hashAddressBar: true});</script>
+{% endblock javascripts %}

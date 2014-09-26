@@ -8,8 +8,8 @@
             <div class="pure-g-r">
                 <div class="pure-u-1">
                     {% for event in events %}
-                        <h3 class="content-head">{{event.name}} / <small>{{event.name}}</small></h3>
-                        <h5 class="content-head">{{event.name}}</h5>
+                        <h3 class="content-head">{{event.subject}} / <small>{{event.date}}</small></h3>
+                        <h5 class="content-head">{{event.tweet}}</h5>
                         <a class="pure-button" href="{{ url('event_view',{'id':event.id,'name':event.subject}) }}">{{'more_info'|trans}}</a>
                         <a class="pure-button" href="{{event.site}}" target="_blank">{{'Site'|trans}}</a>                        
                     {% endfor %}

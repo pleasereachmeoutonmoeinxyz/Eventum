@@ -15,15 +15,21 @@
                     {% endfor %}
                 </div>
                 <div class="pure-u-1">
-                    <ul class="pure-paginator is-center">
-                        <li><a class="pure-button prev" href="#">&#171;</a></li>
-                        <li><a class="pure-button" href="#">1</a></li>
-                        <li><a class="pure-button pure-button-active" href="#">2</a></li>
-                        <li><a class="pure-button" href="#">3</a></li>
-                        <li><a class="pure-button" href="#">4</a></li>
-                        <li><a class="pure-button" href="#">5</a></li>
-                        <li><a class="pure-button next" href="#">&#187;</a></li>
-                    </ul>
+                    {% if pages %}
+                        <ul class="pure-paginator is-center">
+                            {% for page,name in pages  %}
+                                {% if name == 'current' %}
+                                    <li><a class="pure-button pure-button-active" href="{{url('events_list',{'page':page})}}">{{page}}</a></li>
+                                {% elseif name == 'next' %}
+                                    <li><a class="pure-button" href="{{url('events_list',{'page':page})}}">{{page}}</a></li>
+                                {% elseif name == 'last' %}
+                                    <li><a class="pure-button next" href="{{url('events_list',{'page':page})}}">&#187;</a></li>                                    
+                                {% elseif name == 'previous' %}
+                                    <li><a class="pure-button prev" href="{{url('events_list',{'page':page})}}">{{page}}</a></li>
+                                {% endif %}
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
                 </div>            
             </div>
         </div>        

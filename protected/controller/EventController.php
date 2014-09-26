@@ -21,30 +21,33 @@ namespace Controller{
             $controller->get('/view/{id}/{name}',array($this,'viewAction'))
                     ->bind('event_view')->value('name',null);
             
-            $controller->get('/list/{skip}/{limit}',array($this,'listAction'))
-                    ->value('skip', 0)->value('limit', 25)
+            $controller->get('/list/{page}',array($this,'listAction'))
+                    ->value('page', 1)
                     ->bind('events_list')->method('GET');
 
             return $controller;
         }
 
-        public function listAction($skip,$limit){
-            $app    = \EventMail::app();
-            $events = array();
+        public function listAction($page){
+            $app    =   \EventMail::app();
+            $events =   array();
             $params =   array('confirmation'=>  'ACCEPTED');
+            $skip   =   ($page - 1) * \EventMail::config('list.limit');
+            $limit  =   \EventMail::config('list.limit');
             try{
                 $eventsCursor   =   \Model\Event::findAll($params, $skip, $limit, 'timestamp');
                 $count          =   \Model\Event::count($params);   
             } catch (Exception $ex) {
                 $app->abort(404);
             }
-            
+
+            $pages = $app['pagination']($count, $page,$limit)->build();
             while(($event = $eventsCursor->getNext()) != NULL){
                 $events[]   =   $event;
             }
-            
             return $app['twig']->render('event/list.html',array(
                 'events'    =>  $events,
+                'pages'     =>  $pages
             ));
         }
 

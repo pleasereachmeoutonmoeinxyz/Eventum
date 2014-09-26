@@ -16,6 +16,7 @@
         "egeloen/ckeditor-bundle": "~2.0",
         "videlalvaro/php-amqplib": "v2.1.0",
         "rollbar/rollbar": "~0.8.1",
-        "swiftmailer/swiftmailer": "@stable"
+        "swiftmailer/swiftmailer": "@stable",
+        "kilte/silex-pagination":"@stable"
     }
 }

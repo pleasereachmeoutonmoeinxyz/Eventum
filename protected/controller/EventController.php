@@ -36,7 +36,7 @@ namespace Controller{
             $limit  =   \EventMail::config('list.limit');
 
             try{
-                $eventsCursor   =   \Model\Event::findAll($params, $skip, $limit, 'timestamp');
+                $eventsCursor   =   \Model\Event::findAll($params, $skip, $limit, '_id');
                 $count          =   \Model\Event::count($params);   
             } catch (Exception $ex) {
                 $app->abort(404);

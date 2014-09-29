@@ -16,6 +16,9 @@ namespace Model{
      *  @property mixed $types
      *  @property string $code
      *  @property string $subject
+     *  @property string $tweet
+     *  @property string $date
+     *  @property string $secretariat
      *  @property string $content
      *  @property string $status
      *  @property \MongoTimestamp $timestamp

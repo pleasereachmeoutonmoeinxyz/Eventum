@@ -4,6 +4,7 @@ set_time_limit(0);
 include_once (dirname(__DIR__))."/protected/helper/cron.helper.php";
 include_once (dirname(__DIR__))."/../vendor/autoload.php";
 include_once (dirname(__DIR__))."/protected/helper/send.helper.php";
+include_once (dirname(__DIR__))."/protected/helper/mail.helper.php";
 $config = include_once (dirname(__DIR__))."/protected/config.php";
 $locals = include_once (dirname(__DIR__))."/protected/locals.php";
 

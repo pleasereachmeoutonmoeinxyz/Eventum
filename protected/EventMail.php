@@ -12,7 +12,7 @@ class EventMail {
      */
     public static function app(){
         if (!self::$instance instanceof \Silex\Application)
-            self::$instance    =   new \Silex\Application;
+            self::$instance    =   new \Silex\Application(array('debug'=>true));
         return self::$instance;
     }
     
